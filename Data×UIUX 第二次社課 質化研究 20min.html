@@ -1238,11 +1238,40 @@ function methodLandscapeReveal(e){
   .hdd-stage.show-example .hdd-example-content { opacity:1;pointer-events:auto;transform:translateY(0); }
   </style>
 
-  <!-- 左欄：Context & Theory -->
-  <div style="padding:0 8vmin 0 9vmin;display:flex;flex-direction:column;gap:2vmin;justify-content:center;">
-    <div style="font-size:1.5vmin;font-weight:700;letter-spacing:.15em;color:rgba(45,212,191,.7);text-transform:uppercase;margin-bottom:.2vmin;">業界框架 · Hypothesis-Driven Development</div>
-    <h2 style="font-size:4.2vmin;font-weight:900;line-height:1.35;color:#fff;margin:0 0 1.6vmin;">共創假說的工具：Hypothesis-Driven Design</h2>
-    <p style="font-size:2.4vmin;line-height:1.75;color:var(--body);margin:0;">Thoughtworks 顧問 Barry O'Reilly 推廣的假說框架。Yammer（後被 Microsoft 收購）是廣為人知的實踐案例——用同一張卡把「相信什麼」跟「怎麼衡量」綁在一起，UX 領軍前半，Data 領軍後半。</p>
+  <!-- 左欄：Framework + Say-Do Gap Conflict -->
+  <div style="padding:0 8vmin 0 9vmin;display:flex;flex-direction:column;gap:0;justify-content:space-between;height:100%;">
+
+    <!-- 上方：Framework 定義 -->
+    <div style="display:flex;flex-direction:column;gap:1.6vmin;padding-bottom:2.4vmin;border-bottom:1px solid rgba(255,255,255,.1);">
+      <div style="font-size:1.5vmin;font-weight:700;letter-spacing:.15em;color:rgba(45,212,191,.7);text-transform:uppercase;">業界框架 · Hypothesis-Driven Development</div>
+      <h2 style="font-size:3.8vmin;font-weight:900;line-height:1.35;color:#fff;margin:0;">共創假說的工具</h2>
+      <p style="font-size:2.1vmin;line-height:1.7;color:var(--body);margin:0;">用同一張卡把「相信什麼」跟「怎麼衡量」綁在一起，打破各自為政。</p>
+    </div>
+
+    <!-- 中下方：Say-Do Gap 衝突 -->
+    <div style="display:flex;flex-direction:column;gap:1.8vmin;padding-top:2.8vmin;">
+      <div style="font-size:2.2vmin;font-weight:900;color:#FF6B6B;display:flex;align-items:center;gap:.8vmin;">
+        <span style="font-size:2.6vmin;">🚨</span>案發現場：當問卷與行為打架
+      </div>
+
+      <!-- UX 問卷 -->
+      <div style="background:rgba(245,182,87,.08);border-left:3px solid #F5B657;padding:1.4vmin 1.6vmin;border-radius:0 6px 6px 0;">
+        <div style="font-size:1.8vmin;font-weight:800;color:#F5B657;margin-bottom:.6vmin;">📝 UX 問卷顯示</div>
+        <p style="font-size:1.85vmin;line-height:1.65;color:var(--body);margin:0;">用戶對「App 開啟無縫接續播放」給了 <b style="color:#F5B657;">4.5 顆星</b> 高滿意度<br>（態度：喜歡無縫感）</p>
+      </div>
+
+      <!-- Data 數據 -->
+      <div style="background:rgba(56,189,248,.08);border-left:3px solid #38BDF8;padding:1.4vmin 1.6vmin;border-radius:0 6px 6px 0;">
+        <div style="font-size:1.8vmin;font-weight:800;color:#38BDF8;margin-bottom:.6vmin;">📊 Data 後台卻發現</div>
+        <p style="font-size:1.85vmin;line-height:1.65;color:var(--body);margin:0;">每天早上 8 點，高達 <b style="color:#38BDF8;">15% 用戶</b> 在 App 啟動後秒切<br>（行為：ms_played &lt; 2000ms）</p>
+      </div>
+
+      <!-- 對比提問 -->
+      <div style="font-size:2vmin;font-weight:800;color:#FBBF24;line-height:1.7;padding-top:.8vmin;border-top:1px solid rgba(251,191,36,.3);">
+        「為什麼嘴上說喜歡，手卻急著切歌？」<br>
+        <span style="font-size:1.85vmin;color:var(--muted);font-weight:400;">→ 不該急著畫 Wireframe<br>→ 而是一起寫下右邊這張假說卡</span>
+      </div>
+    </div>
   </div>
 
   <!-- 右欄：Hero HDD Card -->

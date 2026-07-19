@@ -1243,6 +1243,104 @@ function hddCardReveal(e) {
 }
 </script>
 
+<!-- 7z HDD CANVAS: SPOTIFY 實戰 -->
+<section class="slide" style="padding:5vmin 7vmin;display:flex;flex-direction:column;cursor:pointer;" onclick="hcvReveal(event)">
+  <style>
+  @keyframes hcv-rise { from{opacity:0;transform:translateY(12px);} to{opacity:1;transform:translateY(0);} }
+  @keyframes hcv-stamp { 0%{opacity:0;transform:scale(1.7) rotate(-3deg);} 60%{opacity:1;transform:scale(.94) rotate(0);} 80%{transform:scale(1.04);} 100%{opacity:1;transform:scale(1);} }
+  @keyframes hcv-arrow-draw { from{opacity:0;transform:scaleY(0);} to{opacity:1;transform:scaleY(1);} }
+  .hcv-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:2vmin; flex:1; align-items:stretch; margin-top:2.2vmin; }
+  .hcv-col { background:rgba(255,255,255,.035); border:1px solid rgba(255,255,255,.09); border-radius:16px; padding:2.2vmin; backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); transition:border-color .5s ease,box-shadow .5s ease; display:flex; flex-direction:column; }
+  .hcv-head { font-family:'Sora','Noto Sans TC',sans-serif; font-size:2.4vmin; font-weight:800; color:var(--ink); }
+  .hcv-sub { font-size:1.5vmin; color:var(--muted); line-height:1.5; margin:.5vmin 0 2vmin; }
+  .hcv-item { opacity:0; }
+  .hcv-tag { display:inline-block; font-size:1.45vmin; font-weight:800; letter-spacing:.06em; padding:.3vmin .9vmin; border-radius:5px; margin-bottom:.7vmin; }
+  .hcv-text { font-size:1.85vmin; line-height:1.6; color:var(--body); }
+  .hcv-label { font-size:1.6vmin; font-weight:800; color:var(--muted); letter-spacing:.08em; margin-bottom:.5vmin; }
+  /* Step 1: Need 欄亮起 */
+  .hcv-stage.s1 .hcv-need { border-color:rgba(45,212,191,.5); box-shadow:0 0 26px -6px rgba(45,212,191,.4),inset 0 1px 0 rgba(255,255,255,.06); }
+  .hcv-stage.s1 .hcv-need .hcv-item { animation:hcv-rise .6s ease-out both; }
+  .hcv-stage.s1 .hcv-need .hcv-item:nth-of-type(2) { animation-delay:.25s; }
+  /* Step 2: Hypothesis 欄亮起 */
+  .hcv-stage.s2 .hcv-hypo { border-color:rgba(56,189,248,.5); box-shadow:0 0 26px -6px rgba(56,189,248,.4),inset 0 1px 0 rgba(255,255,255,.06); }
+  .hcv-stage.s2 .hcv-hypo .hcv-item { animation:hcv-rise .6s ease-out both; }
+  .hcv-stage.s2 .hcv-hypo .hcv-item:nth-of-type(2) { animation-delay:.3s; }
+  .hcv-stage.s2 .hcv-hypo .hcv-item:nth-of-type(3) { animation-delay:.55s; }
+  .hcv-stage.s2 .hcv-hypo .hcv-arrow { animation:hcv-arrow-draw .4s ease-out .35s both; transform-origin:top center; }
+  /* Step 3: Test 蓋章 + Learnings 提示 */
+  .hcv-stage.s3 .hcv-test { border-color:rgba(74,222,128,.55); box-shadow:0 0 30px -6px rgba(74,222,128,.45),inset 0 1px 0 rgba(255,255,255,.06); }
+  .hcv-stage.s3 .hcv-test .hcv-item { animation:hcv-stamp .7s cubic-bezier(.34,1.56,.64,1) both; }
+  .hcv-stage.s3 .hcv-learn .hcv-item { animation:hcv-rise .7s ease-out .5s both; }
+  </style>
+
+  <div class="kicker data">業界實戰框架 · Hypothesis-Driven Designer Canvas</div>
+  <h2 style="font-size:var(--h4);margin-bottom:.6vmin;">實戰演練：用 Canvas 破解 Spotify 秒切懸案</h2>
+  <p style="font-size:1.85vmin;color:var(--body);margin:0;">上一頁的假說卡，攤開就是團隊的共用工作桌——Need 承接異常，Test 定義成功，Learnings 記錄結果。<span style="color:var(--muted);">（點三下，看它一步步長出來）</span></p>
+
+  <div id="hcv-stage" class="hcv-stage hcv-grid">
+    <!-- 1. Need -->
+    <div class="hcv-col hcv-need">
+      <div class="hcv-head">Need</div>
+      <div class="hcv-sub">Define a user need to test against</div>
+      <div class="hcv-item" style="margin-bottom:1.8vmin;">
+        <span class="hcv-tag" style="background:rgba(34,211,238,.14);color:#22D3EE;border:1px solid rgba(34,211,238,.35);">Data 異常</span>
+        <p class="hcv-text"><b class="eng" style="color:#22D3EE;">ms_played &lt; 2000ms</b>（秒切）在 <b class="eng" style="color:#22D3EE;">appload</b> 場景高頻發生。</p>
+      </div>
+      <div class="hcv-item">
+        <span class="hcv-tag" style="background:rgba(245,182,87,.14);color:#F5B657;border:1px solid rgba(245,182,87,.35);">UX 脈絡</span>
+        <p class="hcv-text">早上連上<b style="color:#F5B657;">車用藍牙</b>的瞬間，被昨晚的音樂自動播放<b style="color:#F5B657;">「突襲」</b>。</p>
+      </div>
+    </div>
+
+    <!-- 2. Hypothesis -->
+    <div class="hcv-col hcv-hypo">
+      <div class="hcv-head">Hypothesis</div>
+      <div class="hcv-sub">Design a solution to pass the test</div>
+      <div class="hcv-item">
+        <div class="hcv-label eng">IF WE:</div>
+        <p class="hcv-text" style="color:var(--ink);">取消藍牙連線自動播放，改為彈出<b style="color:#38BDF8;">「接續昨晚播放？」智慧按鈕</b>。</p>
+      </div>
+      <div class="hcv-item hcv-arrow" style="display:flex;justify-content:center;margin:1.2vmin 0;">
+        <svg width="2.2vmin" height="3.2vmin" viewBox="0 0 20 30" fill="none" stroke="#38BDF8" stroke-width="2" stroke-linecap="round"><path d="M10 2v22M4 19l6 6 6-6"/></svg>
+      </div>
+      <div class="hcv-item">
+        <div class="hcv-label eng">THEN:</div>
+        <p class="hcv-text" style="color:var(--ink);">消除認知摩擦，把<b style="color:#38BDF8;">控制權</b>還給用戶。</p>
+      </div>
+    </div>
+
+    <!-- 3. Test -->
+    <div class="hcv-col hcv-test">
+      <div class="hcv-head">Test</div>
+      <div class="hcv-sub">Decide how to test and what success looks like</div>
+      <div class="hcv-item">
+        <div class="hcv-label eng">WE'LL PROCEED IF:</div>
+        <p class="hcv-text" style="font-size:2vmin;"><b class="eng" style="color:#4ADE80;text-shadow:0 0 14px rgba(74,222,128,.6);">appload</b> 觸發的秒切率<br><b class="eng" style="font-size:3.4vmin;color:#4ADE80;text-shadow:0 0 18px rgba(74,222,128,.7);">↓35%</b><br>且該時段 <b class="eng" style="color:#4ADE80;text-shadow:0 0 14px rgba(74,222,128,.6);">DAU 持平</b>。</p>
+      </div>
+    </div>
+
+    <!-- 4. Learnings -->
+    <div class="hcv-col hcv-learn">
+      <div class="hcv-head" style="color:var(--muted);">Learnings</div>
+      <div class="hcv-sub">Run the test and capture feedback</div>
+      <div class="hcv-item" style="margin-top:auto;margin-bottom:auto;">
+        <p class="hcv-text" style="color:var(--muted);font-style:italic;line-height:1.75;">跑完測試才有資格填。<br><br><span style="color:var(--human);font-style:normal;font-weight:700;">動手時段（30 min），這一欄由你們的假說來寫。</span></p>
+      </div>
+    </div>
+  </div>
+
+  <p style="font-size:1.4vmin;color:var(--muted);margin-top:1.6vmin;opacity:.7;">Canvas 格式：Hypothesis-Driven Designer Canvas · CC BY-SA 4.0</p>
+</section>
+<script>
+let hcvStep=0;
+function hcvReveal(e){
+  e.stopPropagation();
+  if(hcvStep>=3)return;
+  hcvStep++;
+  document.getElementById('hcv-stage').classList.add('s'+hcvStep);
+}
+</script>
+
 <!-- 7y HDD VALIDATION & ROLLOUT -->
 <section class="slide" style="padding:5.4vmin 9vmin;display:flex;flex-direction:column;">
   <div class="kicker data">業界框架 · Hypothesis-Driven Development</div>

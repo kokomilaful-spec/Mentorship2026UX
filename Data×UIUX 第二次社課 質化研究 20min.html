@@ -1,0 +1,2029 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>第二次社課｜質化研究 20 min · Data × UX</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;800;900&family=Noto+Serif+TC:wght@600;700;900&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#080C18; --bg2:#0C1224;
+  --ink:#EEF2F8; --body:#A6B2C7; --muted:#6C7994;
+  --card:rgba(255,255,255,.045); --card-h:rgba(255,255,255,.075);
+  --bd:rgba(255,255,255,.11); --bd-s:rgba(255,255,255,.18);
+  /* 四堂課色（同學習地圖）*/
+  --c1:#4C6EF5; --c2:#2DD4BF; --c3:#9775FA; --c4:#E0A82E;
+  /* 本堂 accent = 第二次社課 青綠 */
+  --teal:#2DD4BF; --teal-dk:#14B8A6; --teal-gl:rgba(45,212,191,.45);
+  /* WHAT=數據青，WHY=質化金 */
+  --data:#38BDF8; --human:#F5B657;
+  --h1:clamp(3rem,9vmin,7rem);
+  --h2:clamp(2.4rem,6vmin,4.6rem);
+  --h3:clamp(2rem,5vmin,3.9rem);
+  --h4:clamp(1.9rem,4.4vmin,3.5rem);
+}
+html,body{height:100%;}
+body{font-family:'Noto Sans TC',-apple-system,'PingFang TC',sans-serif;
+  background:var(--bg);color:var(--ink);overflow:hidden;-webkit-font-smoothing:antialiased;}
+.eng{font-family:'Sora','Noto Sans TC',sans-serif;}
+
+.deck{position:fixed;inset:0;}
+.slide{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;justify-content:center;
+  padding:8vmin 11vmin;
+  background:
+    radial-gradient(ellipse 55% 60% at 12% 8%,rgba(45,212,191,.14) 0%,transparent 60%),
+    radial-gradient(ellipse 50% 55% at 90% 92%,rgba(76,110,245,.14) 0%,transparent 62%),
+    radial-gradient(ellipse 40% 45% at 82% 10%,rgba(151,117,250,.10) 0%,transparent 60%),
+    linear-gradient(160deg,#0A0F1E 0%,#080C18 55%,#0A101F 100%);
+  opacity:0;visibility:hidden;
+  transform:translateY(30px) scale(.975);
+  transition:opacity .45s ease,transform .55s cubic-bezier(.34,1.4,.64,1),visibility 0s .55s;
+  pointer-events:none;
+}
+.slide.active{opacity:1;visibility:visible;pointer-events:auto;transform:none;
+  transition:opacity .45s ease,transform .55s cubic-bezier(.34,1.4,.64,1),visibility 0s;}
+
+.kicker{font-size:2.4vmin;font-weight:700;letter-spacing:.24em;color:var(--teal);text-transform:uppercase;margin-bottom:3vmin;display:flex;align-items:center;gap:1.4vmin;}
+.kicker::before{content:'';width:3.4vmin;height:2px;background:var(--teal);box-shadow:0 0 10px var(--teal-gl);}
+.kicker.data{color:var(--data);}.kicker.data::before{background:var(--data);box-shadow:0 0 10px rgba(56,189,248,.5);}
+.kicker.human{color:var(--human);}.kicker.human::before{background:var(--human);box-shadow:0 0 10px rgba(245,182,87,.5);}
+h2{font-size:var(--h3);font-weight:800;line-height:1.14;letter-spacing:-.01em;color:var(--ink);}
+.foot{margin-top:5vmin;font-size:2.4vmin;letter-spacing:.12em;color:var(--muted);}
+.note{font-size:2.35vmin;color:var(--teal);margin-top:3vmin;font-weight:600;border-left:2px solid var(--teal);padding-left:1.4vmin;line-height:1.55;}
+.note.data{color:var(--data);border-left-color:var(--data);}
+.note.human{color:var(--human);border-left-color:var(--human);}
+
+.card{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:2.4vmin 2.8vmin;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 10px 30px rgba(0,0,0,.3);backdrop-filter:blur(6px);}
+.card.glow{border-color:var(--teal);box-shadow:0 0 0 1px var(--teal-gl),0 8px 30px rgba(45,212,191,.14),inset 0 1px 0 rgba(255,255,255,.06);}
+
+.counter{position:fixed;right:5vmin;bottom:4vmin;font-size:2.4vmin;letter-spacing:.12em;color:var(--muted);z-index:20;}
+.hint{position:fixed;left:50%;bottom:3.4vmin;transform:translateX(-50%);font-size:1.85vmin;color:var(--muted);z-index:20;opacity:.55;}
+.progress{position:fixed;left:0;bottom:0;height:3px;background:linear-gradient(90deg,var(--teal),var(--c1));width:0;transition:width .4s ease;z-index:20;box-shadow:0 0 12px var(--teal-gl);}
+
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:2.6vmin;width:100%;align-items:start;}
+.tag{display:inline-block;font-size:1.7vmin;font-weight:800;letter-spacing:.12em;padding:.4vmin 1.3vmin;border-radius:999px;}
+.tag.teal{background:rgba(45,212,191,.14);color:var(--teal);border:1px solid rgba(45,212,191,.34);}
+.tag.data{background:rgba(56,189,248,.13);color:var(--data);border:1px solid rgba(56,189,248,.32);}
+.tag.human{background:rgba(245,182,87,.13);color:var(--human);border:1px solid rgba(245,182,87,.34);}
+.numbadge{font-family:'Sora',sans-serif;font-weight:800;font-size:3vmin;width:6vmin;height:6vmin;border-radius:12px;display:flex;align-items:center;justify-content:center;color:#08111f;}
+
+/* 分工長條 */
+.barrow{display:grid;grid-template-columns:15vmin 1fr;gap:1.8vmin;align-items:center;margin-bottom:1.4vmin;}
+.barrow .blabel{font-size:2vmin;font-weight:700;color:var(--ink);text-align:right;}
+.bartrack{display:flex;height:3.4vmin;border-radius:8px;overflow:hidden;border:1px solid var(--bd);}
+.seg-ai{background:linear-gradient(180deg,#4FC9E6,#0EA5C9);display:flex;align-items:center;padding-left:1.1vmin;color:#04121a;font-size:1.55vmin;font-weight:800;animation:bar-expand 1s cubic-bezier(.22,1,.36,1) both paused;}
+.seg-hu{background:linear-gradient(180deg,#F5C877,#E0A54A);display:flex;align-items:center;justify-content:flex-end;padding-right:1.1vmin;color:#241703;font-size:1.55vmin;font-weight:800;animation:bar-expand 1s cubic-bezier(.22,1,.36,1) .15s both paused;}
+@keyframes bar-expand{from{width:0;}}
+.slide.active .seg-ai,.slide.active .seg-hu{animation-play-state:running;}
+.legend{display:flex;gap:2.6vmin;align-items:center;font-size:2vmin;color:var(--body);font-weight:600;}
+.legend .dot{display:inline-block;width:1.9vmin;height:1.9vmin;border-radius:50%;margin-right:.7vmin;vertical-align:middle;}
+
+/* ── 表格元件（全域共用）── */
+.tbl{width:100%;border-collapse:separate;border-spacing:0 .5vmin;}
+.tbl th{font-size:1.85vmin;font-weight:800;color:var(--teal);text-align:left;padding:.3vmin 2vmin;letter-spacing:.05em;}
+.tbl td{background:var(--card);border-top:1px solid var(--bd);border-bottom:1px solid var(--bd);padding:1vmin 2vmin;font-size:1.85vmin;color:var(--body);vertical-align:middle;}
+.tbl td:first-child{border-left:1px solid var(--bd);border-radius:12px 0 0 12px;font-weight:800;color:var(--ink);}
+.tbl td:last-child{border-right:1px solid var(--bd);border-radius:0 12px 12px 0;}
+.tbl .tool{font-family:'Sora',sans-serif;font-weight:700;color:var(--ink);}
+
+.stepbox{position:relative;}
+.stepnum{font-family:'Sora',sans-serif;font-size:3.4vmin;font-weight:800;line-height:1;}
+
+/* ── 2026 研究地景 總覽頁（scoped .ig）── */
+.ig{gap:1.5vmin !important;padding:4vmin 7vmin !important;}
+.ig .igh{text-align:center;}
+.ig .igh h3{font-size:3.8vmin;font-weight:900;letter-spacing:-.01em;line-height:1.12;color:var(--ink);}
+.ig .igh h3 .a{color:transparent;background:linear-gradient(120deg,#8CD8FF,#38BDF8);-webkit-background-clip:text;background-clip:text;}
+.ig .igh h3 .b{color:transparent;background:linear-gradient(120deg,#FBE0A8,#F5B657);-webkit-background-clip:text;background-clip:text;}
+.ig .igh p{font-size:2vmin;color:var(--body);margin-top:.4vmin;}
+.ig .band-label{display:flex;align-items:center;gap:1.4vmin;font-size:1.95vmin;font-weight:800;color:var(--teal);letter-spacing:.06em;margin-bottom:.9vmin;}
+.ig .band-label::before,.ig .band-label::after{content:'';height:1px;flex:1;background:linear-gradient(90deg,transparent,rgba(45,212,191,.4),transparent);}
+.ig .card{padding:1.5vmin 2vmin;}
+.ig .stat{font-family:'Sora',sans-serif;font-weight:800;line-height:.95;}
+.ig .tier1{display:grid;grid-template-columns:1fr 1.1fr 1fr;gap:1.6vmin;align-items:stretch;}
+.ig .tier2{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.6vmin;align-items:stretch;}
+.ig .tier1 .card,.ig .tier2 .card{display:flex;flex-direction:column;}
+.ig .copilot{border:1px solid rgba(45,212,191,.4);box-shadow:0 0 0 1px var(--teal-gl),0 8px 26px rgba(45,212,191,.12);}
+.ig .donut-wrap{display:flex;align-items:center;gap:1.8vmin;}
+
+/* ── Motion: Spotify 循環追逐環 ── */
+:root {
+  --circumference: 219.8;
+}
+.spinning-svg {
+  animation: rotate-smooth 3s linear infinite;
+}
+.cyclical-ring {
+  fill: transparent;
+  stroke: #38BDF8;
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-dasharray: 219.8;
+  animation: draw-circle 2.5s ease-in-out infinite;
+}
+@keyframes rotate-smooth {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes draw-circle {
+  0% {
+    stroke-dashoffset: 219.8;
+  }
+  50% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: 219.8;
+  }
+}
+
+/* ── Motion: 電商線性漏斗流 ── */
+.funnel-flow {
+  /* 主容器無動畫 */
+}
+.funnel-segment {
+  stroke: #F5B657;
+  stroke-width: 5;
+  stroke-linecap: round;
+  fill: none;
+  stroke-dasharray: 150;
+}
+.funnel-segment:nth-child(1) {
+  animation: draw-segment 2.4s ease-in-out infinite;
+}
+.funnel-segment:nth-child(2) {
+  animation: draw-segment 2.4s ease-in-out infinite;
+  animation-delay: 0.3s;
+}
+.funnel-segment:nth-child(3) {
+  animation: draw-segment 2.4s ease-in-out infinite;
+  animation-delay: 0.6s;
+}
+@keyframes draw-segment {
+  0% {
+    stroke-dashoffset: 150;
+  }
+  50% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: 150;
+  }
+}
+
+/* ── Motion: 呼吸發光 (breathing glow) ── */
+@keyframes breathe-glow-teal {
+  0%, 100% { box-shadow: 0 0 16px rgba(45,212,191,.25); }
+  50% { box-shadow: 0 0 28px rgba(45,212,191,.55); }
+}
+.breathe-teal { animation: breathe-glow-teal 3s ease-in-out infinite; }
+@keyframes breathe-dot {
+  0%, 100% { opacity: 1; text-shadow: 0 0 12px var(--teal-gl); }
+  50% { opacity: .65; text-shadow: 0 0 24px var(--teal-gl); }
+}
+.breathe-dot { animation: breathe-dot 2.4s ease-in-out infinite; }
+
+/* ── Motion: 心跳脈動 (heartbeat pulse) ── */
+@keyframes heartbeat-pulse {
+  0%, 100% { transform: scale(1); text-shadow: 0 0 30px rgba(245,182,87,.5); }
+  14% { transform: scale(1.045); text-shadow: 0 0 46px rgba(245,182,87,.75); }
+  28% { transform: scale(1); text-shadow: 0 0 30px rgba(245,182,87,.5); }
+  42% { transform: scale(1.03); text-shadow: 0 0 40px rgba(245,182,87,.65); }
+  56% { transform: scale(1); text-shadow: 0 0 30px rgba(245,182,87,.5); }
+}
+.heartbeat { display:inline-block; transform-origin:left center; animation: heartbeat-pulse 2.6s ease-in-out infinite; }
+
+/* ── Motion: Spotify 三幕揭曉 (The Ice → Logical Step → Human Awakening) ── */
+@keyframes breathe-line-cyan {
+  0%,100% { box-shadow: 0 0 8px rgba(56,189,248,.35); }
+  50% { box-shadow: 0 0 18px rgba(56,189,248,.75); }
+}
+@keyframes breathe-line-amber {
+  0%,100% { box-shadow: 0 0 8px rgba(245,182,87,.35); }
+  50% { box-shadow: 0 0 18px rgba(245,182,87,.75); }
+}
+.sp-line-cyan { animation: breathe-line-cyan 3s ease-in-out infinite; }
+.sp-line-amber { animation: breathe-line-amber 3s ease-in-out infinite; }
+.sp-card1 { opacity:0; transform:translateY(-18px); transition:opacity .7s ease,transform .7s cubic-bezier(.22,1,.36,1); }
+.sp-card2 { opacity:0; transform:translateY(16px); transition:opacity .9s ease .15s,transform .9s cubic-bezier(.22,1,.36,1) .15s; }
+.sp-photo-bg { opacity:0; transition:opacity 1.4s ease; }
+#spotify-stage.step-1 .sp-card1,
+#spotify-stage.step-2 .sp-card1 { opacity:1; transform:translateY(0); }
+#spotify-stage.step-2 .sp-card2 { opacity:1; transform:translateY(0); }
+#spotify-stage.step-2 .sp-photo-bg { opacity:.32; }
+
+/* ── Motion: Walmart 四幕揭曉 (虛假繁榮 → 銷售現實 → 災難數據 → 最終修正) ── */
+@keyframes wm-red-pulse {
+  0%,100% { box-shadow: 0 0 0 1px rgba(220,38,38,.4), 0 0 20px rgba(220,38,38,.15); }
+  50% { box-shadow: 0 0 0 1.5px rgba(220,38,38,.7), 0 0 36px rgba(220,38,38,.35); }
+}
+@keyframes wm-gold-shake {
+  0%,100% { transform:scale(1) translateX(0); }
+  20% { transform:scale(1.08) translateX(-2px); }
+  40% { transform:scale(1.08) translateX(2px); }
+  60% { transform:scale(1.08) translateX(-1px); }
+  80% { transform:scale(1.08) translateX(1px); }
+}
+.wm-gold-num { display:inline-block; }
+
+/* ── Motion: Walmart 三幕動態 (登場 → 羅生門對比震開 → 數據瀑布流+光暈) ── */
+@keyframes wm-entrance-fade { from{opacity:0;transform:scale(.92);} to{opacity:1;transform:scale(1);} }
+@keyframes wm-title-wipe { from{clip-path:inset(0 100% 0 0);} to{clip-path:inset(0 0% 0 0);} }
+@keyframes wm-photo-fade { from{opacity:0;} to{opacity:1;} }
+.wm-logo-entrance { opacity:0; animation:wm-entrance-fade .7s ease-out both; animation-play-state:paused; }
+.wm-title-entrance { clip-path:inset(0 100% 0 0); animation:wm-title-wipe .9s cubic-bezier(.65,0,.35,1) .25s both; animation-play-state:paused; }
+.wm-photo-entrance { opacity:0; animation:wm-photo-fade 1.1s ease-out both; animation-play-state:paused; }
+.slide.active .wm-logo-entrance,
+.slide.active .wm-title-entrance,
+.slide.active .wm-photo-entrance { animation-play-state:running; }
+
+/* wm-1: Split Shockwave — 問卷說YES／銷售說NO 從中心震開對峙 */
+@keyframes wm-shock-left { 0%{transform:translateX(26px) scale(.85);opacity:.2;} 55%{transform:translateX(-7px) scale(1.08);opacity:1;} 100%{transform:translateX(0) scale(1);opacity:1;} }
+@keyframes wm-shock-right { 0%{transform:translateX(-26px) scale(.85);opacity:.2;} 55%{transform:translateX(7px) scale(1.08);opacity:1;} 100%{transform:translateX(0) scale(1);opacity:1;} }
+.wm-yes-text,.wm-no-text { opacity:.2; }
+#walmart-stage.wm-1 .wm-yes-text,
+#walmart-stage.wm-2 .wm-yes-text { animation:wm-shock-left .6s cubic-bezier(.34,1.56,.64,1) both; }
+#walmart-stage.wm-1 .wm-no-text,
+#walmart-stage.wm-2 .wm-no-text { animation:wm-shock-right .6s cubic-bezier(.34,1.56,.64,1) both; }
+
+/* wm-2: 01/02/03 瀑布流淡入 + 金色數字集體光暈脈動 */
+.wm-timeline-item { opacity:0; transform:translateY(-14px); transition:opacity .55s ease,transform .55s ease; }
+#walmart-stage.wm-2 .wm-timeline-item:nth-of-type(1) { opacity:1; transform:translateY(0); transition-delay:0s; }
+#walmart-stage.wm-2 .wm-timeline-item:nth-of-type(2) { opacity:1; transform:translateY(0); transition-delay:.22s; }
+#walmart-stage.wm-2 .wm-timeline-item:nth-of-type(3) { opacity:1; transform:translateY(0); transition-delay:.44s; }
+@keyframes wm-glow-pulse { 0%,100%{text-shadow:0 0 0 rgba(255,194,32,0);} 50%{text-shadow:0 0 26px rgba(255,194,32,.95);} }
+#walmart-stage.wm-2 .wm-gold-num { animation:wm-glow-pulse 1.1s ease-in-out .7s 2; }
+
+/* ── Motion: Spotify Case Study 三幕動態 (同架構套用自 Walmart) ── */
+.spc-logo-entrance { opacity:0; animation:wm-entrance-fade .7s ease-out both; animation-play-state:paused; }
+.spc-title-entrance { clip-path:inset(0 100% 0 0); animation:wm-title-wipe .9s cubic-bezier(.65,0,.35,1) .25s both; animation-play-state:paused; }
+.spc-photo-entrance { opacity:0; animation:wm-photo-fade 1.1s ease-out both; animation-play-state:paused; }
+.slide.active .spc-logo-entrance,
+.slide.active .spc-title-entrance,
+.slide.active .spc-photo-entrance { animation-play-state:running; }
+
+.spc-yes-text,.spc-no-text { opacity:.2; }
+#spc-stage.spc-1 .spc-yes-text,
+#spc-stage.spc-2 .spc-yes-text { animation:wm-shock-left .6s cubic-bezier(.34,1.56,.64,1) both; }
+#spc-stage.spc-1 .spc-no-text,
+#spc-stage.spc-2 .spc-no-text { animation:wm-shock-right .6s cubic-bezier(.34,1.56,.64,1) both; }
+
+.spc-timeline-item { opacity:0; transform:translateY(-14px); transition:opacity .55s ease,transform .55s ease; }
+#spc-stage.spc-2 .spc-timeline-item:nth-of-type(1) { opacity:1; transform:translateY(0); transition-delay:0s; }
+#spc-stage.spc-2 .spc-timeline-item:nth-of-type(2) { opacity:1; transform:translateY(0); transition-delay:.22s; }
+#spc-stage.spc-2 .spc-timeline-item:nth-of-type(3) { opacity:1; transform:translateY(0); transition-delay:.44s; }
+@keyframes spc-glow-pulse { 0%,100%{text-shadow:0 0 0 rgba(30,215,96,0);} 50%{text-shadow:0 0 26px rgba(30,215,96,.9);} }
+#spc-stage.spc-2 .spc-gold-num { animation:spc-glow-pulse 1.1s ease-in-out .7s 2; }
+
+/* ── Motion: Method Landscape 三步漸進式揭曉 (衝突 → 偵探聯手 → 協作行動) ── */
+@keyframes ml-lightning-flicker {
+  0%,100% { opacity:.85; }
+  50% { opacity:.35; }
+}
+@keyframes ml-pulse-echo {
+  0% { r:8; opacity:.9; }
+  100% { r:22; opacity:0; }
+}
+.ml-def-cards { opacity:1; transition:opacity .5s ease; }
+.ml-saydo-card { opacity:0; transform:translateY(20px); transition:opacity .7s ease .2s,transform .7s cubic-bezier(.22,1,.36,1) .2s; z-index:2; pointer-events:none; }
+.ml-team-cards { opacity:0; transform:translateY(16px); transition:opacity .8s ease,transform .8s cubic-bezier(.22,1,.36,1); pointer-events:none; }
+.ml-saydo-line { opacity:0; transition:opacity .5s ease; }
+.ml-story-path { stroke-dashoffset:150; opacity:0; transition:stroke-dashoffset 1.3s cubic-bezier(.65,0,.35,1),opacity .4s ease; }
+.ml-story-label { opacity:0; transition:opacity .4s ease .9s; }
+.ml-pulse-node { opacity:0; }
+
+#ml-stage.step-1 .ml-def-cards,
+#ml-stage.step-2 .ml-def-cards { opacity:0; }
+#ml-stage.step-1 .ml-saydo-card,
+#ml-stage.step-2 .ml-saydo-card { opacity:1; transform:translateY(0); pointer-events:auto; }
+#ml-stage.step-1 .ml-saydo-line,
+#ml-stage.step-2 .ml-saydo-line,
+#ml-stage.step-3 .ml-saydo-line { opacity:1; }
+#ml-stage.step-1 .ml-saydo-line { animation:ml-lightning-flicker 1.6s ease-in-out 2; }
+
+#ml-stage.step-2 .ml-story-path { stroke-dashoffset:0; opacity:1; }
+#ml-stage.step-2 .ml-story-label { opacity:1; }
+#ml-stage.step-2 .ml-pulse-node { animation:ml-pulse-echo 1.1s ease-out 1; }
+
+#ml-stage.step-3 .ml-def-cards,
+#ml-stage.step-3 .ml-saydo-card { opacity:0; pointer-events:none; }
+#ml-stage.step-3 .ml-team-cards { opacity:1; transform:translateY(0); pointer-events:auto; }
+
+/* ── Method Landscape: premium frosted glass quadrant panel ── */
+.ml-glass-panel {
+  flex:0 0 52%;
+  min-width:0;
+  background:rgba(11,19,32,.6);
+  backdrop-filter:blur(12px) saturate(1.3);
+  -webkit-backdrop-filter:blur(12px) saturate(1.3);
+  border-radius:20px;
+  padding:4vmin 3.6vmin;
+  box-shadow:0 30px 80px -20px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.06);
+  transition:flex-basis .65s cubic-bezier(.65,0,.35,1);
+}
+#ml-stage.step-1 .ml-glass-panel,
+#ml-stage.step-2 .ml-glass-panel,
+#ml-stage.step-3 .ml-glass-panel { flex-basis:65%; }
+.ml-quad-left { transition:opacity .5s ease; }
+#ml-stage.step-1 .ml-quad-left,
+#ml-stage.step-2 .ml-quad-left { opacity:.15; }
+.ml-saydo-line path { filter:drop-shadow(0 0 3px rgba(240,68,56,.9)) drop-shadow(0 0 10px rgba(240,68,56,.6)) drop-shadow(0 0 22px rgba(240,68,56,.35)); }
+.ml-saydo-line text { filter:drop-shadow(0 0 6px rgba(248,113,113,.8)); }
+#ml-stage.step-1 .ml-saydo-line path,
+#ml-stage.step-2 .ml-saydo-line path { stroke-width:3; }
+
+.spc-gold-num { display:inline-block; }
+
+/* ── 高階發光邊框：僅用於需要點擊/互動的選項卡 ── */
+.glow-card{position:relative;border-radius:14px;background:linear-gradient(180deg,rgba(255,255,255,.1) 0%,rgba(255,255,255,.02) 28%,rgba(13,20,32,.55) 55%) padding-box,linear-gradient(135deg,var(--glow-edge) 0%,transparent 65%) border-box;border:1.5px solid transparent;backdrop-filter:blur(18px) saturate(1.4);-webkit-backdrop-filter:blur(18px) saturate(1.4);transition:box-shadow .3s ease,transform .3s cubic-bezier(.34,1.4,.64,1);}
+.glow-card.glow-data{--glow-edge:rgba(56,189,248,.8);box-shadow:0 0 4px rgba(56,189,248,.6),0 0 16px rgba(56,189,248,.3),0 0 48px rgba(56,189,248,.1);}
+.glow-card.glow-human{--glow-edge:rgba(245,182,87,.8);box-shadow:0 0 4px rgba(245,182,87,.6),0 0 16px rgba(245,182,87,.3),0 0 48px rgba(245,182,87,.1);}
+
+/* ── Motion: Roadmap 時間軸依序淡入 + 節點 hover 放大（切到該頁才觸發） ── */
+@keyframes roadmap-fade-up{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+.roadmap-node{opacity:0;animation:roadmap-fade-up .4s ease-out both;animation-play-state:paused;}
+.slide.active .roadmap-node{animation-play-state:running;}
+.roadmap-node:nth-child(1){animation-delay:0s;}
+.roadmap-node:nth-child(2){animation-delay:.15s;}
+.roadmap-node:nth-child(3){animation-delay:.3s;}
+.roadmap-node:nth-child(4){animation-delay:.45s;}
+.roadmap-dot{transition:transform .2s ease;cursor:default;}
+.roadmap-dot:hover{transform:scale(1.2);}
+
+/* ── Motion: Glowing Progress Thread (02 → 03 能量脈衝線) ── */
+.glow-thread-line{position:absolute;top:1.3vmin;left:0;right:0;height:1.5px;background:linear-gradient(90deg,transparent,#00FFCC,transparent);filter:drop-shadow(0 0 2px rgba(0,255,204,.8)) drop-shadow(0 0 12px rgba(0,255,204,.3));z-index:0;pointer-events:none;}
+@keyframes energy-pulse-travel{
+  0%{left:0;opacity:0;}
+  15%{opacity:1;}
+  85%{opacity:1;}
+  100%{left:calc(100% - 40px);opacity:0;}
+}
+.glow-thread-pulse{position:absolute;top:1.15vmin;width:40px;height:2px;border-radius:2px;background:#00FFCC;filter:drop-shadow(0 0 4px rgba(0,255,204,1)) drop-shadow(0 0 10px rgba(0,255,204,.7));z-index:0;pointer-events:none;animation:energy-pulse-travel 3s ease-in-out infinite;}
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+<!-- 1 COVER -->
+<section class="slide active" style="justify-content:flex-end;padding-bottom:11vmin;">
+  <div class="kicker">曼陀號 Data × UIUX · 第二次社課</div>
+  <h2 style="font-family:'Noto Sans TC',sans-serif;font-weight:900;font-size:var(--h1);line-height:1.05;text-align:left;letter-spacing:-.02em;">
+    質化研究<br><span style="color:var(--teal);text-shadow:0 0 40px var(--teal-gl);">補上數字說不出的 Why</span>
+  </h2>
+  <div style="font-size:3vmin;color:var(--body);margin-top:2.4vmin;">Data × UX 使用者需求工作坊　·　核心能力：問題定義</div>
+  <div class="foot" style="display:flex;gap:2vmin;align-items:center;">
+    <span class="tag teal">20 MIN 主講</span>
+    <span style="color:var(--muted);">Empathize 理解需求　·　Carolyn Chung</span>
+  </div>
+  <div aria-hidden="true" style="position:absolute;right:9vmin;top:12vmin;display:flex;gap:2vmin;">
+    <div style="width:11vmin;height:11vmin;border-radius:50%;background:radial-gradient(circle at 34% 30%,#7EF0E0,#2DD4BF 55%,#0C7C6E 100%);box-shadow:0 0 60px var(--teal-gl),inset -3px -5px 14px rgba(4,50,44,.5),inset 3px 4px 8px rgba(255,255,255,.35);"></div>
+    <div style="width:7vmin;height:7vmin;align-self:flex-end;border-radius:50%;background:radial-gradient(circle at 34% 30%,#FBE0A8,#F5B657 55%,#9C6C1E 100%);box-shadow:0 0 44px rgba(245,182,87,.4),inset -2px -4px 10px rgba(70,44,6,.5),inset 2px 3px 6px rgba(255,255,255,.4);"></div>
+  </div>
+</section>
+
+<!-- 2 POSITION IN MAP -->
+<section class="slide" style="justify-content:center;padding-top:4vmin;padding-bottom:4vmin;">
+  <!-- Top Navigation Strip: no boxes — typographic weight only -->
+  <div style="width:100%;margin-bottom:4vmin;">
+    <div style="font-size:1.7vmin;font-weight:700;letter-spacing:.2em;color:var(--muted);text-transform:uppercase;margin-bottom:2.6vmin;text-align:center;">Data × UX 共學課程線：第 2、3 堂</div>
+
+    <div style="display:flex;justify-content:center;gap:5vmin;align-items:flex-start;">
+      <div style="opacity:.35;text-align:center;">
+        <div style="font-family:'Sora',sans-serif;font-weight:800;font-size:2.4vmin;color:var(--muted);margin-bottom:.6vmin;">01</div>
+        <div style="font-size:1.7vmin;font-weight:600;color:var(--ink);">從接需求到影響決策</div>
+        <div style="font-size:1.45vmin;color:var(--muted);margin-top:.3vmin;">核心：商業分析</div>
+      </div>
+
+      <!-- 02 → 03 Glowing Progress Thread wrapper -->
+      <div style="position:relative;display:flex;gap:5vmin;">
+        <div class="glow-thread-line"></div>
+        <div class="glow-thread-pulse"></div>
+        <div style="text-align:center;position:relative;z-index:10;">
+          <div class="breathe-dot" style="font-family:'Sora',sans-serif;font-weight:800;font-size:2.6vmin;color:var(--teal);margin-bottom:.6vmin;">02</div>
+          <div style="font-size:1.95vmin;font-weight:800;color:var(--teal);">Data × UX 需求工作坊</div>
+          <div style="font-size:1.55vmin;color:var(--body);margin-top:.3vmin;">核心：問題定義</div>
+        </div>
+        <div style="text-align:center;position:relative;z-index:10;">
+          <div class="breathe-dot" style="font-family:'Sora',sans-serif;font-weight:800;font-size:2.6vmin;color:var(--teal);margin-bottom:.6vmin;">03</div>
+          <div style="font-size:1.95vmin;font-weight:800;color:var(--teal);">AI Product Lab</div>
+          <div style="font-size:1.55vmin;color:var(--body);margin-top:.3vmin;">核心：AI 實戰</div>
+        </div>
+      </div>
+
+      <div style="opacity:.35;text-align:center;">
+        <div style="font-family:'Sora',sans-serif;font-weight:800;font-size:2.4vmin;color:var(--muted);margin-bottom:.6vmin;">04</div>
+        <div style="font-size:1.7vmin;font-weight:600;color:var(--ink);">A/B Testing 決策科學</div>
+        <div style="font-size:1.45vmin;color:var(--muted);margin-top:.3vmin;">核心：實驗思維</div>
+      </div>
+    </div>
+  </div>
+  <!-- Progress Tracker -->
+  <div style="display:flex;align-items:center;gap:1.2vmin;font-size:1.95vmin;font-weight:600;color:var(--muted);justify-content:center;margin-bottom:4.5vmin;">
+    <span>發現問題</span><span style="color:var(--bd);">→</span>
+    <span style="color:var(--teal);font-weight:700;">理解需求 Empathize</span><span style="color:var(--bd);">→</span>
+    <span>快速驗證</span><span style="color:var(--bd);">→</span><span>數據決策</span><span style="color:var(--bd);">→</span><span>影響成果</span>
+  </div>
+
+  <!-- Core Problem Statement -->
+  <div style="text-align:center;margin-bottom:4.5vmin;">
+    <div style="font-size:3.2vmin;font-weight:900;line-height:1.35;color:var(--ink);margin-bottom:1.2vmin;">拿到數據之後<br>要怎麼連結上『為什麼』</div>
+    <div style="font-size:2.1vmin;color:var(--body);">你們將分組選擇以下其中一個案例，進行 30 分鐘的團隊合作分析</div>
+  </div>
+
+    <!-- Task Selection: interactive cards keep high-end glow border -->
+    <div style="display:flex;justify-content:center;gap:2.4vmin;max-width:70vmin;margin:0 auto;">
+      <!-- T-Rex: Blue Theme -->
+      <div class="task-card glow-card glow-data" data-card="trex" style="cursor:pointer;padding:2.6vmin 2.8vmin;flex:1;transform:scale(1);opacity:1;">
+        <div style="font-size:3.2vmin;font-weight:900;color:var(--data);margin-bottom:2vmin;">T-Rex</div>
+        <div style="font-size:1.9vmin;line-height:1.7;color:var(--body);">
+          <div style="display:flex;align-items:flex-start;gap:1vmin;margin-bottom:1.6vmin;">
+            <svg width="1.9vmin" height="1.9vmin" viewBox="0 0 24 24" fill="none" stroke="#38BDF8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:.2vmin;"><path d="M3 3h18v3H3zM3 7h18v8H3zM5 9v4h2v-4zm4 0v4h2v-4z"/></svg>
+            <div>
+              <b style="color:var(--data);font-size:1.9vmin;">交易行為</b>
+              <div style="font-size:1.6vmin;color:var(--muted);margin-top:.2vmin;">(Events/Orders)</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:1vmin;">
+            <svg width="1.9vmin" height="1.9vmin" viewBox="0 0 24 24" fill="none" stroke="#38BDF8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:.2vmin;"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            <div>
+              <b style="color:var(--data);font-size:1.9vmin;">使用者反饋</b>
+              <div style="font-size:1.6vmin;color:var(--muted);margin-top:.2vmin;">(Rating + Text)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Spotify: Orange Theme -->
+      <div class="task-card glow-card glow-human" data-card="spotify" style="cursor:pointer;padding:2.6vmin 2.8vmin;flex:1;transform:scale(1);opacity:1;">
+        <div style="font-size:3.2vmin;font-weight:900;color:var(--human);margin-bottom:2vmin;">Spotify</div>
+        <div style="font-size:1.9vmin;line-height:1.7;color:var(--body);">
+          <div style="display:flex;align-items:flex-start;gap:1vmin;margin-bottom:1.6vmin;">
+            <svg width="1.9vmin" height="1.9vmin" viewBox="0 0 24 24" fill="none" stroke="#F5B657" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:.2vmin;"><path d="M9 18V5l12-2v13M9 9h12M9 13h12" transform="translate(-1, 0)"/></svg>
+            <div>
+              <b style="color:var(--human);font-size:1.9vmin;">播放行為</b>
+              <div style="font-size:1.6vmin;color:var(--muted);margin-top:.2vmin;">(Play Log)</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:1vmin;">
+            <svg width="1.9vmin" height="1.9vmin" viewBox="0 0 24 24" fill="none" stroke="#F5B657" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:.2vmin;"><path d="M16 21H8a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2zM9 10h6M9 14h6"/></svg>
+            <div>
+              <b style="color:var(--human);font-size:1.9vmin;">滿意度問卷</b>
+              <div style="font-size:1.6vmin;color:var(--muted);margin-top:.2vmin;">(Q1-Q7 滿意度評分)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <script>
+  const taskCards = document.querySelectorAll('.task-card');
+  taskCards.forEach(card => {
+    card.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const selectedCard = this.dataset.card;
+      taskCards.forEach(c => {
+        if (c.dataset.card === selectedCard) {
+          c.style.transform = 'scale(1.04)';
+          c.style.opacity = '1';
+        } else {
+          c.style.opacity = '0.5';
+          c.style.transform = 'scale(0.98)';
+        }
+      });
+    });
+  });
+  </script>
+</section>
+
+<!-- 3 WHAT/WHY HOOK -->
+<section class="slide" style="align-items:stretch;justify-content:center;padding:8vmin 11vmin;overflow:hidden;">
+  <!-- Ambient Light: Deep Amber Gradient Field — Full-Height Right Half -->
+  <div style="position:absolute;top:0;bottom:0;left:44%;right:0;background:linear-gradient(90deg,transparent 0%,rgba(158,94,26,.08) 20%,rgba(184,110,30,.16) 45%,rgba(214,130,35,.24) 70%,rgba(230,150,50,.3) 100%);pointer-events:none;z-index:0;"></div>
+  <div style="position:absolute;top:0;right:-10%;width:45vmin;height:45vmin;border-radius:50%;background:radial-gradient(circle,rgba(245,182,87,.14) 0%,transparent 65%);pointer-events:none;z-index:0;"></div>
+  <div style="position:absolute;bottom:0;right:-12%;width:58vmin;height:58vmin;border-radius:50%;background:radial-gradient(circle,rgba(230,150,50,.35) 0%,rgba(200,120,35,.15) 45%,transparent 72%);pointer-events:none;z-index:0;"></div>
+  <div style="position:absolute;top:50%;right:8%;width:30vmin;height:30vmin;border-radius:50%;background:radial-gradient(circle,rgba(245,182,87,.1) 0%,transparent 60%);pointer-events:none;z-index:0;"></div>
+
+  <!-- Main Content Grid -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:6vmin;align-items:center;position:relative;z-index:1;">
+    <!-- Left: Main Quote -->
+    <div>
+      <h2 style="font-size:4.8vmin;line-height:1.25;letter-spacing:-.02em;margin:0;margin-bottom:0;">
+        <div style="color:#8B95A8;font-weight:700;margin-bottom:.8vmin;">後台看得到行為</div>
+        <div style="color:var(--ink);font-weight:900;margin-bottom:.8vmin;">但只有了解動機</div>
+        <div class="heartbeat" style="color:var(--human);font-weight:900;">才聽得到心聲</div>
+      </h2>
+    </div>
+
+    <!-- Right: Storytelling Subtext -->
+    <div style="display:flex;flex-direction:column;justify-content:flex-end;height:100%;">
+      <div style="font-size:2.1vmin;line-height:1.85;color:#A6B2C7;text-align:left;">
+        <p style="margin:0 0 2vmin 0;font-weight:600;">數據可以精準抓出跳過率升高或使用時間下滑</p>
+        <p style="margin:0;font-weight:400;color:#8B95A8;">但是我們要怎麼確認螢幕另一端，那個一邊操作一邊皺眉碎碎念、甚至翻白眼的用戶心情？</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3-Q SURVEY DISCUSSION -->
+<section class="slide" id="spotify-video-slide" style="padding:6vmin 9vmin;display:flex;flex-direction:column;">
+
+  <!-- Main Two-Column Stage (click to advance 3-act reveal) -->
+  <div id="spotify-stage" onclick="spotifyReveal(event)" style="display:grid;grid-template-columns:1fr 1.2fr;gap:3.2vmin;margin-bottom:4vmin;flex:1;position:relative;cursor:pointer;">
+
+    <!-- LEFT COLUMN: Spotify Streaming Log (borderless, extreme legibility) -->
+    <div style="position:relative;z-index:2;">
+      <h3 style="font-size:3.1vmin;font-weight:800;line-height:1.3;margin-bottom:2.4vmin;color:#fff;letter-spacing:-.01em;">行為數據的極限<br>為何極致的 Telemetry 依然只能說「What」</h3>
+
+      <p style="font-size:2.1vmin;color:var(--body);margin-bottom:2.2vmin;font-weight:500;">用戶 <b style="color:#fff;font-family:'Sora',sans-serif;">4rHZAMHpZrA3iH5z...</b> 播放 Justin Timberlake《Mirrors》的三筆紀錄：</p>
+
+      <!-- Fully borderless table: pure spatial separation, no lines -->
+      <div style="font-size:2.2vmin;font-family:'Sora','Noto Sans TC',sans-serif;">
+        <!-- Header -->
+        <div style="display:grid;grid-template-columns:1.3fr 1.2fr .9fr 1.3fr;gap:.5vmin;margin-bottom:2vmin;">
+          <div style="font-weight:700;color:var(--muted);font-size:1.7vmin;letter-spacing:.05em;">時間軸</div>
+          <div style="font-weight:700;color:var(--muted);font-size:1.7vmin;text-align:right;letter-spacing:.05em;">ms_played</div>
+          <div style="font-weight:700;color:var(--muted);font-size:1.7vmin;text-align:center;letter-spacing:.05em;">skipped</div>
+          <div style="font-weight:700;color:var(--muted);font-size:1.7vmin;letter-spacing:.05em;">reason_start</div>
+        </div>
+
+        <!-- Row 88: Full listen -->
+        <div style="display:grid;grid-template-columns:1.3fr 1.2fr .9fr 1.3fr;gap:.5vmin;margin-bottom:2.2vmin;color:var(--body);">
+          <div style="font-size:1.9vmin;">第一次播放</div>
+          <div style="text-align:right;font-weight:800;color:#4AEBB8;font-size:2.3vmin;">436,965 ms</div>
+          <div style="text-align:center;color:#4AEBB8;font-weight:800;font-size:2.1vmin;">FALSE</div>
+          <div style="color:var(--muted);font-size:1.9vmin;">（完整聽完）</div>
+        </div>
+
+        <!-- Row 95: 0ms skip -->
+        <div style="display:grid;grid-template-columns:1.3fr 1.2fr .9fr 1.3fr;gap:.5vmin;margin-bottom:2.2vmin;color:var(--body);">
+          <div style="font-size:1.9vmin;">幾分鐘後</div>
+          <div style="text-align:right;font-weight:800;color:#FF5B4A;font-size:2.3vmin;">0 ms</div>
+          <div style="text-align:center;color:#FF5B4A;font-weight:800;font-size:2.1vmin;">TRUE</div>
+          <div style="font-family:'Sora',sans-serif;color:#FF5B4A;font-weight:800;font-size:1.9vmin;">nextbtn</div>
+        </div>
+
+        <!-- Row 104: 1s appload -->
+        <div style="display:grid;grid-template-columns:1.3fr 1.2fr .9fr 1.3fr;gap:.5vmin;color:var(--body);">
+          <div style="font-size:1.9vmin;">隔天啟動 App</div>
+          <div style="text-align:right;font-weight:800;color:#FF5B4A;font-size:2.3vmin;">1,011 ms</div>
+          <div style="text-align:center;color:#FF5B4A;font-weight:800;font-size:2.1vmin;">TRUE</div>
+          <div style="font-family:'Sora',sans-serif;color:#FF5B4A;font-weight:800;font-size:1.9vmin;">appload</div>
+        </div>
+      </div>
+
+      <p style="font-size:1.8vmin;color:var(--muted);margin-top:2.4vmin;font-weight:500;">Spotify streaming_history_log · 同一用戶、同一首歌、三種截然不同的播放軌跡</p>
+    </div>
+
+    <!-- Photo Background Layer: 螢幕另一端的真實午後（25% opacity，柔焦融入深色背景） -->
+    <div class="sp-photo-bg" style="position:absolute;top:-5vmin;bottom:-5vmin;right:-6vmin;left:41%;background-image:url('assets/s2/user-listening-mirrors.jpg');background-size:cover;background-position:center 22%;filter:blur(6px) saturate(1.05);opacity:.25;border-radius:24px;z-index:0;"></div>
+    <div style="position:absolute;top:-5vmin;bottom:-5vmin;right:-6vmin;left:41%;background:#05080E;opacity:.55;border-radius:24px;z-index:1;pointer-events:none;"></div>
+
+    <!-- RIGHT COLUMN: Kinetic Insights — no bounding boxes, pure typographic grouping -->
+    <div style="display:flex;flex-direction:column;justify-content:center;gap:5vmin;position:relative;z-index:2;">
+      <!-- Group 1: 看得見 + Data Team 下一步 -->
+      <div class="sp-card1">
+        <div style="font-size:2.6vmin;font-weight:800;color:#38E8FF;margin-bottom:1.8vmin;">看得見：行為型數據</div>
+        <div style="font-size:2vmin;line-height:1.8;color:#fff;font-weight:500;">
+          <p style="margin-bottom:1vmin;">用戶完整聽完了一次《Mirrors》，隨後卻觸發<b style="color:#4AEBB8;">「0 秒瞬切」</b>與<b style="color:#FF5B4A;">「1 秒誤觸」</b>。</p>
+          <p style="margin-bottom:1vmin;">Data 團隊抓到了精確軌跡——「What」發生了什麼。</p>
+          <p style="color:#38E8FF;font-weight:700;">下一步：建立異常行為偵測模型，計算全平台「0 秒秒切率」。</p>
+        </div>
+      </div>
+
+      <!-- Group 2: 看不見 + UX Team 下一步 -->
+      <div class="sp-card2">
+        <div style="font-size:2.6vmin;font-weight:800;color:#FFB84A;margin-bottom:1.8vmin;">看不見：體驗脈絡 Context & Intent</div>
+        <div style="font-size:2vmin;line-height:1.8;color:#fff;font-weight:500;">
+          <p style="margin-bottom:1vmin;">0 秒秒切，是換了心情？還是走進電梯斷線？</p>
+          <p style="margin-bottom:1vmin;">1 秒跳出，是發現播錯版本？還是被電話打斷？</p>
+          <p style="color:#FFB84A;font-weight:700;">下一步：針對切歌頻繁的用戶進行脈絡訪查，理解真實心智模型。</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Background Music Indicator: 「Mirrors」情境音樂，切頁自動暫停（iframe 隱藏，僅背景播放） -->
+  <div style="position:absolute;bottom:3vmin;right:3vmin;background:rgba(8,12,24,.85);border:1px solid rgba(255,255,255,.1);border-radius:999px;padding:1vmin 1.8vmin;backdrop-filter:blur(8px);box-shadow:0 8px 24px rgba(0,0,0,.4);z-index:5;display:flex;align-items:center;gap:.8vmin;">
+    <svg class="breathe-dot" width="1.4vmin" height="1.4vmin" viewBox="0 0 20 20" fill="#2DD4BF"><path d="M3 3h2v10H3V3zm7-2h2v12h-2V1zm-4 4h2v8H6V5zm8 2h2v6h-2V7zm4-1h2v7h-2V6z"/></svg>
+    <span style="font-size:1.45vmin;color:var(--body);">Mirrors · Justin Timberlake</span>
+  </div>
+  <div id="spotify-yt-player" style="position:absolute;width:2px;height:2px;overflow:hidden;opacity:0;pointer-events:none;"></div>
+
+</section>
+<script>
+let spotifyStep=0;
+function spotifyReveal(e){
+  e.stopPropagation();
+  if(spotifyStep>=2)return;
+  spotifyStep++;
+  document.getElementById('spotify-stage').className='step-'+spotifyStep;
+}
+</script>
+
+<!-- 3a WALMART CASE STUDY -->
+<section class="slide" style="padding:0;display:grid;grid-template-columns:1fr 1fr;background:#0A0F17;">
+
+  <!-- LEFT: Text Column — 完全去框，純留白與對齊，Timeline 撐滿下半部 -->
+  <div id="walmart-stage" onclick="walmartReveal(event)" style="padding:6vmin 5.5vmin;display:flex;flex-direction:column;cursor:pointer;position:relative;">
+    <img class="wm-logo-entrance" src="assets/s2/walmart-logo.svg" alt="Walmart Logo" style="position:absolute;top:3.2vmin;left:5.5vmin;height:5.5vmin;object-fit:contain;"/>
+
+    <div style="margin-top:9vmin;">
+      <div style="font-size:1.6vmin;font-weight:700;letter-spacing:.24em;color:var(--muted);text-transform:uppercase;margin-bottom:1.6vmin;">Case Study: Walmart 2009</div>
+      <h2 class="wm-title-entrance" style="font-size:3.6vmin;font-weight:800;line-height:1.3;margin:0;color:#fff;">Project Impact: <span class="wm-gold-num" style="color:#FFC220;">$1.85B</span> Disaster</h2>
+    </div>
+
+    <!-- Symmetrical Contrast Layer: no containers, pure typography -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:3vmin;margin-top:3vmin;">
+      <div class="wm-yes-text">
+        <div style="font-size:1.5vmin;color:var(--muted);letter-spacing:.1em;margin-bottom:.7vmin;">問卷結果</div>
+        <div style="font-size:2.7vmin;font-weight:800;color:#34D399;">問卷說 YES</div>
+      </div>
+      <div class="wm-no-text">
+        <div style="font-size:1.5vmin;color:var(--muted);letter-spacing:.1em;margin-bottom:.7vmin;">真實銷售</div>
+        <div style="font-size:2.7vmin;font-weight:800;color:#F87171;">銷售說 NO</div>
+      </div>
+    </div>
+
+    <!-- Clean Editorial Timeline: 撐滿下半部剩餘空間，均勻分佈，極簡短文案 -->
+    <div style="flex:1;display:flex;flex-direction:column;justify-content:space-evenly;margin-top:3vmin;">
+      <div class="wm-timeline-item">
+        <div style="font-size:3vmin;font-weight:800;color:#fff;margin-bottom:1vmin;">01 · 盲目聽信問卷</div>
+        <p style="font-size:2.2vmin;line-height:1.6;color:var(--muted);margin:0;">清空黃金通道，砍掉 15% 核心商品品項。</p>
+      </div>
+
+      <div class="wm-timeline-item">
+        <div style="font-size:3vmin;font-weight:800;color:#F87171;margin-bottom:1vmin;">02 · 銷售連續暴跌</div>
+        <p style="font-size:2.2vmin;line-height:1.6;color:var(--muted);margin:0;">同店業績連跌 5 季，重創 <span class="wm-gold-num" style="color:#FFC220;font-weight:800;">18.5 億美元（$1.85B）</span>營收。</p>
+      </div>
+
+      <div class="wm-timeline-item">
+        <div style="font-size:3vmin;font-weight:800;color:#fff;margin-bottom:1vmin;">03 · 全面慘痛認輸</div>
+        <p style="font-size:2.2vmin;line-height:1.6;color:var(--muted);margin:0;">解雇執行副總裁，被迫將特價品全數擺回通道。</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- RIGHT: Full-bleed Photo Stage -->
+  <div style="position:relative;overflow:hidden;">
+    <img class="wm-photo-entrance" src="assets/s2/walmart-store.jpg" alt="Walmart Store" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;"/>
+  </div>
+
+</section>
+<script>
+let walmartStep=0;
+function walmartReveal(e){
+  e.stopPropagation();
+  if(walmartStep>=2)return;
+  walmartStep++;
+  document.getElementById('walmart-stage').className='wm-'+walmartStep;
+}
+</script>
+
+<!-- 3b SPOTIFY CASE STUDY -->
+<section class="slide" style="padding:0;display:grid;grid-template-columns:1fr 1fr;background:#0A0F17;">
+
+  <!-- LEFT: Text Column — 完全去框，純留白與對齊，Timeline 撐滿下半部 -->
+  <div id="spc-stage" onclick="spotifyCaseReveal(event)" style="padding:6vmin 5.5vmin;display:flex;flex-direction:column;cursor:pointer;position:relative;">
+    <img class="spc-logo-entrance" src="assets/s2/spotify-logo.png" alt="Spotify Logo" style="position:absolute;top:3.2vmin;left:5.5vmin;height:5.5vmin;object-fit:contain;"/>
+
+    <div style="margin-top:9vmin;">
+      <div style="font-size:1.6vmin;font-weight:700;letter-spacing:.24em;color:var(--muted);text-transform:uppercase;margin-bottom:1.6vmin;">Case Study: Spotify 2015</div>
+      <h2 class="spc-title-entrance" style="font-size:3.6vmin;font-weight:800;line-height:1.3;margin:0;color:#fff;">Discover Weekly: <span class="spc-gold-num" style="color:#1ED760;">Skip Rate</span> 雪崩危機</h2>
+    </div>
+
+    <!-- Symmetrical Contrast Layer: no containers, pure typography -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:3vmin;margin-top:3vmin;">
+      <div class="spc-yes-text">
+        <div style="font-size:1.5vmin;color:var(--muted);letter-spacing:.1em;margin-bottom:.7vmin;">演算法判斷</div>
+        <div style="font-size:2.7vmin;font-weight:800;color:#7DD3E8;">演算法說對</div>
+      </div>
+      <div class="spc-no-text">
+        <div style="font-size:1.5vmin;color:var(--muted);letter-spacing:.1em;margin-bottom:.7vmin;">真實用戶反應</div>
+        <div style="font-size:2.7vmin;font-weight:800;color:#F87171;">用戶說不對</div>
+      </div>
+    </div>
+
+    <!-- Clean Editorial Timeline: 撐滿下半部剩餘空間，均勻分佈，極簡短文案 -->
+    <div style="flex:1;display:flex;flex-direction:column;justify-content:space-evenly;margin-top:3vmin;">
+      <div class="spc-timeline-item">
+        <div style="font-size:3vmin;font-weight:800;color:#fff;margin-bottom:1vmin;">01 · 完美但錯誤的修正</div>
+        <p style="font-size:2.2vmin;line-height:1.6;color:var(--muted);margin:0;">工程師「修正」Bug，確保 100% 都是陌生冷門歌。</p>
+      </div>
+
+      <div class="spc-timeline-item">
+        <div style="font-size:3vmin;font-weight:800;color:#F87171;margin-bottom:1vmin;">02 · Skip Rate 雪崩式下跌</div>
+        <p style="font-size:2.2vmin;line-height:1.6;color:var(--muted);margin:0;">用戶聽一兩首就退出，<span class="spc-gold-num" style="color:#1ED760;font-weight:800;">指標直接崩盤</span>。</p>
+      </div>
+
+      <div class="spc-timeline-item">
+        <div style="font-size:3vmin;font-weight:800;color:#fff;margin-bottom:1vmin;">03 · 逆轉決策</div>
+        <p style="font-size:2.2vmin;line-height:1.6;color:var(--muted);margin:0;">把 Bug 改回功能，上線一年 50 億次串流。</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- RIGHT: Full-bleed Photo Stage -->
+  <div style="position:relative;overflow:hidden;">
+    <img class="spc-photo-entrance" src="assets/s2/spotify-listening.jpg" alt="Spotify Music" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;"/>
+  </div>
+
+</section>
+<script>
+let spotifyCaseStep=0;
+function spotifyCaseReveal(e){
+  e.stopPropagation();
+  if(spotifyCaseStep>=2)return;
+  spotifyCaseStep++;
+  document.getElementById('spc-stage').className='spc-'+spotifyCaseStep;
+}
+</script>
+
+<!-- 4 METHOD LANDSCAPE -->
+<section class="slide" style="padding:6vmin 9vmin;">
+  <div class="kicker">先看全局</div>
+  <h2 style="font-size:var(--h4);margin-bottom:1vmin;">質化方法，各自回答不同象限</h2>
+  <div id="ml-stage" onclick="methodLandscapeReveal(event)" style="display:flex;gap:3vmin;align-items:center;cursor:pointer;">
+    <div class="ml-glass-panel">
+    <svg viewBox="0 0 760 500" style="width:100%;height:auto;display:block;" aria-label="研究方法四象限與三角驗證故事線">
+      <defs>
+        <marker id="mlArrowGreen" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="#4ADE80"/>
+        </marker>
+      </defs>
+      <rect x="70" y="40" width="310" height="200" fill="rgba(245,182,87,.05)"/>
+      <rect x="380" y="40" width="310" height="200" fill="rgba(56,189,248,.05)"/>
+      <rect x="70" y="240" width="310" height="200" fill="rgba(245,182,87,.08)"/>
+      <rect x="380" y="240" width="310" height="200" fill="rgba(56,189,248,.08)"/>
+      <line x1="380" y1="30" x2="380" y2="450" stroke="rgba(148,163,184,.3)" stroke-width="1"/>
+      <line x1="60" y1="240" x2="700" y2="240" stroke="rgba(148,163,184,.3)" stroke-width="1"/>
+      <text x="380" y="18" font-size="20" font-weight="800" fill="#EEF2F8" text-anchor="middle" font-family="'Noto Sans TC',sans-serif">態度｜他說什麼</text>
+      <text x="380" y="474" font-size="20" font-weight="800" fill="#EEF2F8" text-anchor="middle" font-family="'Noto Sans TC',sans-serif">行為｜他做什麼</text>
+      <text x="64" y="245" font-size="20" font-weight="800" fill="#F5B657" text-anchor="end" font-family="'Noto Sans TC',sans-serif">質性</text>
+      <text x="706" y="245" font-size="20" font-weight="800" fill="#38BDF8" text-anchor="start" font-family="'Noto Sans TC',sans-serif">量化</text>
+
+      <!-- Say-Do Gap: 問卷（自陳態度）↔ 產品埋點（行為 Log）紅色閃電虛線（Step 1 才淡入） -->
+      <g class="ml-saydo-line">
+        <path d="M580,148 L558,190 L578,196 L505,258 L522,253 L466,298" fill="none" stroke="#F04438" stroke-width="2" stroke-dasharray="5 4"/>
+        <text x="500" y="185" font-size="16" font-weight="800" fill="#F87171" font-family="'Noto Sans TC',sans-serif" transform="rotate(-32 500 185)">⚡ 言行不一重災區 Say-Do Gap</text>
+      </g>
+
+      <!-- 三角驗證故事線：① 埋點發現異常 → ② 訪談挖根因 → ③ A/B 驗證規模（Step 2 畫出） -->
+      <path class="ml-story-path" d="M452,308 Q400,360 335,388" pathLength="150" stroke-dasharray="150" fill="none" stroke="#4ADE80" stroke-width="2.75" stroke-linecap="round" marker-end="url(#mlArrowGreen)"/>
+      <path class="ml-story-path" d="M345,395 Q470,440 588,386" pathLength="150" stroke-dasharray="150" fill="none" stroke="#4ADE80" stroke-width="2.75" stroke-linecap="round" marker-end="url(#mlArrowGreen)" style="transition-delay:.3s;"/>
+
+      <g font-family="'Noto Sans TC',sans-serif" font-weight="700">
+        <g class="ml-quad-left">
+          <circle cx="205" cy="115" r="8" fill="#F5B657"/><text x="220" y="120" font-size="17" fill="#EEF2F8">使用者訪談</text>
+          <circle cx="160" cy="178" r="8" fill="#F5B657"/><text x="175" y="183" font-size="17" fill="#EEF2F8">焦點小組</text>
+          <circle cx="195" cy="245" r="8" fill="#D9A65E"/><text x="210" y="230" font-size="17" fill="#EEF2F8">日記研究</text>
+          <circle cx="230" cy="345" r="8" fill="#F5B657"/><text x="245" y="350" font-size="17" fill="#EEF2F8">用戶觀察</text>
+        </g>
+        <circle cx="588" cy="140" r="8" fill="#38BDF8"/><text x="600" y="145" font-size="17" fill="#EEF2F8">問卷（自陳態度）</text>
+        <circle class="ml-pulse-node" cx="325" cy="392" r="8" fill="none" stroke="#4ADE80" stroke-width="2"/>
+        <circle cx="325" cy="392" r="9.5" fill="none" stroke="#4ADE80" stroke-width="2" opacity=".6"/><circle cx="325" cy="392" r="8" fill="#F5B657"/><text x="340" y="397" font-size="17" fill="#EEF2F8">易用性測試</text>
+        <circle class="ml-pulse-node" cx="598" cy="378" r="8" fill="none" stroke="#4ADE80" stroke-width="2"/>
+        <circle cx="598" cy="378" r="9.5" fill="none" stroke="#4ADE80" stroke-width="2" opacity=".6"/><circle cx="598" cy="378" r="8" fill="#38BDF8"/><text x="613" y="383" font-size="17" fill="#EEF2F8">A/B 測試</text>
+        <circle class="ml-pulse-node" cx="460" cy="300" r="8" fill="none" stroke="#4ADE80" stroke-width="2"/>
+        <circle cx="460" cy="300" r="9.5" fill="none" stroke="#4ADE80" stroke-width="2" opacity=".6"/><circle cx="460" cy="300" r="8" fill="#38BDF8"/><text x="475" y="305" font-size="17" fill="#EEF2F8">產品埋點／行為 Log</text>
+      </g>
+
+      <!-- 故事線圈圈標籤 ①②③（Step 2 才顯示） -->
+      <g class="ml-story-label" font-family="'Sora',sans-serif" font-weight="800">
+        <circle cx="460" cy="270" r="12" fill="#0A101F" stroke="#4ADE80" stroke-width="1.5"/><text x="460" y="275" font-size="13" fill="#4ADE80" text-anchor="middle">①</text>
+        <circle cx="290" cy="425" r="12" fill="#0A101F" stroke="#4ADE80" stroke-width="1.5"/><text x="290" y="430" font-size="13" fill="#4ADE80" text-anchor="middle">②</text>
+        <circle cx="598" cy="408" r="12" fill="#0A101F" stroke="#4ADE80" stroke-width="1.5"/><text x="598" y="413" font-size="13" fill="#4ADE80" text-anchor="middle">③</text>
+      </g>
+    </svg>
+    </div>
+
+    <div style="flex:1;min-width:0;position:relative;min-height:34vmin;">
+      <!-- Step 0 預設：量化／質性定義（無框，色線前綴 + 留白分組） -->
+      <div class="ml-def-cards" style="display:flex;flex-direction:column;gap:2.4vmin;">
+        <div>
+          <div style="display:flex;align-items:center;gap:.9vmin;margin-bottom:.9vmin;"><span style="width:2px;height:16px;background:var(--data);display:inline-block;"></span><span style="font-size:1.9vmin;font-weight:800;color:var(--data);">量化 QUANTITATIVE · 煞車與油門</span></div>
+          <p style="font-size:1.95vmin;line-height:1.65;color:var(--body);padding-left:2.9vmin;">回答了 <b style="color:var(--data);">99% 的 What</b>（發生什麼事），但對剩下 <b style="color:var(--data);">1% 的 Why</b>（為什麼）束手無策。沒有質性，數據只是<b style="color:var(--ink);">沒有靈魂的數字</b>。</p>
+        </div>
+        <div>
+          <div style="display:flex;align-items:center;gap:.9vmin;margin-bottom:.9vmin;"><span style="width:2px;height:16px;background:var(--human);display:inline-block;"></span><span style="font-size:1.9vmin;font-weight:800;color:var(--human);">質性 QUALITATIVE · 方向盤</span></div>
+          <p style="font-size:1.95vmin;line-height:1.65;color:var(--body);padding-left:2.9vmin;">回答了最深刻的 <b style="color:var(--human);">Why</b>（用戶心智），但老闆與 Data Team 永遠會 challenge：<b style="color:var(--ink);">「這能代表多少人？」</b>沒有量化，研究只是無法證明的特例。</p>
+        </div>
+        <p style="margin-top:.6vmin;font-size:2.05vmin;color:var(--teal);font-weight:600;line-height:1.6;">這張圖不是要各自認領象限，而是團隊日常破案的地圖——每次優化都在四象限間動態三角驗證。</p>
+      </div>
+
+      <!-- Step 1：Say-Do Gap（無框，用色彩對比＋放大字重製造警示感） -->
+      <div class="ml-saydo-card" style="position:absolute;top:0;left:0;right:0;">
+        <div style="display:flex;align-items:center;gap:.9vmin;margin-bottom:1.2vmin;">
+          <svg width="2.1vmin" height="2.1vmin" viewBox="0 0 20 20" fill="#F87171"><path d="M11 2L4 12h5l-1 6 7-10h-5l1-6z"/></svg>
+          <span style="font-size:2.2vmin;font-weight:900;color:#F87171;">Say-Do Gap · 言行不一重災區</span>
+        </div>
+        <p style="font-size:2vmin;line-height:1.7;color:var(--body);">問卷說「還不錯」，行為卻是「秒切／秒退」——<b style="color:#fff;">態度軸與行為軸落差最大的地方，就是研究該挖的地方。</b></p>
+      </div>
+
+      <!-- Step 3：Data / UX Team 協作行動（無框，色線前綴並排） -->
+      <div class="ml-team-cards" style="position:absolute;top:6%;left:0;right:0;display:grid;grid-template-columns:1fr 1fr;gap:3vmin;">
+        <div>
+          <div style="display:flex;align-items:center;gap:.9vmin;margin-bottom:.9vmin;">
+            <svg width="1.7vmin" height="1.7vmin" viewBox="0 0 20 20" fill="none" stroke="#38BDF8" stroke-width="1.6"><path d="M2 15l4-5 3 3 5-7 4 4"/><circle cx="6" cy="10" r="1" fill="#38BDF8"/><circle cx="9" cy="13" r="1" fill="#38BDF8"/><circle cx="14" cy="6" r="1" fill="#38BDF8"/></svg>
+            <span style="font-size:1.9vmin;font-weight:800;color:var(--data);">Data Team 的下一步</span>
+          </div>
+          <p style="font-size:1.85vmin;line-height:1.6;color:var(--body);padding-left:2.6vmin;">追蹤<b style="color:var(--ink);">行為型指標</b>（Telemetry／Funnel／Rage Click），鎖定異常行為節點。</p>
+        </div>
+        <div>
+          <div style="display:flex;align-items:center;gap:.9vmin;margin-bottom:.9vmin;">
+            <svg width="1.7vmin" height="1.7vmin" viewBox="0 0 20 20" fill="none" stroke="#F5B657" stroke-width="1.6"><circle cx="10" cy="7" r="3"/><path d="M3 17c0-3 3-5.5 7-5.5s7 2.5 7 5.5"/></svg>
+            <span style="font-size:1.9vmin;font-weight:800;color:var(--human);">UX Team 的下一步</span>
+          </div>
+          <p style="font-size:1.85vmin;line-height:1.6;color:var(--body);padding-left:2.6vmin;">針對異常行為用戶進行<b style="color:var(--ink);">脈絡訪查</b>與<b style="color:var(--ink);">可用性測試</b>。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+let mlStep=0;
+function methodLandscapeReveal(e){
+  e.stopPropagation();
+  if(mlStep>=3)return;
+  mlStep++;
+  document.getElementById('ml-stage').className='step-'+mlStep;
+}
+</script>
+
+<!-- 6 INTERVIEW CRAFT -->
+<section class="slide" style="padding:6vmin 9vmin;background:#070B12;">
+  <div class="kicker human">訪談心法</div>
+  <h2 style="font-size:var(--h4);margin-bottom:2.4vmin;">問「上一次」，不問「你會不會」</h2>
+
+  <!-- Upper Comparison: 別問 vs 改問 (no heavy borders) -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:2.4vmin;margin-bottom:2vmin;">
+    <div style="padding:1.6vmin 2vmin;">
+      <div style="display:flex;align-items:center;gap:.9vmin;margin-bottom:1.2vmin;">
+        <span style="width:8px;height:8px;border-radius:50%;background:rgba(239,68,68,.45);"></span>
+        <span style="font-size:1.95vmin;font-weight:700;color:rgba(238,242,248,.5);">別問（太概念性）</span>
+      </div>
+      <p style="font-size:2vmin;line-height:1.65;color:var(--muted);">「如果我們未來推出『AI 自動排程』功能，你會想用嗎？」</p>
+      <p style="font-size:1.8vmin;color:var(--muted);opacity:.75;margin-top:.8vmin;">他們會說「會啊」，但根本是客套——在虛擬情景中，任何人都是理想的。</p>
+    </div>
+    <div style="padding:1.6vmin 2.2vmin;border-radius:14px;background:radial-gradient(ellipse 90% 100% at 25% 10%,rgba(45,212,191,.13),transparent 70%);">
+      <div style="display:flex;align-items:center;gap:.9vmin;margin-bottom:1.2vmin;">
+        <span style="width:9px;height:9px;border-radius:50%;background:#4ADE80;box-shadow:0 0 16px rgba(74,222,128,.75);"></span>
+        <span style="font-size:2vmin;font-weight:800;color:#fff;">改問（錨定過去行為）</span>
+      </div>
+      <p style="font-size:2.1vmin;line-height:1.65;color:var(--ink);">「回想一下你這週<b style="color:var(--teal);">最後一次</b>手動調整行事曆是什麼時候？那時候<b style="color:var(--teal);">你碰到了什麼狀況</b>？<b style="color:var(--teal);">當時你怎麼解決的</b>？」</p>
+      <p style="font-size:1.85vmin;color:var(--muted);margin-top:.8vmin;">具體的過去行為才是證據——他會無法逃脫真實情境。</p>
+    </div>
+  </div>
+
+  <!-- Middle Divider: no physical line, single trigger text -->
+  <div style="text-align:center;margin:1.8vmin 0 2.2vmin;">
+    <span style="font-size:2.3vmin;font-weight:800;color:#FBBF24;"><svg width="1em" height="1em" viewBox="0 0 20 20" fill="currentColor" style="display:inline-block;vertical-align:-.15em;margin-right:.4em;"><path d="M11 2L4 12h5l-1 6 7-10h-5l1-6z"/></svg>遇到「想不起來」或「吹牛」時怎麼破局？</span>
+  </div>
+
+  <style>
+  .tactic-card { cursor:pointer; transition:background 200ms,transform 200ms; border-radius:12px; padding:1.7vmin 1.9vmin; }
+  .tactic-card:hover { background:rgba(255,255,255,.045); transform:translateY(-2px); }
+  .tactic-modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,.8); z-index:200; align-items:center; justify-content:center; }
+  .tactic-modal.active { display:flex; }
+  @property --gradient-angle { syntax:'<angle>'; initial-value:0deg; inherits:false; }
+  @keyframes gradient-rotate { from{ --gradient-angle:0deg; } to{ --gradient-angle:360deg; } }
+  .tactic-modal-content {
+    position:relative;
+    background:
+      linear-gradient(#0C1224,#0C1224) padding-box,
+      conic-gradient(from var(--gradient-angle),var(--gc1) 0%,var(--gc2) 30%,var(--gc3) 50%,var(--gc2) 70%,var(--gc1) 100%) border-box;
+    border:3px solid transparent;
+    border-radius:16px; padding:4vmin; max-width:65vw; max-height:75vh; overflow-y:auto;
+    animation:popIn 300ms ease-out, gradient-rotate 3s linear infinite;
+    box-shadow:0 0 30px -6px var(--gc1),0 0 60px -10px var(--gc3),0 25px 70px rgba(0,0,0,.7);
+  }
+  @keyframes popIn { from { opacity:0; transform:scale(.95); } to { opacity:1; transform:scale(1); } }
+  .tactic-modal-close { position:absolute; top:2vmin; right:2vmin; font-size:2.5vmin; cursor:pointer; color:var(--muted); transition:color 200ms; }
+  .tactic-modal-close:hover { color:var(--ink); }
+  .tactic-modal-title { font-size:2.8vmin; font-weight:900; margin-bottom:1.8vmin; }
+  .tactic-modal-subtitle { font-size:2.2vmin; font-weight:800; margin-bottom:1.2vmin; opacity:.8; }
+  .tactic-modal-text { font-size:2vmin; line-height:1.7; color:var(--body); margin-bottom:1.5vmin; }
+  .tactic-modal-detail { font-size:1.9vmin; line-height:1.65; color:var(--body); }
+  </style>
+
+  <!-- Bottom Progressive Grid: unified glassmorphism panel, 2x2 -->
+  <div style="background:rgba(255,255,255,.035);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:1.6vmin;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.4vmin;">
+      <!-- 痛點一：日曆+定位針 (cyan) -->
+      <div class="tactic-card" onclick="openTactic(event, 'tactic1')">
+        <div style="display:flex;align-items:center;gap:.8vmin;margin-bottom:.6vmin;">
+          <svg width="1.9vmin" height="1.9vmin" viewBox="0 0 20 20" fill="none" stroke="#38BDF8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><rect x="2" y="4" width="11" height="12" rx="1.2"/><path d="M2 7.5h11"/><path d="M5.5 2.5v3M9.5 2.5v3"/><path d="M16 10c0 3-2.5 5-2.5 5s-2.5-2-2.5-5a2.5 2.5 0 0 1 5 0z"/><circle cx="13.5" cy="10" r=".8" fill="#38BDF8" stroke="none"/></svg>
+          <div style="font-size:1.85vmin;font-weight:800;color:#fff;">痛點一：記憶模糊</div>
+        </div>
+        <div style="font-size:1.75vmin;line-height:1.5;color:var(--body);font-weight:700;">Event Reconstruction 事件重建法</div>
+        <div style="font-size:1.65vmin;line-height:1.55;color:var(--muted);margin-top:.4vmin;">看他的週曆、手機相簿、信箱歷史，用「錨點」勾起記憶…</div>
+      </div>
+
+      <!-- 痛點二：購物車 (orange) -->
+      <div class="tactic-card" onclick="openTactic(event, 'tactic2')">
+        <div style="display:flex;align-items:center;gap:.8vmin;margin-bottom:.6vmin;">
+          <svg width="1.9vmin" height="1.9vmin" viewBox="0 0 20 20" fill="none" stroke="#F5B657" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M2 3h2l1.6 9.4a1.5 1.5 0 0 0 1.5 1.3h7a1.5 1.5 0 0 0 1.5-1.2l1-5.5H5"/><circle cx="7.5" cy="17" r="1" fill="#F5B657" stroke="none"/><circle cx="14" cy="17" r="1" fill="#F5B657" stroke="none"/></svg>
+          <div style="font-size:1.85vmin;font-weight:800;color:#fff;">痛點二：防範吹牛</div>
+        </div>
+        <div style="font-size:1.75vmin;line-height:1.5;color:var(--body);font-weight:700;">Show, Don't Tell 當場操作法</div>
+        <div style="font-size:1.65vmin;line-height:1.55;color:var(--muted);margin-top:.4vmin;">「方便的話，直接打開【購物車／歷史紀錄／訂單】…</div>
+      </div>
+
+      <!-- 追問陷阱：警告三角形 (amber) -->
+      <div class="tactic-card" onclick="openTactic(event, 'tactic3')">
+        <div style="display:flex;align-items:center;gap:.8vmin;margin-bottom:.6vmin;">
+          <svg width="1.9vmin" height="1.9vmin" viewBox="0 0 20 20" fill="none" stroke="#FBBF24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M10 3.5L18 16H2L10 3.5z"/><path d="M10 8.5v4"/><circle cx="10" cy="14.5" r=".6" fill="#FBBF24" stroke="none"/></svg>
+          <div style="font-size:1.85vmin;font-weight:800;color:#fff;">追問陷阱</div>
+        </div>
+        <div style="font-size:1.75vmin;line-height:1.5;color:var(--body);font-weight:700;">避免一直問「為什麼？」</div>
+        <div style="font-size:1.65vmin;line-height:1.55;color:var(--muted);margin-top:.4vmin;">「為什麼」易觸發防衛心 → 他開始「編故事」…</div>
+      </div>
+
+      <!-- Data × UX 連結：網路節點 -->
+      <div class="tactic-card" onclick="openTactic(event, 'tactic4')">
+        <div style="display:flex;align-items:center;gap:.8vmin;margin-bottom:.6vmin;">
+          <svg width="1.9vmin" height="1.9vmin" viewBox="0 0 20 20" fill="none" stroke="#FF6B6B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><circle cx="4" cy="5" r="2.2"/><circle cx="16" cy="5" r="2.2"/><circle cx="10" cy="15" r="2.2"/><path d="M6 6l6.5 7.5M14 6l-6.5 7.5"/></svg>
+          <div style="font-size:1.85vmin;font-weight:800;color:#fff;">Data × UX 連結</div>
+        </div>
+        <div style="font-size:1.75vmin;line-height:1.5;color:var(--body);font-weight:700;">訪談發現 → 數據假說</div>
+        <div style="font-size:1.65vmin;line-height:1.55;color:var(--muted);margin-top:.4vmin;">訪談挖出「一邊抱小孩一邊結帳時卡住」…</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 1 -->
+  <div class="tactic-modal" id="tactic1" onclick="closeTactic(event, 'tactic1')">
+    <div class="tactic-modal-content" style="--gc1:#0C4A6E;--gc2:#38BDF8;--gc3:#E0F7FF;" onclick="event.stopPropagation()">
+      <div class="tactic-modal-close" onclick="closeTactic(null, 'tactic1')">✕</div>
+      <div class="tactic-modal-title" style="color:var(--data);"><svg width="1.2em" height="1.2em" viewBox="0 0 20 20" fill="currentColor" style="display:inline-block;vertical-align:middle;margin-right:.3em;"><path d="M10 2c-.6 0-1 .4-1 1v2.6c0 .6.4 1 1 1s1-.4 1-1V3c0-.6-.4-1-1-1zm5.2 2.2c-.4-.4-1-.4-1.4 0-.4.4-.4 1 0 1.4l1.9 1.9c.4.4 1 .4 1.4 0 .4-.4.4-1 0-1.4l-1.9-1.9zm-10.4 0l-1.9 1.9c-.4.4-.4 1 0 1.4.4.4 1 .4 1.4 0l1.9-1.9c.4-.4.4-1 0-1.4-.4-.4-1-.4-1.4 0zM10 5c-2.8 0-5 2.2-5 5 0 2 1.1 3.8 2.8 4.7-.5.5-1.2 1.5-1.2 2.3 0 .5.4.9 1 .9.4 0 .7-.2.9-.5.4.1.8.1 1.3.1s.9 0 1.3-.1c.2.3.5.5.9.5.6 0 1-.4 1-1 0-.8-.7-1.8-1.2-2.3 1.7-.9 2.8-2.7 2.8-4.7 0-2.8-2.2-5-5-5z"/></svg>痛點一：記憶模糊</div>
+      <div class="tactic-modal-subtitle" style="color:var(--data);">Event Reconstruction 事件重建法</div>
+      <div class="tactic-modal-detail">
+        <div class="tactic-modal-text"><b>核心困境</b>：受訪者說「我不太記得」——真實的情況常常是模糊的，特別是非日常的高摩擦行為。</div>
+        <div class="tactic-modal-text"><b>破局技巧</b>：不要硬逼他回憶，而是靠「錨點」幫助記憶。看他的週曆、手機相簿、信箱歷史、App 通知紀錄。</div>
+        <div class="tactic-modal-text"><b>實戰例子</b>：「這週二下班後，你在捷運上打開 App 時，第一個點擊的畫面是什麼？」與其問一個空蕩蕩的「上次你什麼時候…」，不如用「時間 + 地點 + 情境」三層錨點，讓記憶水落石出。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 2 -->
+  <div class="tactic-modal" id="tactic2" onclick="closeTactic(event, 'tactic2')">
+    <div class="tactic-modal-content" style="--gc1:#78350F;--gc2:#F5B657;--gc3:#FFF4E0;" onclick="event.stopPropagation()">
+      <div class="tactic-modal-close" onclick="closeTactic(null, 'tactic2')">✕</div>
+      <div class="tactic-modal-title" style="color:var(--human);"><svg width="1.2em" height="1.2em" viewBox="0 0 20 20" fill="currentColor" style="display:inline-block;vertical-align:middle;margin-right:.3em;"><path d="M10 2c-.6 0-1 .4-1 1v2.6c0 .6.4 1 1 1s1-.4 1-1V3c0-.6-.4-1-1-1zm5.2 2.2c-.4-.4-1-.4-1.4 0-.4.4-.4 1 0 1.4l1.9 1.9c.4.4 1 .4 1.4 0 .4-.4.4-1 0-1.4l-1.9-1.9zm-10.4 0l-1.9 1.9c-.4.4-.4 1 0 1.4.4.4 1 .4 1.4 0l1.9-1.9c.4-.4.4-1 0-1.4-.4-.4-1-.4-1.4 0zM10 5c-2.8 0-5 2.2-5 5 0 2 1.1 3.8 2.8 4.7-.5.5-1.2 1.5-1.2 2.3 0 .5.4.9 1 .9.4 0 .7-.2.9-.5.4.1.8.1 1.3.1s.9 0 1.3-.1c.2.3.5.5.9.5.6 0 1-.4 1-1 0-.8-.7-1.8-1.2-2.3 1.7-.9 2.8-2.7 2.8-4.7 0-2.8-2.2-5-5-5z"/></svg>痛點二：防範吹牛</div>
+      <div class="tactic-modal-subtitle" style="color:var(--human);">Show, Don't Tell 當場操作法</div>
+      <div class="tactic-modal-detail">
+        <div class="tactic-modal-text"><b>核心困境</b>：「你會這樣用嗎？」時常換來理想自我的回答。受訪者未必有意欺騙，只是條件反射地呈現社交得體的版本。</div>
+        <div class="tactic-modal-text"><b>破局技巧</b>：邀請他當場操作真實的產品或介面，別用假設。「方便的話，直接打開【購物車／歷史紀錄／訂單】，我們一邊看一邊聊？」</div>
+        <div class="tactic-modal-text"><b>實戰威力</b>：當場的操作證據能直接擊碎「理想自我」。他點擊了哪裡、停頓了多久、最後選了什麼——這些才是真實行為的記錄。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 3 -->
+  <div class="tactic-modal" id="tactic3" onclick="closeTactic(event, 'tactic3')">
+    <div class="tactic-modal-content" style="--gc1:#0F5C52;--gc2:#2DD4BF;--gc3:#E0FFFA;" onclick="event.stopPropagation()">
+      <div class="tactic-modal-close" onclick="closeTactic(null, 'tactic3')">✕</div>
+      <div class="tactic-modal-title" style="color:var(--teal);"><svg width="1em" height="1em" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:.3em;"><path d="M10 3.5L18 16H2L10 3.5z"/><path d="M10 8.5v4"/><circle cx="10" cy="14.5" r=".6" fill="currentColor" stroke="none"/></svg>追問陷阱</div>
+      <div class="tactic-modal-subtitle" style="color:var(--teal);">避免一直問「為什麼？」</div>
+      <div class="tactic-modal-detail">
+        <div class="tactic-modal-text"><b>為什麼這是陷阱</b>：「為什麼」是理由題，易觸發防衛心與合理化。受訪者會下意識地「編故事」——給一個聽起來光榮或聰慧的原因。</div>
+        <div class="tactic-modal-text"><b>改問方式</b>：「當下是什麼讓你選這個，而不是那個？」這問的是決策過程，而非事後理由。或者「你記得當時的感受嗎？」——情感比理由更誠實。</div>
+        <div class="tactic-modal-text"><b>進階應用</b>：連續追問 3 次「為什麼」之後，他開始編製；但如果改成「那時你想到過其他選項嗎？」「你有試過…嗎」，就回到了具體行為的對話。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 4 -->
+  <div class="tactic-modal" id="tactic4" onclick="closeTactic(event, 'tactic4')">
+    <div class="tactic-modal-content" style="--gc1:#7F1D1D;--gc2:#FF6B6B;--gc3:#FFE0E0;" onclick="event.stopPropagation()">
+      <div class="tactic-modal-close" onclick="closeTactic(null, 'tactic4')">✕</div>
+      <div class="tactic-modal-title" style="color:#FF6B6B;"><svg width="1em" height="1em" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:.3em;"><circle cx="4" cy="5" r="2.2"/><circle cx="16" cy="5" r="2.2"/><circle cx="10" cy="15" r="2.2"/><path d="M6 6l6.5 7.5M14 6l-6.5 7.5"/></svg>Data × UX 連結</div>
+      <div class="tactic-modal-subtitle" style="color:#FF6B6B;">訪談發現 → 數據假說 → A/B 驗證</div>
+      <div class="tactic-modal-detail">
+        <div class="tactic-modal-text"><b>訪談挖出的卡點</b>：在 5 場訪談中，3 個用戶都說「一邊抱小孩、一邊結帳時會卡住」。</div>
+        <div class="tactic-modal-text"><b>轉成數據假說</b>：結帳頁面停留時間 >3 分鐘且最終放棄的用戶，是否在特定時段（例如晚間 6-9 點）佔比更高？他們的裝置是否以行動版為主？</div>
+        <div class="tactic-modal-text"><b>後續驗證</b>：Data Team 跑 SQL 確認：「這 10 萬個放棄結帳事件中，符合『停留 >3min』的有多少％？其中有沒有明顯的『分身乏術』信號（如：快速點擊、頻繁返回）？」一旦規模化驗證，就能決定該功能是否值得做。</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  function openTactic(e, id) { e.stopPropagation(); document.getElementById(id).classList.add('active'); }
+  function closeTactic(e, id) { if (!e || e.target.classList.contains('tactic-modal')) document.getElementById(id).classList.remove('active'); }
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') document.querySelectorAll('.tactic-modal.active').forEach(m => m.classList.remove('active')); });
+  </script>
+</section>
+
+<!-- 8 THEMATIC ANALYSIS -->
+<section class="slide" style="padding:6vmin 9vmin;">
+  <div class="kicker human">升級四步：從手工藝到系統化建模</div>
+  <h2 style="font-size:var(--h4);margin-bottom:3.2vmin;">AI 加速 Scale；人類定義 Meaning</h2>
+
+  <!-- Timeline: 01-04，加入人機分工視覺暗示 -->
+  <div style="position:relative;margin-bottom:5.6vmin;">
+    <div style="position:absolute;top:2.6vmin;left:1%;right:1%;height:1px;background:linear-gradient(90deg,transparent,rgba(56,189,248,.4) 20%,rgba(245,182,87,.4) 80%,transparent);"></div>
+    <div style="position:absolute;bottom:-2vmin;left:1%;right:1%;height:.5px;background:rgba(74,222,128,.25);"></div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);position:relative;gap:0;">
+      <!-- 01 -->
+      <div style="text-align:center;padding:0 1vmin;">
+        <div style="font-family:'Sora',sans-serif;font-weight:800;font-size:4.2vmin;color:var(--data);line-height:1;">01</div>
+        <div style="font-size:1.4vmin;font-weight:700;color:#38BDF8;margin:.8vmin 0 .3vmin;letter-spacing:.05em;">AI 加速</div>
+        <div class="roadmap-dot" style="width:7px;height:7px;border-radius:50%;background:#38BDF8;margin:1vmin auto;box-shadow:0 0 12px rgba(56,189,248,.6);"></div>
+        <div style="font-size:1.95vmin;font-weight:800;color:var(--ink);margin-top:.6vmin;">語料解構與抽樣</div>
+        <div style="font-size:1.65vmin;color:var(--muted);margin-top:.5vmin;line-height:1.55;">AI 預篩 3,000 筆<br>取 100 邊界案例</div>
+      </div>
+      <!-- 02 -->
+      <div style="text-align:center;padding:0 1vmin;">
+        <div style="font-family:'Sora',sans-serif;font-weight:800;font-size:4.2vmin;color:var(--data);line-height:1;">02</div>
+        <div style="font-size:1.4vmin;font-weight:700;color:#38BDF8;margin:.8vmin 0 .3vmin;letter-spacing:.05em;">AI 初評</div>
+        <div class="roadmap-dot" style="width:7px;height:7px;border-radius:50%;background:#38BDF8;margin:1vmin auto;box-shadow:0 0 12px rgba(56,189,248,.6);"></div>
+        <div style="font-size:1.95vmin;font-weight:800;color:var(--ink);margin-top:.6vmin;">多維度語意編碼</div>
+        <div style="font-size:1.65vmin;color:var(--muted);margin-top:.5vmin;line-height:1.55;">AI 打標 + 人複審<br>解決主觀性問題</div>
+      </div>
+      <!-- 03 -->
+      <div style="text-align:center;padding:0 1vmin;">
+        <div style="font-family:'Sora',sans-serif;font-weight:800;font-size:4.2vmin;color:var(--human);line-height:1;">03</div>
+        <div style="font-size:1.4vmin;font-weight:700;color:#F5B657;margin:.8vmin 0 .3vmin;letter-spacing:.05em;">人決策</div>
+        <div class="roadmap-dot" style="width:7px;height:7px;border-radius:50%;background:#F5B657;margin:1vmin auto;box-shadow:0 0 12px rgba(245,182,87,.6);"></div>
+        <div style="font-size:1.95vmin;font-weight:800;color:var(--ink);margin-top:.6vmin;">知識架構與心智</div>
+        <div style="font-size:1.65vmin;color:var(--muted);margin-top:.5vmin;line-height:1.55;">Taxonomy 體系<br>+ Data 規模驗證</div>
+      </div>
+      <!-- 04 -->
+      <div style="text-align:center;padding:0 1vmin;">
+        <div style="font-family:'Sora',sans-serif;font-weight:800;font-size:4.2vmin;color:var(--teal);line-height:1;">04</div>
+        <div style="font-size:1.4vmin;font-weight:700;color:var(--teal);margin:.8vmin 0 .3vmin;letter-spacing:.05em;">人決策</div>
+        <div class="roadmap-dot" style="width:8px;height:8px;border-radius:50%;background:var(--teal);margin:.9vmin auto;box-shadow:0 0 14px var(--teal-gl);"></div>
+        <div style="font-size:1.95vmin;font-weight:800;color:var(--ink);margin-top:.6vmin;">轉譯商業假說</div>
+        <div style="font-size:1.65vmin;color:var(--muted);margin-top:.5vmin;line-height:1.55;">HDD 可驗證公式<br>對齊 A/B 測試</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 四步深度說明：網格式、無外框、色線前綴 -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:2.8vmin 3.2vmin;margin-bottom:3.6vmin;font-size:1.7vmin;line-height:1.65;">
+    <div>
+      <div style="display:flex;align-items:flex-start;gap:.8vmin;margin-bottom:.7vmin;">
+        <span style="width:2px;height:14px;background:#38BDF8;display:inline-block;flex-shrink:0;margin-top:.15vmin;"></span>
+        <span style="font-weight:800;color:var(--ink);">盲點：無法全讀 3,000 筆</span>
+      </div>
+      <p style="color:var(--body);padding-left:1.6vmin;margin:0;">AI 一秒掃完，提出最代表 + 最反常的 100 筆；Data 提供篩條件（如「結帳流失且留回饋」）。</p>
+    </div>
+    <div>
+      <div style="display:flex;align-items:flex-start;gap:.8vmin;margin-bottom:.7vmin;">
+        <span style="width:2px;height:14px;background:#38BDF8;display:inline-block;flex-shrink:0;margin-top:.15vmin;"></span>
+        <span style="font-weight:800;color:var(--ink);">盲點：高亮金句發散無規則</span>
+      </div>
+      <p style="color:var(--body);padding-left:1.6vmin;margin:0;">人類定義編碼維度（如「摩擦類型」+「情緒溫度」），AI 批量打標，人只複審模糊地帶——客觀性提高。</p>
+    </div>
+    <div>
+      <div style="display:flex;align-items:flex-start;gap:.8vmin;margin-bottom:.7vmin;">
+        <span style="width:2px;height:14px;background:#F5B657;display:inline-block;flex-shrink:0;margin-top:.15vmin;"></span>
+        <span style="font-weight:800;color:var(--ink);">盲點：表層分類太淺</span>
+      </div>
+      <p style="color:var(--body);padding-left:1.6vmin;margin:0;">看穿「按鈕太小」和「找不到字」背後的共同心智（缺乏系統控制感）；用 Data 驗證這心智困境佔多少流量。</p>
+    </div>
+    <div>
+      <div style="display:flex;align-items:flex-start;gap:.8vmin;margin-bottom:.7vmin;">
+        <span style="width:2px;height:14px;background:var(--teal);display:inline-block;flex-shrink:0;margin-top:.15vmin;"></span>
+        <span style="font-weight:800;color:var(--ink);">盲點：「洞察」淪為自嗨廢話</span>
+      </div>
+      <p style="color:var(--body);padding-left:1.6vmin;margin:0;">強制套入 HDD 公式（We believe... When we see...），讓質化終點直接變成 A/B 測試起點。</p>
+    </div>
+  </div>
+
+  <!-- 底部可追溯性宣言：强调框 -->
+  <div style="border-left:5px solid var(--teal);background:rgba(45,212,191,.06);padding:2vmin 0 2vmin 2.2vmin;border-radius:0 8px 8px 0;">
+    <div style="display:flex;align-items:center;gap:.7vmin;margin-bottom:.8vmin;">
+      <svg width="1.8vmin" height="1.8vmin" viewBox="0 0 20 20" fill="currentColor" style="flex-shrink:0;color:var(--teal);"><path d="M10 1c-4 0-8 2-8 7 0 3 1.8 5 4 6-.2.8-1.2 2.5-1.2 3.5 0 .5.3 1 .8 1 .3 0 .6-.2.8-.4.5.1 1 .2 1.6.2 1.5 0 2.8-.4 3.8-1.2 1.4.8 3 1.2 4.8 1.2 4 0 8-2 8-7 0-5-4-7-8-7z"/></svg>
+      <span style="font-size:2vmin;font-weight:900;color:var(--teal);">資深團隊的底線：維持可追溯性（Traceability）</span>
+    </div>
+    <p style="font-size:1.9vmin;line-height:1.7;color:var(--body);margin:0;padding-left:0;">無論 AI 幫你總結得多漂亮，最終提煉出的每一個假說，都必須能<b style="color:var(--ink);">「一鍵下鑽（Drill-down）」回最原始的那一句用戶發言</b>。沒有證據支持的洞察，只是拍腦袋的幻想。</p>
+  </div>
+</section>
+
+<!-- 9 TRADITIONAL × AI -->
+<section class="slide" style="padding:5.2vmin 9vmin;">
+  <div class="kicker data">傳統 × AI</div>
+  <h2 style="font-size:var(--h4);margin-bottom:.8vmin;">越機械的，AI 越能接；越要判斷的，越留給人</h2>
+  <div style="margin-bottom:2vmin;">
+    <div style="font-size:1.85vmin;font-weight:800;color:var(--data);margin-bottom:1.8vmin;display:flex;align-items:center;gap:.8vmin;">
+      <span style="width:3px;height:20px;background:linear-gradient(180deg,#38BDF8,#F5B657);display:inline-block;border-radius:2px;"></span>維度一：【任務執行】的 AI 滲透率
+    </div>
+    <div class="legend" style="margin-bottom:1.8vmin;"><span><span class="dot" style="background:#38BDF8;"></span>AI 接手</span><span><span class="dot" style="background:#F5B657;"></span>人保留（資深壁壘）</span></div>
+    <div>
+      <div class="barrow"><div class="blabel">逐字稿轉錄</div><div class="bartrack"><div class="seg-ai" style="width:90%;">AI</div><div class="seg-hu" style="width:10%;"></div></div></div>
+      <div class="barrow"><div class="blabel">開放題編碼</div><div class="bartrack"><div class="seg-ai" style="width:70%;">AI 批量貼標</div><div class="seg-hu" style="width:30%;">Taxonomy 裁決</div></div></div>
+      <div class="barrow"><div class="blabel">資料探索</div><div class="bartrack"><div class="seg-ai" style="width:60%;">AI 語意聚類</div><div class="seg-hu" style="width:40%;">定義假說</div></div></div>
+      <div class="barrow"><div class="blabel">深度訪談</div><div class="bartrack"><div class="seg-ai" style="width:25%;">訪綱＋轉錄</div><div class="seg-hu" style="width:75%;">動態追問</div></div></div>
+    </div>
+  </div>
+
+  <div style="border-top:2px solid rgba(45,212,191,.25);padding-top:2.2vmin;"></div>
+
+  <div style="margin-top:2.2vmin;margin-bottom:2.4vmin;">
+    <div style="font-size:1.85vmin;font-weight:800;color:var(--human);margin-bottom:1.6vmin;display:flex;align-items:center;gap:.8vmin;">
+      <span style="width:3px;height:20px;background:linear-gradient(180deg,#FF6B6B,#F5B657);display:inline-block;border-radius:2px;"></span>維度二：【驗證樣本】的風險控管
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:3vmin;">
+      <div style="background:rgba(255,107,107,.08);border-left:4px solid #FF6B6B;padding:1.6vmin 1.8vmin;border-radius:0 8px 8px 0;">
+        <div style="font-size:1.8vmin;font-weight:800;color:#FF6B6B;margin-bottom:.8vmin;">⚠️ 虛擬用戶的陷阱</div>
+        <div style="font-size:1.75vmin;font-weight:700;color:var(--body);margin-bottom:.6vmin;">Synthetic Users：只會給討好型好評</div>
+        <p style="font-size:1.7vmin;line-height:1.6;color:var(--muted);margin:0;">沒有真正的錢包、沒有真實摩擦力，AI 基於公開語料的「平均預測」只會製造 <b style="color:#FF6B6B;">Sycophancy（討好病）</b>——錯把幻覺當優化。</p>
+      </div>
+      <div style="background:rgba(30,215,96,.08);border-left:4px solid #1ED760;padding:1.6vmin 1.8vmin;border-radius:0 8px 8px 0;">
+        <div style="font-size:1.8vmin;font-weight:800;color:#1ED760;margin-bottom:.8vmin;">🎯 真實用戶的防線</div>
+        <div style="font-size:1.75vmin;font-weight:700;color:var(--body);margin-bottom:.6vmin;">Ground Truth：金白銀的驗證</div>
+        <p style="font-size:1.7vmin;line-height:1.6;color:var(--muted);margin:0;">Data Team 與 UX 必須堅守以真實用戶行為作為基準面，用來 <b style="color:#1ED760;">Calibrate（校準）</b> AI 預測模型——否則產品優化淪入同溫層幻覺。</p>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:2.4vmin;">
+    <div style="font-size:1.9vmin;font-weight:800;color:var(--teal);margin-bottom:1.6vmin;">決策矩陣（Decision Matrix）：分流標準是風險與未知度</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2.8vmin;">
+      <div style="background:rgba(56,189,248,.06);border-radius:12px;padding:1.8vmin;">
+        <div style="display:flex;align-items:center;gap:.8vmin;margin-bottom:1.2vmin;">
+          <span style="font-size:3vmin;line-height:1;">🟢</span>
+          <div>
+            <div style="font-size:1.8vmin;font-weight:800;color:#38BDF8;">~30% AI 虛擬排雷</div>
+            <div style="font-size:1.5vmin;color:var(--muted);margin-top:.2vmin;">Low Risk / Known</div>
+          </div>
+        </div>
+        <p style="font-size:1.7vmin;line-height:1.6;color:var(--body);margin:0;">UI 互動檢查、文案易讀性、Design System 規範 → 代價低，批量過濾。</p>
+      </div>
+      <div style="background:rgba(255,107,107,.06);border-radius:12px;padding:1.8vmin;">
+        <div style="display:flex;align-items:center;gap:.8vmin;margin-bottom:1.2vmin;">
+          <span style="font-size:3vmin;line-height:1;">🔴</span>
+          <div>
+            <div style="font-size:1.8vmin;font-weight:800;color:#FF6B6B;">~70% 真實用戶驗證</div>
+            <div style="font-size:1.5vmin;color:var(--muted);margin-top:.2vmin;">High Risk / Unknown</div>
+          </div>
+        </div>
+        <p style="font-size:1.7vmin;line-height:1.6;color:var(--body);margin:0;">價值主張變更、付費意願、心智模型 → 損害營收，真金白銀驗證。</p>
+      </div>
+    </div>
+  </div>
+
+  <p class="note data" style="font-size:2vmin;margin-top:1.2vmin;"><svg width="1.2em" height="1.2em" viewBox="0 0 20 20" fill="currentColor" style="display:inline-block;vertical-align:middle;margin-right:.3em;"><path d="M10 2c-.6 0-1 .4-1 1v2.6c0 .6.4 1 1 1s1-.4 1-1V3c0-.6-.4-1-1-1zm5.2 2.2c-.4-.4-1-.4-1.4 0-.4.4-.4 1 0 1.4l1.9 1.9c.4.4 1 .4 1.4 0 .4-.4.4-1 0-1.4l-1.9-1.9zm-10.4 0l-1.9 1.9c-.4.4-.4 1 0 1.4.4.4 1 .4 1.4 0l1.9-1.9c.4-.4.4-1 0-1.4-.4-.4-1-.4-1.4 0zM10 5c-2.8 0-5 2.2-5 5 0 2 1.1 3.8 2.8 4.7-.5.5-1.2 1.5-1.2 2.3 0 .5.4.9 1 .9.4 0 .7-.2.9-.5.4.1.8.1 1.3.1s.9 0 1.3-.1c.2.3.5.5.9.5.6 0 1-.4 1-1 0-.8-.7-1.8-1.2-2.3 1.7-.9 2.8-2.7 2.8-4.7 0-2.8-2.2-5-5-5z"/></svg><b>讓 AI 負責擴大規模，讓人負責定義意義。</b></p>
+</section>
+
+<!-- 7 BRIDGE FORMULA -->
+<section class="slide" style="padding:5.2vmin 9vmin;">
+  <div class="kicker data">會議室最卡的一步</div>
+  <h2 style="font-size:var(--h4);margin-bottom:.6vmin;">信號到行動路徑 Signal-to-Action Pathway</h2>
+  <p style="font-size:1.85vmin;color:var(--body);margin-bottom:1.8vmin;">會議室裡最常卡住的地方：Data 覺得「沒數據支持的瞎猜」，UX 覺得「不然要怎麼問」——這是資深團隊可以直接套用的三步路徑。</p>
+
+  <div style="display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:2vmin;align-items:start;">
+    <div>
+      <div style="display:flex;align-items:center;gap:.8vmin;margin-bottom:1vmin;">
+        <svg width="1.9vmin" height="1.9vmin" viewBox="0 0 20 20" fill="none" stroke="var(--data)" stroke-width="1.6"><circle cx="8.5" cy="8.5" r="6"/><path d="M17 17l-4-4"/></svg>
+        <span style="font-size:1.85vmin;font-weight:800;color:var(--data);">01 · 異常信號定位</span>
+      </div>
+      <div style="font-size:1.65vmin;line-height:1.55;color:var(--body);margin-bottom:.7vmin;"><b style="color:var(--data);">Data 起手式：</b>拋出「量化斷崖點」（如 Spotify 1 秒秒切率異常）。</div>
+      <div style="font-size:1.65vmin;line-height:1.55;color:var(--body);margin-bottom:1vmin;"><b style="color:var(--human);">UX 交叉詰問：</b>追問「時空物理脈絡」——什麼裝置？什麼時段？藍牙連動狀態？</div>
+      <p style="font-size:1.5vmin;line-height:1.5;color:var(--muted);margin:0;">Data 負責畫出問題的邊界，UX 負責還原現場的物理維度。</p>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:center;font-size:2.4vmin;color:var(--muted);padding-top:2vmin;">→</div>
+    <div>
+      <div style="display:flex;align-items:center;gap:.8vmin;margin-bottom:1vmin;">
+        <svg width="1.9vmin" height="1.9vmin" viewBox="0 0 20 20" fill="none" stroke="var(--teal)" stroke-width="1.6"><circle cx="10" cy="10" r="7"/><path d="M10 6v4l3 2"/></svg>
+        <span style="font-size:1.85vmin;font-weight:800;color:var(--teal);">02 · 共同假說合成</span>
+      </div>
+      <p style="font-size:1.65vmin;line-height:1.55;color:var(--body);margin-bottom:1vmin;">拒絕 Data 的「純數字模型」與 UX 的「純感性故事」——導入 <b style="color:var(--teal);">HDD</b> 作為跨語言的通用語意層，逼雙方在開發前對「成功指標」達成共識。</p>
+      <p style="font-size:1.5vmin;line-height:1.5;color:var(--muted);margin:0;">用同一個假說公式，把數據指標與人因行為強行綁定。</p>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:center;font-size:2.4vmin;color:var(--muted);padding-top:2vmin;">→</div>
+    <div>
+      <div style="display:flex;align-items:center;gap:.8vmin;margin-bottom:1vmin;">
+        <svg width="1.9vmin" height="1.9vmin" viewBox="0 0 20 20" fill="none" stroke="var(--human)" stroke-width="1.6"><path d="M4 16l5-11 3 6 4-9"/><circle cx="16" cy="2" r="1.5" fill="var(--human)" stroke="none"/></svg>
+        <span style="font-size:1.85vmin;font-weight:800;color:var(--human);">03 · 雙軌並行驗證</span>
+      </div>
+      <div style="font-size:1.65vmin;line-height:1.55;color:var(--body);margin-bottom:.7vmin;"><b style="color:var(--human);">UX 接軌：</b>拿假說做「過去經驗還原訪談」，挖掘行為背後的情境與動機（Why）。</div>
+      <div style="font-size:1.65vmin;line-height:1.55;color:var(--body);margin:0;"><b style="color:var(--data);">Data 接軌：</b>拿同一份假說定義特徵（Feature Engineering），用 A/B 或歷史數據驗證是否規模化。</div>
+    </div>
+  </div>
+  <p class="note data" style="margin-top:2.2vmin;">數據指出「哪裡值得問」，訪談補上「為什麼」——兩邊帶著同一個假說出發，終點才會在同一個地方。</p>
+</section>
+
+<!-- 7x HDD FRAMEWORK -->
+<section class="slide" style="padding:6vmin 0;background:#070B14;display:grid;grid-template-columns:45% 55%;align-items:center;gap:0;cursor:pointer;" onclick="hddCardReveal(event)">
+  <style>
+  @keyframes hdd-card-flip { from{transform:perspective(1200px) rotateY(45deg) rotateX(10deg) translateZ(-40px) scale(.85);opacity:0;} to{transform:perspective(1200px) rotateY(0) rotateX(0) translateZ(0) scale(1);opacity:1;} }
+  @keyframes hdd-formula-pop { from{opacity:0;transform:translateY(8px) scale(.92);} to{opacity:1;transform:translateY(0) scale(1);} }
+  @keyframes hdd-glow-pulse { 0%,100%{box-shadow:0 0 8px rgba(56,189,248,.3),0 0 24px rgba(56,189,248,.15),0 0 60px rgba(0,0,0,.8);} 50%{box-shadow:0 0 12px rgba(56,189,248,.5),0 0 32px rgba(56,189,248,.25),0 0 80px rgba(56,189,248,.1),0 25px 80px rgba(0,0,0,.9);} }
+  .hdd-card { opacity:0;transform:perspective(1200px) rotateY(45deg) rotateX(10deg) translateZ(-40px) scale(.85);pointer-events:none;transition:none; }
+  .hdd-stage.active .hdd-card { animation:hdd-card-flip .9s cubic-bezier(.34,1.56,.64,1) both;box-shadow:0 0 8px rgba(56,189,248,.3),0 0 24px rgba(56,189,248,.15),0 0 60px rgba(0,0,0,.8); }
+  .hdd-formula-line { opacity:0;transform:translateY(8px) scale(.92); }
+  .hdd-stage.active .hdd-formula-line { animation:hdd-formula-pop .6s cubic-bezier(.34,1.56,.64,1) both; }
+  .hdd-stage.active .hdd-formula-line:nth-of-type(1) { animation-delay:.3s; }
+  .hdd-stage.active .hdd-formula-line:nth-of-type(2) { animation-delay:.45s; }
+  .hdd-stage.active .hdd-formula-line:nth-of-type(3) { animation-delay:.6s; }
+  .hdd-stage.active .hdd-formula-line:nth-of-type(4) { animation-delay:.75s; }
+  </style>
+
+  <!-- 左欄：Context & Theory -->
+  <div style="padding:0 8vmin 0 9vmin;display:flex;flex-direction:column;gap:2vmin;justify-content:center;">
+    <div style="font-size:1.5vmin;font-weight:700;letter-spacing:.15em;color:rgba(45,212,191,.7);text-transform:uppercase;margin-bottom:.2vmin;">業界框架 · Hypothesis-Driven Development</div>
+    <h2 style="font-size:4.2vmin;font-weight:900;line-height:1.35;color:#fff;margin:0 0 1.6vmin;">共創假說的工具：Hypothesis-Driven Design</h2>
+    <p style="font-size:2.4vmin;line-height:1.75;color:var(--body);margin:0;">Thoughtworks 顧問 Barry O'Reilly 推廣的假說框架。Yammer（後被 Microsoft 收購）是廣為人知的實踐案例——用同一張卡把「相信什麼」跟「怎麼衡量」綁在一起，UX 領軍前半，Data 領軍後半。</p>
+  </div>
+
+  <!-- 右欄：Hero HDD Card -->
+  <div id="hdd-stage" class="hdd-stage" style="padding:0 9vmin 0 0;display:flex;align-items:center;justify-content:center;min-height:100%;position:relative;">
+    <div style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 40%,rgba(56,189,248,.12),transparent 70%);pointer-events:none;opacity:0;transition:opacity .8s ease .3s;" class="hdd-glow-bg"></div>
+    <div class="hdd-card" style="width:100%;max-width:560px;background:linear-gradient(135deg,rgba(13,24,41,.7) 0%,rgba(13,24,41,.5) 100%);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:20px;padding:4.2vmin;border:1.5px solid transparent;background-clip:padding-box;position:relative;box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 0 20px -8px rgba(56,189,248,.4),0 0 40px -12px rgba(56,189,248,.2),0 30px 80px -20px rgba(0,0,0,.8);">
+      <div style="position:absolute;inset:0;border-radius:20px;background:linear-gradient(135deg,rgba(56,189,248,.3) 0%,rgba(56,189,248,.1) 40%,transparent 100%);pointer-events:none;opacity:.6;"></div>
+      <div class="hdd-formula-line" style="font-size:2.8vmin;font-weight:900;color:#fff;line-height:1.75;margin-bottom:1.4vmin;letter-spacing:-.02em;position:relative;z-index:1;">
+        <span style="color:var(--human);">UX 領軍</span> We believe that<br><span style="color:#38BDF8;text-shadow:0 0 14px rgba(56,189,248,.7);">【體驗方案】</span>
+      </div>
+      <div class="hdd-formula-line" style="font-size:2.8vmin;font-weight:900;color:#fff;line-height:1.75;margin-bottom:1.4vmin;letter-spacing:-.02em;position:relative;z-index:1;">
+        <span style="color:var(--human);">UX 領軍</span> For<br><span style="color:#38BDF8;text-shadow:0 0 14px rgba(56,189,248,.7);">【特定用戶／情境】</span>
+      </div>
+      <div class="hdd-formula-line" style="font-size:2.8vmin;font-weight:900;color:#fff;line-height:1.75;margin-bottom:1.4vmin;letter-spacing:-.02em;position:relative;z-index:1;">
+        <span style="color:var(--teal);">雙方共創</span> Will result in<br><span style="color:var(--teal);text-shadow:0 0 14px rgba(45,212,191,.7);">【行為改變】</span>
+      </div>
+      <div class="hdd-formula-line" style="font-size:2.8vmin;font-weight:900;color:#fff;line-height:1.75;letter-spacing:-.02em;position:relative;z-index:1;">
+        <span style="color:var(--data);">Data 領軍</span> We will know we are<br>successful when we see<br><span style="color:#38BDF8;text-shadow:0 0 14px rgba(56,189,248,.7);">【數據指標】</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  let s = document.getElementById('hdd-stage');
+  if (s) { s.parentElement.addEventListener('click', () => { s.classList.add('active'); document.querySelector('.hdd-glow-bg').style.opacity='1'; }, { once: true }); }
+  </script>
+</section>
+
+<script>
+let hddCardShown = false;
+function hddCardReveal(e) {
+  e.stopPropagation();
+  if (hddCardShown) return;
+  hddCardShown = true;
+  document.getElementById('hdd-stage').classList.add('active');
+}
+</script>
+
+<!-- 7y HDD VALIDATION & ROLLOUT -->
+<section class="slide" style="padding:5.4vmin 9vmin;">
+  <div class="kicker data">業界框架 · Hypothesis-Driven Development</div>
+  <h2 style="font-size:var(--h4);margin-bottom:2.4vmin;">假說有了，接下來誰做什麼？</h2>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:3vmin;font-size:1.95vmin;line-height:1.65;color:var(--body);margin-bottom:3vmin;">
+    <div><b style="color:var(--human);">UX 的任務 → 訪談驗證「We believe / For」</b><br><span style="color:var(--muted);">「能描述上一次你遇到這個情況時，是怎麼處理的嗎？」猜得對不對，問了才知道。</span></div>
+    <div><b style="color:var(--data);">Data 的任務 → 埋點／A-B 驗證「Will result in / When we see」</b><br><span style="color:var(--muted);">回後台拉數據或設計實驗，看行為改變是否真的照假說發生。</span></div>
+  </div>
+  <div style="margin-bottom:2.4vmin;">
+    <div style="font-size:2vmin;font-weight:800;color:var(--teal);margin-bottom:.7vmin;">驗證之後，怎麼安全上線？</div>
+    <p style="font-size:1.9vmin;line-height:1.65;color:var(--body);">業界常見做法：用 Feature Flag 做漸進式曝光——新功能先開放給一小部分真實用戶，數據達到「We will know...when we see」設的門檻才逐步擴大；不如預期就直接關閉（Rollback），不影響全體用戶的體驗。</p>
+  </div>
+  <p class="note data">同一張假說卡，UX 跟 Data 各自領一半——這就是為什麼 HDD 是跨團隊的共同語言，不是誰的方法論。</p>
+</section>
+
+<!-- 9c THREE SEQUENCES -->
+<section class="slide" style="padding:5vmin 7vmin;">
+  <div class="kicker">研究設計 · 混合方法路徑</div>
+  <h2 style="font-size:var(--h4);margin-bottom:1.8vmin;">質化與量化，怎麼排順序？</h2>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:3vmin;align-items:start;width:100%;">
+    <div>
+      <div style="margin-bottom:1.3vmin;"><span style="font-size:1.85vmin;font-weight:800;color:var(--human);">先質化 → 後量化</span><div style="font-size:1.6vmin;color:var(--muted);margin-top:.4vmin;">探索型 · 找新機會</div></div>
+      <div style="display:flex;flex-direction:column;gap:.8vmin;font-size:1.75vmin;line-height:1.5;color:var(--body);">
+        <div><b style="color:var(--ink);">情境：</b>0→1，還不知道痛點在哪</div>
+        <div><b style="color:var(--ink);">問：</b>有哪些還沒說出口的需求？</div>
+        <div style="color:#F58787;font-size:1.65vmin;"><b>風險：</b>用 AI 測 AI 的死胡同</div>
+      </div>
+    </div>
+    <div>
+      <div style="margin-bottom:1.3vmin;"><span style="font-size:1.85vmin;font-weight:800;color:var(--data);">先量化 → 後質化</span><div style="font-size:1.6vmin;color:var(--muted);margin-top:.4vmin;">解釋型 · 解已知異常</div></div>
+      <div style="display:flex;flex-direction:column;gap:.8vmin;font-size:1.75vmin;line-height:1.5;color:var(--body);">
+        <div><b style="color:var(--ink);">情境：</b>1→N，指標異常、流失升高</div>
+        <div><b style="color:var(--ink);">問：</b>為什麼這一步大量流失？</div>
+        <div style="color:#F58787;font-size:1.65vmin;"><b>風險：</b>只看數據，沒溫度</div>
+      </div>
+    </div>
+    <div>
+      <div style="margin-bottom:1.3vmin;"><span style="font-size:1.85vmin;font-weight:800;color:var(--teal);">質化＋量化並行</span><div style="font-size:1.6vmin;color:var(--muted);margin-top:.4vmin;">收斂型 · 快速戰情室</div></div>
+      <div style="display:flex;flex-direction:column;gap:.8vmin;font-size:1.75vmin;line-height:1.5;color:var(--body);">
+        <div><b style="color:var(--ink);">情境：</b>快速迭代，即時修正設計</div>
+        <div><b style="color:var(--ink);">問：</b>熱點圖＋易用性測試同時看</div>
+        <div style="color:#F58787;font-size:1.65vmin;"><b>風險：</b>資源需求高，須熟練協調</div>
+      </div>
+    </div>
+  </div>
+  <p class="note" style="margin-top:2.4vmin;">你們手上已有行為數據——今天走中間：<b style="color:var(--data);">先量化</b>發現異常，<b style="color:var(--human);">後質化</b>追問為什麼。</p>
+</section>
+
+<!-- 7b DATA × UX COLLABORATION LOOP -->
+<section class="slide" style="padding:5.4vmin 9vmin;">
+  <div class="kicker">Data × UX 怎麼一起工作</div>
+  <h2 style="font-size:var(--h4);margin-bottom:1vmin;">不是「定量 vs 定性」，是一個閉環</h2>
+  <p style="font-size:2.05vmin;color:var(--body);margin-bottom:2.2vmin;">規模化效率（Scale）× 深層同理心（Empathy）——雙向融合，輪流接棒。</p>
+
+  <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:2.4vmin;align-items:start;">
+    <div>
+      <div style="font-size:1.7vmin;font-weight:800;color:var(--data);letter-spacing:.04em;margin-bottom:.8vmin;">① 發現異常</div>
+      <div style="font-size:1.95vmin;font-weight:800;color:var(--ink);line-height:1.4;">Data Team 觀察到後台指標異常</div>
+      <div style="font-size:1.6vmin;color:var(--muted);margin-top:.5vmin;">右下象限：A/B 測試、產品埋點／行為 Log</div>
+      <div style="margin-top:1.3vmin;font-size:1.8vmin;color:var(--data);line-height:1.55;">「某個環節的流失／異常率，比其他環節高出一大截。」</div>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:center;font-size:3vmin;color:var(--muted);padding-top:3vmin;">→</div>
+    <div>
+      <div style="font-size:1.7vmin;font-weight:800;color:var(--human);letter-spacing:.04em;margin-bottom:.8vmin;">② 挖掘根因</div>
+      <div style="font-size:1.95vmin;font-weight:800;color:var(--ink);line-height:1.4;">UX 透過訪談與觀察追問</div>
+      <div style="font-size:1.6vmin;color:var(--muted);margin-top:.5vmin;">左上／左下象限：使用者訪談、易用性測試</div>
+      <div style="margin-top:1.3vmin;font-size:1.8vmin;color:var(--human);line-height:1.55;">「原來使用者誤解了這裡的設計語意。」</div>
+    </div>
+  </div>
+
+  <div style="margin-top:2.8vmin;position:relative;padding-left:3.6vmin;">
+    <span style="position:absolute;left:0;top:.3vmin;font-size:2.8vmin;color:var(--teal);line-height:1;">◄</span>
+    <div style="font-size:1.7vmin;font-weight:800;color:var(--teal);letter-spacing:.04em;margin-bottom:.6vmin;">③ 大規模驗證，回到 ①</div>
+    <div style="font-size:1.95vmin;font-weight:800;color:var(--ink);">Data 把質化長出的假設，用數據在全體用戶上驗證（驗證 HDD 卡的 Will result in／When we see）</div>
+    <div style="font-size:1.8vmin;color:var(--body);margin-top:.6vmin;line-height:1.6;">「問題真的解決了嗎？範圍比想像中更大，還是只是個案？」——驗證完畢，回到①繼續盯下一個異常。</div>
+  </div>
+
+  <p class="note" style="margin-top:2.2vmin;">分工不是搶地盤：<b style="color:var(--data);">Data 做 pattern 識別</b>，<b style="color:var(--human);">UX 做意義賦予</b>。AI 起草，UX 當編輯——防止它誇大痛點、混淆無關回饋。</p>
+</section>
+
+<!-- 10 HANDS-ON -->
+<section class="slide" style="padding:6vmin 9vmin;">
+  <div class="kicker">動手 · 10 MIN</div>
+  <h2 style="font-size:var(--h4);margin-bottom:2.8vmin;">用你的資料集，跑一次完整鏈路</h2>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:3vmin;align-items:start;">
+    <div><div class="stepnum" style="color:var(--data);">1</div><div style="font-size:2.3vmin;font-weight:800;margin:.9vmin 0;">挑一個異常</div><p style="font-size:1.95vmin;line-height:1.55;color:var(--body);">行為找「咦？」（T-Rex 退貨／漏斗；Spotify skip／時段），再翻問卷／評論看態度對不對得上。</p></div>
+    <div><div class="stepnum" style="color:var(--teal);">2</div><div style="font-size:2.3vmin;font-weight:800;margin:.9vmin 0;">寫 3 個訪談問題</div><p style="font-size:2vmin;line-height:1.6;color:var(--body);">用「上一次…」句型，別用「你會不會…」。</p></div>
+    <div><div class="stepnum" style="color:var(--human);">3</div><div style="font-size:2.3vmin;font-weight:800;margin:.9vmin 0;">寫 1 張 HDD 假說卡</div><p style="font-size:1.8vmin;line-height:1.5;color:var(--body);">We believe that＿，For＿，Will result in＿，We will know...when we see＿。</p></div>
+  </div>
+  <p class="note" style="margin-top:2.4vmin;">這張 HDD 假說卡會直接帶進第三次社課的 AI Product Lab，做成 prototype。</p>
+</section>
+
+<!-- 10b HOMEWORK: 基礎訪談練習 -->
+<section class="slide" style="padding:6vmin 9vmin;">
+  <div class="kicker human">回家作業 · 加碼練習</div>
+  <h2 style="font-size:var(--h4);margin-bottom:1.2vmin;">把今天寫的 3 個問題，拿去問一個真人</h2>
+  <p style="font-size:2vmin;color:var(--body);margin-bottom:2.4vmin;">動手時寫的 3 個「上一次…」問題就是你的訪綱——找一位朋友、同事或家人，做一場 15 分鐘的基礎訪談。</p>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:3vmin;margin-bottom:2.8vmin;">
+    <div>
+      <div style="font-size:1.85vmin;font-weight:800;color:var(--data);margin-bottom:.9vmin;">T-Rex 組 → 電商經驗</div>
+      <p style="font-size:1.95vmin;line-height:1.65;color:var(--body);">受訪者沒用過 T-Rex 沒關係——改問他的<b style="color:var(--data);">蝦皮／momo／Amazon</b> 經驗：最近一次棄購、退貨、湊免運的真實過程。</p>
+    </div>
+    <div>
+      <div style="font-size:1.85vmin;font-weight:800;color:var(--human);margin-bottom:.9vmin;">Spotify 組 → 串流經驗</div>
+      <p style="font-size:1.95vmin;line-height:1.65;color:var(--body);">改問他的 <b style="color:var(--human);">Spotify／YouTube Music／KKBOX</b> 經驗：最近一次狂按跳過、找不到想聽的歌、想取消訂閱的時刻。</p>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:2.6vmin;">
+    <div><div style="font-size:1.8vmin;font-weight:800;color:var(--teal);margin-bottom:.6vmin;">訪談中</div><p style="font-size:1.75vmin;line-height:1.6;color:var(--body);">問過去不問未來；別連問三次「為什麼」；可以請他當場打開 App（Show, Don't Tell）。</p></div>
+    <div><div style="font-size:1.8vmin;font-weight:800;color:var(--data);margin-bottom:.6vmin;">AI 加分</div><p style="font-size:1.75vmin;line-height:1.6;color:var(--body);">徵得同意後錄音，丟給 AI 做逐字稿與初步貼標——但哪句是真痛點，由你裁決。</p></div>
+    <div><div style="font-size:1.8vmin;font-weight:800;color:var(--teal);margin-bottom:.6vmin;">帶回第三堂</div><p style="font-size:1.75vmin;line-height:1.6;color:var(--body);">3 句金句＋1 張修正後的 HDD 假說卡——直接餵進 AI Product Lab 做 prototype。</p></div>
+  </div>
+  <p class="note human" style="margin-top:2.6vmin;">受訪者用的產品跟 dataset 不同沒關係——同一種行為、不同產品；假設能不能遷移，本身就是好發現。</p>
+</section>
+
+<!-- 11 CLOSING -->
+<section class="slide" style="align-items:center;text-align:center;justify-content:center;">
+  <h2 style="font-size:var(--h3);line-height:1.4;"><span class="eng" style="color:var(--data);">數字</span>告訴你發生什麼，<br><span style="color:var(--human);">人</span>告訴你為什麼。</h2>
+  <p style="font-size:2.7vmin;color:var(--body);margin-top:3.4vmin;max-width:44ch;line-height:1.8;">會問問題的設計師，才把數據變成好決策。</p>
+  <p style="font-size:3.2vmin;color:var(--teal);margin-top:4vmin;font-weight:700;letter-spacing:.08em;">現在換你了！</p>
+  <div class="foot" style="margin-top:5vmin;">第二次社課 · Data × UX 使用者需求工作坊 · 質化研究</div>
+</section>
+
+<!-- A0 APPENDIX DIVIDER -->
+<section class="slide" style="align-items:center;text-align:center;justify-content:center;">
+  <div class="kicker" style="justify-content:center;">Appendix · 延伸閱讀</div>
+  <h2 style="font-size:var(--h3);line-height:1.3;">附錄</h2>
+  <p style="font-size:2.2vmin;color:var(--body);margin-top:2.6vmin;max-width:54ch;line-height:1.85;">訪談問法對照表 · 體驗快篩三板斧 · AI 研究工具生態<br>UX × 商業 2×2 矩陣與商業價值論證 · 說服老闆的三角測量</p>
+  <p style="font-size:1.9vmin;color:var(--muted);margin-top:2vmin;">主講不涵蓋——會後自行翻閱，或 Q&amp;A 時跳頁使用。</p>
+</section>
+
+<!-- 6b CASE COMPARISON: Hypothesis vs. Reality -->
+<section class="slide" style="padding:6vmin 6vmin;">
+  <div class="kicker teal">經典案例對比</div>
+  <h2 style="font-size:var(--h4);margin-bottom:2.4vmin;">把「假設」變成「事實」</h2>
+  <p style="font-size:1.95vmin;color:var(--body);margin-bottom:1.4vmin;">在實務上，不論是 B2C 還是 B2B 產品，當我們屈服於 Stakeholders 的壓力而問出「假設性問題」時，往往會得到虛無的「安全感」，進而導致<b style="color:var(--human);">災難性的開發決策</b>。</p>
+  <p style="font-size:1.95vmin;color:var(--data);margin-bottom:2.2vmin;"><b>關鍵在於：</b>用 UX 問出「<b style="color:var(--human);">過去的真實行為（Why）</b>」，並用 Data 驗證「<b style="color:var(--data);">後台的規模化指標（What）</b>」。</p>
+
+  <style>
+  .risk-modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,.7); z-index:100; align-items:center; justify-content:center; }
+  .risk-modal.active { display:flex; }
+  .risk-modal-content { background:#0C1224; border:1px solid rgba(45,212,191,.3); border-radius:16px; padding:3vmin; max-width:60ch; max-height:80vh; overflow-y:auto; }
+  .risk-modal-title { font-size:2.4vmin; font-weight:900; color:#FF6B6B; margin-bottom:1.5vmin; }
+  .risk-modal-text { font-size:1.95vmin; line-height:1.6; color:var(--body); }
+  .risk-close { position:absolute; top:2vmin; right:2vmin; font-size:2.5vmin; cursor:pointer; color:var(--muted); }
+  .risk-trigger { cursor:pointer; display:inline-block; padding:.4vmin .8vmin; background:rgba(245,87,87,.1); border:1px solid rgba(245,87,87,.3); border-radius:6px; color:#FF6B6B; font-weight:700; }
+  </style>
+
+  <table style="width:100%;border-collapse:separate;border-spacing:0 1vmin;font-size:1.75vmin;">
+    <thead><tr style="border-bottom:2px solid var(--teal);">
+      <th style="text-align:left;padding:0 1vmin .8vmin;font-weight:800;color:var(--teal);letter-spacing:.05em;">產品類型</th>
+      <th style="text-align:left;padding:0 1vmin .8vmin;font-weight:800;color:#FF6B6B;letter-spacing:.05em;">❌ 避開這種問法（假設）</th>
+      <th style="text-align:left;padding:0 1vmin .8vmin;font-weight:800;color:var(--human);letter-spacing:.05em;">⚠️ 盲信的風險</th>
+      <th style="text-align:left;padding:0 1vmin .8vmin;font-weight:800;color:var(--data);letter-spacing:.05em;">✅ 改問 + Data Team 驗證</th>
+    </tr></thead>
+    <tbody>
+      <!-- B2C Examples -->
+      <tr style="background:rgba(56,189,248,.06);">
+        <td style="padding:1vmin;font-weight:800;color:var(--data);">【B2C】<br>記帳軟體</td>
+        <td style="padding:1vmin;color:var(--body);">「出自動記帳功能你會用嗎？」</td>
+        <td style="padding:1vmin;"><span class="risk-trigger" onclick="openRisk(this)">查看風險</span><div class="risk-modal" onclick="closeRisk(event)"><span class="risk-close" onclick="closeRisk()">✕</span><div class="risk-modal-content" onclick="event.stopPropagation()"><div class="risk-modal-title">研發資源浪費</div><div class="risk-modal-text">開發三月上線，活躍度 < 5%。真實場景中根本沒人用。</div></div></div></td>
+        <td style="padding:1vmin;color:var(--body);">「上一次超支，怎麼發現的？怎麼處理的？」<br><span style="font-size:1.6vmin;color:var(--muted);display:block;margin-top:.4vmin;">超支後 3 天打開率 vs 未超支用戶。</span></td>
+      </tr>
+      <tr style="background:rgba(45,212,191,.06);">
+        <td style="padding:1vmin;font-weight:800;color:var(--teal);">【B2C】<br>訂閱服務</td>
+        <td style="padding:1vmin;color:var(--body);">「願意花多少錢訂閱？」</td>
+        <td style="padding:1vmin;"><span class="risk-trigger" onclick="openRisk(this)">查看風險</span><div class="risk-modal" onclick="closeRisk(event)"><span class="risk-close" onclick="closeRisk()">✕</span><div class="risk-modal-content" onclick="event.stopPropagation()"><div class="risk-modal-title">付費轉換慘淡</div><div class="risk-modal-text">實際掏錢比例遠低於口頭承諾。定價策略根據假設性問卷，轉換率慘不忍睹。</div></div></div></td>
+        <td style="padding:1vmin;color:var(--body);">「目前訂閱哪些？上一個取消的是什麼？為什麼？」<br><span style="font-size:1.6vmin;color:var(--muted);display:block;margin-top:.4vmin;">流失模型：上次登入到取消的時間窗。</span></td>
+      </tr>
+      <!-- B2B Examples -->
+      <tr style="background:rgba(151,117,250,.06);">
+        <td style="padding:1vmin;font-weight:800;color:#9775FA;">【B2B】<br>企業資安系統</td>
+        <td style="padding:1vmin;color:var(--body);">「強制密碼更新 + 雙重認證，願意部署嗎？」</td>
+        <td style="padding:1vmin;"><span class="risk-trigger" onclick="openRisk(this)">查看風險</span><div class="risk-modal" onclick="closeRisk(event)"><span class="risk-close" onclick="closeRisk()">✕</span><div class="risk-modal-content" onclick="event.stopPropagation()"><div class="risk-modal-title">防線潰散</div><div class="risk-modal-text">主管同意，員工直接破壞：密碼貼螢幕、用共用帳號。規定與執行天差地遠。</div></div></div></td>
+        <td style="padding:1vmin;color:var(--body);">「員工違反安全規定時怎麼發現？IT 花多少時間處理？」<br><span style="font-size:1.6vmin;color:var(--muted);display:block;margin-top:.4vmin;">違規成本、合規率、時間分析。</span></td>
+      </tr>
+      <tr style="background:rgba(245,182,87,.06);">
+        <td style="padding:1vmin;font-weight:800;color:var(--human);">【B2B】<br>協作平台</td>
+        <td style="padding:1vmin;color:var(--body);">「加入 AI 助理自動轉表格，好用嗎？」</td>
+        <td style="padding:1vmin;"><span class="risk-trigger" onclick="openRisk(this)">查看風險</span><div class="risk-modal" onclick="closeRisk(event)"><span class="risk-close" onclick="closeRisk()">✕</span><div class="risk-modal-content" onclick="event.stopPropagation()"><div class="risk-modal-title">轉換成本被低估</div><div class="risk-modal-text">忽略工具轉移、培訓、時間成本。員工行為改變的阻力遠超預期。</div></div></div></td>
+        <td style="padding:1vmin;color:var(--body);">「上週最後一次手動報表花多少時間？哪一步最費力？」<br><span style="font-size:1.6vmin;color:var(--muted);display:block;margin-top:.4vmin;">協作度指標：@提及率、協同編輯比例。</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <script>
+  function openRisk(el) { el.nextElementSibling.classList.add('active'); }
+  function closeRisk(e) { if (!e || e.target.classList.contains('risk-modal')) document.querySelectorAll('.risk-modal.active').forEach(m => m.classList.remove('active')); }
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeRisk(); });
+  </script>
+</section>
+
+<!-- 5 THREE TOOLS -->
+<section class="slide" style="padding:6vmin 9vmin;">
+  <div class="kicker human">敏捷快篩 · UX × Data 聯手</div>
+  <h2 style="font-size:var(--h4);margin-bottom:2.8vmin;">日常迭代中的『體驗快篩』三板斧</h2>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2vmin;align-items:stretch;">
+    <div class="card"><div style="font-size:3vmin;">🎙️</div><div style="font-size:2.5vmin;font-weight:800;margin:.8vmin 0;">15 分鐘雷射訪談</div><div style="font-size:1.85vmin;line-height:1.55;color:var(--body);margin-bottom:.8vmin;"><b style="color:var(--human);">UX 輕量行動</b>：只聚焦最近一次觸發「特定行為」的極端用戶，進行現場還原。</div><p style="font-size:1.75vmin;line-height:1.5;color:var(--muted);"><b style="color:var(--data);">Data 聯手點</b>：用 SQL 撈出「剛完成高價值轉換」或「剛遭遇結帳失敗」的用戶名單，精準篩選。</p></div>
+    <div class="card"><div style="font-size:3vmin;">👁️</div><div style="font-size:2.5vmin;font-weight:800;margin:.8vmin 0;">錄影與軌跡側寫</div><div style="font-size:1.85vmin;line-height:1.55;color:var(--body);margin-bottom:.8vmin;"><b style="color:var(--human);">UX 輕量行動</b>：直接挑 10 支代表性的 Session Replay，看用戶如何掙扎。不一定要約真人。</div><p style="font-size:1.75vmin;line-height:1.5;color:var(--muted);"><b style="color:var(--data);">Data 聯手點</b>：將「滑鼠狂點」的質性觀察對齊後台「Rage Click 憤怒點擊」埋點，把個人觀察規模化。</p></div>
+    <div class="card"><div style="font-size:3vmin;">🧪</div><div style="font-size:2.5vmin;font-weight:800;margin:.8vmin 0;">RITE 快速迭代測試</div><div style="font-size:1.85vmin;line-height:1.55;color:var(--body);margin-bottom:.8vmin;"><b style="color:var(--human);">UX 輕量行動</b>：只測 3 人，發現痛點當天改原型，隔天再測 3 人。用最低成本排雷。</div><p style="font-size:1.75vmin;line-height:1.5;color:var(--muted);"><b style="color:var(--data);">Data 聯手點</b>：用易用性測試排掉架構性風險，上線後的 A/B Test 才能「優中擇優」，而非「垃圾互比」。</p></div>
+  </div>
+  <p class="note human" style="font-size:1.95vmin;line-height:1.6;"><svg width="1.2em" height="1.2em" viewBox="0 0 20 20" fill="currentColor" style="display:inline-block;vertical-align:middle;margin-right:.3em;"><path d="M10 2c-.6 0-1 .4-1 1v2.6c0 .6.4 1 1 1s1-.4 1-1V3c0-.6-.4-1-1-1zm5.2 2.2c-.4-.4-1-.4-1.4 0-.4.4-.4 1 0 1.4l1.9 1.9c.4.4 1 .4 1.4 0 .4-.4.4-1 0-1.4l-1.9-1.9zm-10.4 0l-1.9 1.9c-.4.4-.4 1 0 1.4.4.4 1 .4 1.4 0l1.9-1.9c.4-.4.4-1 0-1.4-.4-.4-1-.4-1.4 0zM10 5c-2.8 0-5 2.2-5 5 0 2 1.1 3.8 2.8 4.7-.5.5-1.2 1.5-1.2 2.3 0 .5.4.9 1 .9.4 0 .7-.2.9-.5.4.1.8.1 1.3.1s.9 0 1.3-.1c.2.3.5.5.9.5.6 0 1-.4 1-1 0-.8-.7-1.8-1.2-2.3 1.7-.9 2.8-2.7 2.8-4.7 0-2.8-2.2-5-5-5z"/></svg><b>資深心法：</b>在日常快速迭代中，放棄厚重的研究規畫。日記研究或焦點小組留給長線戰略；這三把輕量工具，才是你每天用來對齊『數據假說』與『體驗盲區』的貼身小刀。UX × Data，在這三種場景裡聯手。</p>
+</section>
+
+<!-- 8a UXR PAIN POINT FULL IMAGE -->
+<section class="slide" style="padding:0;display:flex;align-items:center;justify-content:center;overflow:hidden;">
+  <img src="assets/s2/uxr-pain-point.png" alt="UXR Pain Point" style="width:100%;height:100%;object-fit:contain;"/>
+</section>
+
+<!-- 8a2 DATA TEAM PAIN POINT FULL IMAGE -->
+<section class="slide" style="padding:0;display:flex;align-items:center;justify-content:center;overflow:hidden;">
+  <img src="assets/s2/data-team-pain-point.png" alt="Data Team Pain Point" style="width:100%;height:100%;object-fit:contain;"/>
+</section>
+
+<!-- 8b AI TOOLKIT -->
+<section class="slide" style="padding:6vmin 8vmin;">
+  <div class="kicker data">AI 協作 · 資深研究者的心法</div>
+  <h2 style="font-size:var(--h4);margin-bottom:1.5vmin;">AI 負責發散（Scale & Speed），你負責收斂（Judgment & Synthesis）</h2>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.6vmin;margin-bottom:2vmin;">
+    <!-- 心法一：De-biasing -->
+    <div class="card" style="border-top:4px solid var(--data);position:relative;">
+      <div style="position:absolute;top:.8vmin;right:1.2vmin;display:inline-block;font-size:1.4vmin;font-weight:700;padding:.3vmin .8vmin;background:rgba(56,189,248,.15);border:1px solid rgba(56,189,248,.4);border-radius:4px;color:var(--data);">資料探索</div>
+      <div style="font-size:2vmin;font-weight:900;color:var(--data);margin-bottom:.6vmin;">① 對抗認知偏誤</div>
+      <div style="font-size:1.75vmin;color:var(--body);line-height:1.6;margin-bottom:1.2vmin;">用 AI 做 <b>Red Teaming</b>，主動挑戰你的假設。</div>
+      <p style="font-size:1.65vmin;color:var(--muted);line-height:1.5;">「我歸納出這 3 個痛點假說。請扮演極度挑剔的評論家，從逐字稿中找出反證。」</p>
+      <div style="margin-top:1.2vmin;padding-top:1.2vmin;border-top:1px solid rgba(56,189,248,.2);">
+        <div style="font-size:1.6vmin;color:var(--data);font-weight:700;">⏱ 過去 3 天 → 現在 30 分鐘</div>
+      </div>
+    </div>
+
+    <!-- 心法二：Semantic Synthesis -->
+    <div class="card" style="border-top:4px solid var(--teal);position:relative;">
+      <div style="position:absolute;top:.8vmin;right:1.2vmin;display:inline-block;font-size:1.4vmin;font-weight:700;padding:.3vmin .8vmin;background:rgba(45,212,191,.15);border:1px solid rgba(45,212,191,.4);border-radius:4px;color:var(--teal);">開放題編碼</div>
+      <div style="font-size:2vmin;font-weight:900;color:var(--teal);margin-bottom:.6vmin;">② 高維度語意縮圖</div>
+      <div style="font-size:1.75vmin;color:var(--body);line-height:1.6;margin-bottom:1.2vmin;">把文字轉成 <b>多維度矩陣標籤</b>，餵進 Data Pipeline。</div>
+      <p style="font-size:1.65vmin;color:var(--muted);line-height:1.5;">「按【摩擦點】【期望落差】【情感溫度】進行多維標註。」</p>
+      <div style="margin-top:1.2vmin;padding-top:1.2vmin;border-top:1px solid rgba(45,212,191,.2);">
+        <div style="font-size:1.6vmin;color:var(--teal);font-weight:700;">⏱ 眼睛痛的人工 → 現在 10 分鐘自動初稿</div>
+      </div>
+    </div>
+
+    <!-- 心法三：Extreme Persona -->
+    <div class="card" style="border-top:4px solid var(--human);position:relative;">
+      <div style="position:absolute;top:.8vmin;right:1.2vmin;display:inline-block;font-size:1.4vmin;font-weight:700;padding:.3vmin .8vmin;background:rgba(245,182,87,.15);border:1px solid rgba(245,182,87,.4);border-radius:4px;color:var(--human);">深度訪談</div>
+      <div style="font-size:2vmin;font-weight:900;color:var(--human);margin-bottom:.6vmin;">③ 極端用戶模擬</div>
+      <div style="font-size:1.75vmin;color:var(--body);line-height:1.6;margin-bottom:1.2vmin;">模擬真實的不配合度，進行 <b>壓力測試</b>。</div>
+      <p style="font-size:1.65vmin;color:var(--muted);line-height:1.5;">「你是缺耐心的 B2B 主管，我問假設題時敷衍，只有真實痛點時才多說。」</p>
+      <div style="margin-top:1.2vmin;padding-top:1.2vmin;border-top:1px solid rgba(245,182,87,.2);">
+        <div style="font-size:1.6vmin;color:var(--human);font-weight:700;">⏱ 直接上場當白老鼠 → 現在 3 輪自動排雷</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="padding:2vmin 2.4vmin;background:linear-gradient(90deg,rgba(56,189,248,.08),rgba(45,212,191,.05));border-left:4px solid var(--data);border-radius:8px;">
+    <div style="font-size:1.95vmin;font-weight:900;color:var(--ink);margin-bottom:1vmin;"><svg width="1.2em" height="1.2em" viewBox="0 0 20 20" fill="currentColor" style="display:inline-block;vertical-align:middle;margin-right:.3em;"><path d="M10 2c-.6 0-1 .4-1 1v2.6c0 .6.4 1 1 1s1-.4 1-1V3c0-.6-.4-1-1-1zm5.2 2.2c-.4-.4-1-.4-1.4 0-.4.4-.4 1 0 1.4l1.9 1.9c.4.4 1 .4 1.4 0 .4-.4.4-1 0-1.4l-1.9-1.9zm-10.4 0l-1.9 1.9c-.4.4-.4 1 0 1.4.4.4 1 .4 1.4 0l1.9-1.9c.4-.4.4-1 0-1.4-.4-.4-1-.4-1.4 0zM10 5c-2.8 0-5 2.2-5 5 0 2 1.1 3.8 2.8 4.7-.5.5-1.2 1.5-1.2 2.3 0 .5.4.9 1 .9.4 0 .7-.2.9-.5.4.1.8.1 1.3.1s.9 0 1.3-.1c.2.3.5.5.9.5.6 0 1-.4 1-1 0-.8-.7-1.8-1.2-2.3 1.7-.9 2.8-2.7 2.8-4.7 0-2.8-2.2-5-5-5z"/></svg>人機協作的黃金法則</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2vmin;font-size:1.8vmin;line-height:1.6;color:var(--body);">
+      <div><b style="color:var(--data);">AI 的絕招</b><br>1 秒掃 10 萬字、找隱性關聯、模擬極端、自動貼標籤。</div>
+      <div><b style="color:var(--human);">你的獨特價值</b><br>定義邊界、決策判斷、聽懂「弦外之音」、跨團隊推進。</div>
+    </div>
+    <div style="margin-top:1.2vmin;padding-top:1.2vmin;border-top:1px solid rgba(45,212,191,.2);font-size:1.75vmin;color:var(--muted);">每一版 AI 產出，都要追問一句「反例在哪？」——最後由你裁決。</div>
+  </div>
+</section>
+
+<!-- 3b 2026 LANDSCAPE OVERVIEW -->
+<section class="slide ig">
+  <div class="igh">
+    <h3>2026 研究 Landscape：當 <span class="a">AI</span> 成為研究員的<span class="b">副駕駛</span></h3>
+    <p>把跑腿的雜事留給 AI，把靈魂與同理心留給人類。</p>
+  </div>
+
+  <div class="tier1">
+    <div class="card" style="border-top:3px solid var(--data);">
+      <div class="tag data" style="align-self:flex-start;margin-bottom:1vmin;">效率 · AI EFFICIENCY</div>
+      <div style="display:flex;align-items:baseline;gap:1.2vmin;margin-bottom:.8vmin;">
+        <span class="stat" style="font-size:5vmin;color:var(--data);">80%</span>
+        <span style="font-size:1.85vmin;color:var(--body);line-height:1.35;">的研究員，已把 AI<br>納入研究工作流</span>
+      </div>
+      <p style="font-size:1.85vmin;line-height:1.5;color:var(--body);">省下 <b style="color:var(--data);">60%</b> 以上的時間。我們終於從日復一日的「手刻逐字稿」和「瘋狂貼標籤」中解脫。</p>
+    </div>
+    <div class="card copilot">
+      <div class="tag teal" style="align-self:flex-start;margin-bottom:1vmin;">副駕駛 · CO-PILOT 協作</div>
+      <div style="font-size:2.4vmin;font-weight:800;margin-bottom:1vmin;">AI 負責跑腿，人類負責真動腦</div>
+      <div style="display:flex;gap:1.4vmin;">
+        <div style="flex:1;border-left:2px solid var(--data);padding-left:1.1vmin;"><div style="font-size:1.75vmin;font-weight:800;color:var(--data);margin-bottom:.3vmin;">AI 跑腿</div><p style="font-size:1.8vmin;line-height:1.4;color:var(--body);">一秒整理千筆資料、自動編碼、找出模式</p></div>
+        <div style="flex:1;border-left:2px solid var(--human);padding-left:1.1vmin;"><div style="font-size:1.75vmin;font-weight:800;color:var(--human);margin-bottom:.3vmin;">人動腦</div><p style="font-size:1.8vmin;line-height:1.4;color:var(--body);">決定重點、理解真意、做出判斷</p></div>
+      </div>
+    </div>
+    <div class="card" style="border-top:3px solid var(--human);">
+      <div class="tag human" style="align-self:flex-start;margin-bottom:1vmin;">同理心 · HUMAN EMPATHY</div>
+      <div style="display:flex;align-items:baseline;gap:1.2vmin;margin-bottom:.8vmin;">
+        <span class="stat" style="font-size:5vmin;color:var(--human);">35%</span>
+        <span style="font-size:1.85vmin;color:var(--body);line-height:1.35;">人覺得，自己離<br>用戶越來越遠</span>
+      </div>
+      <p style="font-size:1.85vmin;line-height:1.5;color:var(--body);"><b style="color:var(--human);">同理心流失</b>是真實風險——只看 AI 給的結論，你就失去了對真人的在乎。</p>
+    </div>
+  </div>
+
+  <div>
+    <div class="band-label">2026 混合研究法 · 三個踩坑重點</div>
+    <div class="tier2">
+      <div class="card">
+        <div style="font-size:2.15vmin;font-weight:800;margin-bottom:1vmin;">核心決策：七成真人，三成虛擬排雷</div>
+        <div class="donut-wrap">
+          <svg viewBox="0 0 42 42" style="width:11.5vmin;height:11.5vmin;flex-shrink:0;transform:rotate(-90deg);">
+            <circle cx="21" cy="21" r="15.9" fill="none" stroke="#38BDF8" stroke-width="7"/>
+            <circle cx="21" cy="21" r="15.9" fill="none" stroke="#F5B657" stroke-width="7" stroke-dasharray="75 25" stroke-dashoffset="0"/>
+          </svg>
+          <div style="display:flex;flex-direction:column;gap:1vmin;">
+            <div style="font-size:1.9vmin;"><span style="display:inline-block;width:1.4vmin;height:1.4vmin;border-radius:3px;background:#F5B657;margin-right:.6vmin;vertical-align:middle;"></span><b style="color:var(--human);">70-80%</b> 真實用戶<br><span style="font-size:1.6vmin;color:var(--muted);margin-left:2vmin;">核心決策與驗證</span></div>
+            <div style="font-size:1.9vmin;"><span style="display:inline-block;width:1.4vmin;height:1.4vmin;border-radius:3px;background:#38BDF8;margin-right:.6vmin;vertical-align:middle;"></span><b style="color:var(--data);">20-30%</b> 虛擬用戶<br><span style="font-size:1.6vmin;color:var(--muted);margin-left:2vmin;">前期假設驗證</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div style="font-size:2.15vmin;font-weight:800;margin-bottom:1vmin;">真人最嚴苛，虛擬最快樂</div>
+        <div style="display:flex;flex-direction:column;gap:1vmin;">
+          <div style="border-left:3px solid var(--human);padding-left:1.2vmin;"><div style="font-size:1.9vmin;font-weight:800;color:var(--human);">真實用戶</div><p style="font-size:1.8vmin;line-height:1.45;color:var(--body);">不可取代的<b>情緒深度</b>——最嚴苛、最真的痛點。</p></div>
+          <div style="border-left:3px solid var(--data);padding-left:1.2vmin;"><div style="font-size:1.9vmin;font-weight:800;color:var(--data);">虛擬用戶</div><p style="font-size:1.8vmin;line-height:1.45;color:var(--body);">快速<b>壓力測試與排雷</b>——便宜、秒回，但會討好你。</p></div>
+        </div>
+      </div>
+      <div class="card">
+        <div style="font-size:2.15vmin;font-weight:800;margin-bottom:1vmin;">以前做 10 個訪談快崩潰，現在能做到 200 個</div>
+        <div style="display:flex;align-items:center;justify-content:center;gap:1.8vmin;margin-top:.6vmin;">
+          <div style="text-align:center;"><div class="stat" style="font-size:3.8vmin;color:var(--muted);">5-10</div><div style="font-size:1.6vmin;color:var(--muted);margin-top:.3vmin;">傳統訪談</div></div>
+          <div style="font-size:3vmin;color:var(--teal);text-shadow:0 0 16px var(--teal-gl);">→</div>
+          <div style="text-align:center;"><div class="stat" style="font-size:4.6vmin;color:var(--teal);text-shadow:0 0 22px var(--teal-gl);">30-200</div><div style="font-size:1.6vmin;color:var(--body);margin-top:.3vmin;">AI 非同步主持</div></div>
+        </div>
+        <p style="font-size:1.65vmin;line-height:1.45;color:var(--muted);text-align:center;margin-top:.9vmin;">量化規模下，同時做 1:1 質化追問。</p>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <div class="band-label">2026 市場主流 · AI 研究平台定位</div>
+    <table class="tbl">
+      <thead><tr><th style="width:22%;">平台類別</th><th style="width:26%;">代表工具</th><th>核心價值</th></tr></thead>
+      <tbody>
+        <tr><td><span class="tag human" style="font-size:1.55vmin;">真實用戶 AI 主持</span></td><td class="tool">Perspective AI · Strella</td><td>深度追問，大規模獲取真實客戶心聲</td></tr>
+        <tr><td><span class="tag data" style="font-size:1.55vmin;">虛擬用戶模擬</span></td><td class="tool">Synthetic Users</td><td>數分鐘完成前期假設驗證，節約成本</td></tr>
+        <tr><td><span class="tag teal" style="font-size:1.55vmin;">AI 輔助人工主持</span></td><td class="tool">Notably · Marvin</td><td>加速逐字稿整理、主題編碼與亮點剪輯</td></tr>
+      </tbody>
+    </table>
+    <div style="text-align:right;font-size:1.5vmin;color:var(--muted);margin-top:1.2vmin;">曼陀號 Data × UIUX · 第二次社課 · 統計數據：User Interviews《State of User Research 2025》及業界報告與課程整理</div>
+  </div>
+</section>
+
+<!-- 3d AI TOOLS DEEP DIVE -->
+<section class="slide" style="padding:5vmin 8vmin;">
+  <div class="kicker data">AI × UX Research 工具生態</div>
+  <h2 style="font-size:var(--h4);margin-bottom:.6vmin;">AI 現在怎麼幫助研究員</h2>
+  <p style="font-size:2vmin;color:var(--body);margin-bottom:2.4vmin;">近年在 AI × 使用者研究領域的五個前沿應用，分別解決「虛擬測試」「規模化訪談」「資料整理」「團隊協作」「反饋聚焦」五大痛點。</p>
+
+  <!-- 5 tools in 2 rows -->
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.6vmin;margin-bottom:2.6vmin;">
+    <!-- Synthetic Users -->
+    <div class="card" style="border-top:3px solid var(--data);">
+      <div style="font-size:2vmin;font-weight:900;color:var(--data);margin-bottom:.4vmin;">🤖 Synthetic Users</div>
+      <div style="font-size:1.7vmin;line-height:1.55;color:var(--body);margin-bottom:1vmin;"><b style="color:var(--data);">AI 虛擬用戶生成器</b></div>
+      <p style="font-size:1.65vmin;line-height:1.5;color:var(--muted);">生成細緻 Persona 的虛擬使用者，在招募真人前快速做概念驗證、盲測 Value Prop。</p>
+      <div style="font-size:1.6vmin;color:var(--body);margin-top:1.2vmin;padding-top:1.2vmin;border-top:1px solid var(--bd);"><svg width="1.2em" height="1.2em" viewBox="0 0 20 20" fill="currentColor" style="display:inline-block;vertical-align:middle;margin-right:.3em;"><path d="M10 2c-.6 0-1 .4-1 1v2.6c0 .6.4 1 1 1s1-.4 1-1V3c0-.6-.4-1-1-1zm5.2 2.2c-.4-.4-1-.4-1.4 0-.4.4-.4 1 0 1.4l1.9 1.9c.4.4 1 .4 1.4 0 .4-.4.4-1 0-1.4l-1.9-1.9zm-10.4 0l-1.9 1.9c-.4.4-.4 1 0 1.4.4.4 1 .4 1.4 0l1.9-1.9c.4-.4.4-1 0-1.4-.4-.4-1-.4-1.4 0zM10 5c-2.8 0-5 2.2-5 5 0 2 1.1 3.8 2.8 4.7-.5.5-1.2 1.5-1.2 2.3 0 .5.4.9 1 .9.4 0 .7-.2.9-.5.4.1.8.1 1.3.1s.9 0 1.3-.1c.2.3.5.5.9.5.6 0 1-.4 1-1 0-.8-.7-1.8-1.2-2.3 1.7-.9 2.8-2.7 2.8-4.7 0-2.8-2.2-5-5-5z"/></svg>最快的前期沙盒</div>
+    </div>
+
+    <!-- Strella -->
+    <div class="card" style="border-top:3px solid var(--human);">
+      <div style="font-size:2vmin;font-weight:900;color:var(--human);margin-bottom:.4vmin;">🎙️ Strella</div>
+      <div style="font-size:1.7vmin;line-height:1.55;color:var(--body);margin-bottom:1vmin;"><b style="color:var(--human);">AI 訪談員平台</b></div>
+      <p style="font-size:1.65vmin;line-height:1.5;color:var(--muted);">AI 主持人自動執行深度訪談、產出結構化分析。一週同時訪問數十人，不再是單兵作戰。</p>
+      <div style="font-size:1.6vmin;color:var(--body);margin-top:1.2vmin;padding-top:1.2vmin;border-top:1px solid var(--bd);"><svg width="1.2em" height="1.2em" viewBox="0 0 20 20" fill="currentColor" style="display:inline-block;vertical-align:middle;margin-right:.3em;"><path d="M10 2c-.6 0-1 .4-1 1v2.6c0 .6.4 1 1 1s1-.4 1-1V3c0-.6-.4-1-1-1zm5.2 2.2c-.4-.4-1-.4-1.4 0-.4.4-.4 1 0 1.4l1.9 1.9c.4.4 1 .4 1.4 0 .4-.4.4-1 0-1.4l-1.9-1.9zm-10.4 0l-1.9 1.9c-.4.4-.4 1 0 1.4.4.4 1 .4 1.4 0l1.9-1.9c.4-.4.4-1 0-1.4-.4-.4-1-.4-1.4 0zM10 5c-2.8 0-5 2.2-5 5 0 2 1.1 3.8 2.8 4.7-.5.5-1.2 1.5-1.2 2.3 0 .5.4.9 1 .9.4 0 .7-.2.9-.5.4.1.8.1 1.3.1s.9 0 1.3-.1c.2.3.5.5.9.5.6 0 1-.4 1-1 0-.8-.7-1.8-1.2-2.3 1.7-.9 2.8-2.7 2.8-4.7 0-2.8-2.2-5-5-5z"/></svg>規模化的質性調查</div>
+    </div>
+
+    <!-- Perspective AI -->
+    <div class="card" style="border-top:3px solid #FF6B6B;">
+      <div style="font-size:2vmin;font-weight:900;color:#FF6B6B;margin-bottom:.4vmin;">👁️ Perspective AI</div>
+      <div style="font-size:1.7vmin;line-height:1.55;color:var(--body);margin-bottom:1vmin;"><b style="color:#FF6B6B;">反饋聚焦分析器</b></div>
+      <p style="font-size:1.65vmin;line-height:1.5;color:var(--muted);">從 App Store 評論、社群、客服 Ticket 中萃取結構化觀點與情緒脈絡。大規模反饋中找出真實使用者想法。</p>
+      <div style="font-size:1.6vmin;color:var(--body);margin-top:1.2vmin;padding-top:1.2vmin;border-top:1px solid var(--bd);"><svg width="1.2em" height="1.2em" viewBox="0 0 20 20" fill="currentColor" style="display:inline-block;vertical-align:middle;margin-right:.3em;"><path d="M10 2c-.6 0-1 .4-1 1v2.6c0 .6.4 1 1 1s1-.4 1-1V3c0-.6-.4-1-1-1zm5.2 2.2c-.4-.4-1-.4-1.4 0-.4.4-.4 1 0 1.4l1.9 1.9c.4.4 1 .4 1.4 0 .4-.4.4-1 0-1.4l-1.9-1.9zm-10.4 0l-1.9 1.9c-.4.4-.4 1 0 1.4.4.4 1 .4 1.4 0l1.9-1.9c.4-.4.4-1 0-1.4-.4-.4-1-.4-1.4 0zM10 5c-2.8 0-5 2.2-5 5 0 2 1.1 3.8 2.8 4.7-.5.5-1.2 1.5-1.2 2.3 0 .5.4.9 1 .9.4 0 .7-.2.9-.5.4.1.8.1 1.3.1s.9 0 1.3-.1c.2.3.5.5.9.5.6 0 1-.4 1-1 0-.8-.7-1.8-1.2-2.3 1.7-.9 2.8-2.7 2.8-4.7 0-2.8-2.2-5-5-5z"/></svg>高效的觀點過濾器</div>
+    </div>
+
+    <!-- Notably -->
+    <div class="card" style="border-top:3px solid var(--teal);">
+      <div style="font-size:2vmin;font-weight:900;color:var(--teal);margin-bottom:.4vmin;"><svg width="1.2em" height="1.2em" viewBox="0 0 20 20" fill="currentColor" style="display:inline-block;vertical-align:middle;margin-right:.3em;"><path d="M3 3h2v12H3V3zm4 2h2v10H7V5zm4-2h2v12h-2V3zm4 4h2v8h-2V7zM2 16h16v2H2z"/></svg>Notably</div>
+      <div style="font-size:1.7vmin;line-height:1.55;color:var(--body);margin-bottom:1vmin;"><b style="color:var(--teal);">質性資料庫 & 分析</b></div>
+      <p style="font-size:1.65vmin;line-height:1.5;color:var(--muted);">把訪談影片、逐字稿、客服紀錄扔進去。AI 自動編碼、歸納主題、聚類成產品洞察，變成決策素材。</p>
+      <div style="font-size:1.6vmin;color:var(--body);margin-top:1.2vmin;padding-top:1.2vmin;border-top:1px solid var(--bd);"><svg width="1.2em" height="1.2em" viewBox="0 0 20 20" fill="currentColor" style="display:inline-block;vertical-align:middle;margin-right:.3em;"><path d="M10 2c-.6 0-1 .4-1 1v2.6c0 .6.4 1 1 1s1-.4 1-1V3c0-.6-.4-1-1-1zm5.2 2.2c-.4-.4-1-.4-1.4 0-.4.4-.4 1 0 1.4l1.9 1.9c.4.4 1 .4 1.4 0 .4-.4.4-1 0-1.4l-1.9-1.9zm-10.4 0l-1.9 1.9c-.4.4-.4 1 0 1.4.4.4 1 .4 1.4 0l1.9-1.9c.4-.4.4-1 0-1.4-.4-.4-1-.4-1.4 0zM10 5c-2.8 0-5 2.2-5 5 0 2 1.1 3.8 2.8 4.7-.5.5-1.2 1.5-1.2 2.3 0 .5.4.9 1 .9.4 0 .7-.2.9-.5.4.1.8.1 1.3.1s.9 0 1.3-.1c.2.3.5.5.9.5.6 0 1-.4 1-1 0-.8-.7-1.8-1.2-2.3 1.7-.9 2.8-2.7 2.8-4.7 0-2.8-2.2-5-5-5z"/></svg>生資料到 Insight 的加速器</div>
+    </div>
+
+    <!-- Marvin -->
+    <div class="card" style="border-top:3px solid #9775FA;">
+      <div style="font-size:2vmin;font-weight:900;color:#9775FA;margin-bottom:.4vmin;">🎬 Marvin</div>
+      <div style="font-size:1.7vmin;line-height:1.55;color:var(--body);margin-bottom:1vmin;"><b style="color:#9775FA;">訪談知識庫 & 協作</b></div>
+      <p style="font-size:1.65vmin;line-height:1.5;color:var(--muted);">對接 Zoom/Teams 錄製、自動逐字、AI 剪輯使用者心聲短片。讓全公司都聽得到第一線真實聲音。</p>
+      <div style="font-size:1.6vmin;color:var(--body);margin-top:1.2vmin;padding-top:1.2vmin;border-top:1px solid var(--bd);"><svg width="1.2em" height="1.2em" viewBox="0 0 20 20" fill="currentColor" style="display:inline-block;vertical-align:middle;margin-right:.3em;"><path d="M10 2c-.6 0-1 .4-1 1v2.6c0 .6.4 1 1 1s1-.4 1-1V3c0-.6-.4-1-1-1zm5.2 2.2c-.4-.4-1-.4-1.4 0-.4.4-.4 1 0 1.4l1.9 1.9c.4.4 1 .4 1.4 0 .4-.4.4-1 0-1.4l-1.9-1.9zm-10.4 0l-1.9 1.9c-.4.4-.4 1 0 1.4.4.4 1 .4 1.4 0l1.9-1.9c.4-.4.4-1 0-1.4-.4-.4-1-.4-1.4 0zM10 5c-2.8 0-5 2.2-5 5 0 2 1.1 3.8 2.8 4.7-.5.5-1.2 1.5-1.2 2.3 0 .5.4.9 1 .9.4 0 .7-.2.9-.5.4.1.8.1 1.3.1s.9 0 1.3-.1c.2.3.5.5.9.5.6 0 1-.4 1-1 0-.8-.7-1.8-1.2-2.3 1.7-.9 2.8-2.7 2.8-4.7 0-2.8-2.2-5-5-5z"/></svg>企業級的使用者圖書館</div>
+    </div>
+  </div>
+
+  <!-- Decision guide -->
+  <div style="padding:2vmin 2.4vmin;background:rgba(45,212,191,.08);border-left:3px solid var(--teal);border-radius:8px;">
+    <div style="font-size:1.9vmin;font-weight:800;color:var(--teal);margin-bottom:1vmin;"><svg width="1.2em" height="1.2em" viewBox="0 0 20 20" fill="currentColor" style="display:inline-block;vertical-align:middle;margin-right:.3em;"><path d="M10 2c-.6 0-1 .4-1 1v2.6c0 .6.4 1 1 1s1-.4 1-1V3c0-.6-.4-1-1-1zm5.2 2.2c-.4-.4-1-.4-1.4 0-.4.4-.4 1 0 1.4l1.9 1.9c.4.4 1 .4 1.4 0 .4-.4.4-1 0-1.4l-1.9-1.9zm-10.4 0l-1.9 1.9c-.4.4-.4 1 0 1.4.4.4 1 .4 1.4 0l1.9-1.9c.4-.4.4-1 0-1.4-.4-.4-1-.4-1.4 0zM10 5c-2.8 0-5 2.2-5 5 0 2 1.1 3.8 2.8 4.7-.5.5-1.2 1.5-1.2 2.3 0 .5.4.9 1 .9.4 0 .7-.2.9-.5.4.1.8.1 1.3.1s.9 0 1.3-.1c.2.3.5.5.9.5.6 0 1-.4 1-1 0-.8-.7-1.8-1.2-2.3 1.7-.9 2.8-2.7 2.8-4.7 0-2.8-2.2-5-5-5z"/></svg>怎麼選？快速對照表</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.4vmin;font-size:1.7vmin;line-height:1.6;color:var(--body);">
+      <div>🎯 <b>還沒招到真人？</b> → Synthetic Users（快速盲測）</div>
+      <div>🎯 <b>要同時訪 50 人？</b> → Strella（規模化訪談）</div>
+      <div>🎯 <b>一堆資料不知怎麼歸納？</b> → Notably（自動編碼）</div>
+      <div>🎯 <b>想管理 100 部訪談影片？</b> → Marvin（知識庫）</div>
+      <div style="grid-column:1/3;">🎯 <b>日常評論雜亂無章？</b> → Perspective AI（反饋聚焦）</div>
+    </div>
+  </div>
+</section>
+
+<!-- 9d UX×BIZ MATRIX -->
+<section class="slide" style="padding:5vmin 8vmin;">
+  <div class="kicker">核心思維 · 進階框架</div>
+  <h2 style="font-size:var(--h4);margin-bottom:.8vmin;">研究不是「UX 歸 UX，商業歸商業」</h2>
+  <p style="font-size:1.9vmin;color:var(--body);margin-bottom:1.8vmin;">質化與量化也不是對立陣營——交織成一個 2×2 決策矩陣。</p>
+  <div style="display:grid;grid-template-columns:9vmin 1fr 1fr;grid-template-rows:auto 1fr 1fr;gap:1vmin;">
+    <div></div>
+    <div style="display:flex;align-items:flex-end;padding-bottom:.5vmin;"><span class="tag human" style="font-size:1.65vmin;">Qualitative 質化 · 探索「為什麼」</span></div>
+    <div style="display:flex;align-items:flex-end;padding-bottom:.5vmin;"><span class="tag data" style="font-size:1.65vmin;">Quantitative 量化 · 驗證「是什麼」</span></div>
+
+    <div style="display:flex;align-items:center;justify-content:center;writing-mode:vertical-rl;text-orientation:mixed;font-size:1.85vmin;font-weight:800;color:var(--ink);letter-spacing:.05em;">UX 體驗維度</div>
+    <div class="card" style="border-left:3px solid var(--human);padding:1.5vmin 1.9vmin;"><div style="font-size:1.85vmin;font-weight:800;margin-bottom:.5vmin;">探索心智模型與使用脈絡</div><p style="font-size:1.62vmin;line-height:1.5;color:var(--body);">訪談、情境訪查、日誌法、共創工作坊<br><span style="color:var(--muted);">產出：心智模型、痛點地圖、行為摩擦點</span></p></div>
+    <div class="card" style="border-left:3px solid var(--data);padding:1.5vmin 1.9vmin;"><div style="font-size:1.85vmin;font-weight:800;margin-bottom:.5vmin;">衡量體驗品質與操作表現</div><p style="font-size:1.62vmin;line-height:1.5;color:var(--body);">產品遙測、A/B 測試、SUS、UMUX-Lite<br><span style="color:var(--muted);">產出：任務完成率、操作時間、錯誤率</span></p></div>
+
+    <div style="display:flex;align-items:center;justify-content:center;writing-mode:vertical-rl;text-orientation:mixed;font-size:1.85vmin;font-weight:800;color:var(--ink);letter-spacing:.05em;">Business 商業維度</div>
+    <div class="card" style="border-left:3px solid var(--human);padding:1.5vmin 1.9vmin;"><div style="font-size:1.85vmin;font-weight:800;margin-bottom:.5vmin;">驗證市場契合度與策略可行性</div><p style="font-size:1.62vmin;line-height:1.5;color:var(--body);">利益關係人訪談、專家諮詢、Win/Loss 分析<br><span style="color:var(--muted);">產出：價值主張定位、市場痛點、商業壁壘</span></p></div>
+    <div class="card" style="border-left:3px solid var(--data);padding:1.5vmin 1.9vmin;"><div style="font-size:1.85vmin;font-weight:800;margin-bottom:.5vmin;">評估財務健康與市場規模</div><p style="font-size:1.62vmin;line-height:1.5;color:var(--body);">漏斗分析、市場規模估算（TAM/SAM/SOM）<br><span style="color:var(--muted);">產出：CAC、LTV、流失率、ARR/MRR</span></p></div>
+  </div>
+</section>
+
+<!-- 9i CASE SPOTIFY MATRIX -->
+<section class="slide" style="padding:5vmin 8vmin;">
+  <div class="kicker">案例一 · 訂閱與體驗驅動型</div>
+  <h2 style="font-size:var(--h4);margin-bottom:.6vmin;">Spotify：把矩陣套進真實產品</h2>
+  <p style="font-size:1.85vmin;color:var(--body);margin-bottom:1.6vmin;">商業模式建立在長期訂閱（LTV）上，流失是致命傷——核心是<b style="color:var(--ink);">建立習慣</b>與對推薦算法的<b style="color:var(--ink);">信任</b>。</p>
+  <div style="display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:1.2vmin;">
+    <div class="card" style="border-left:3px solid var(--human);">
+      <div class="tag human" style="margin-bottom:.6vmin;">UX × 質化</div>
+      <div style="font-size:1.85vmin;font-weight:800;margin-bottom:.5vmin;">情境與情緒脈絡</div>
+      <div style="font-size:1.62vmin;line-height:1.5;color:var(--body);"><b style="color:var(--ink);">日誌研究</b>——追蹤通勤／運動／專注／派對等場景下的聽歌習慣<br><b style="color:var(--ink);">心智模型訪談</b>——用戶怎麼定義「好音樂」？對 AI DJ 的驚喜／反感臨界點在哪？</div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--data);">
+      <div class="tag data" style="margin-bottom:.6vmin;">UX × 量化</div>
+      <div style="font-size:1.85vmin;font-weight:800;margin-bottom:.5vmin;">流暢度與黏著度指標</div>
+      <div style="font-size:1.62vmin;line-height:1.5;color:var(--body);"><b style="color:var(--ink);">Skip Rate</b>——30 秒前跳過的比例（高＝算法體驗差）<br><b style="color:var(--ink);">Time to First Play</b>／<b style="color:var(--ink);">DAU/MAU</b>——黏著度</div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--human);">
+      <div class="tag human" style="margin-bottom:.6vmin;">Business × 質化</div>
+      <div style="font-size:1.85vmin;font-weight:800;margin-bottom:.5vmin;">付費壁壘與續訂意願</div>
+      <div style="font-size:1.62vmin;line-height:1.5;color:var(--body);"><b style="color:var(--ink);">定價策略訪談</b>——漲價時不同用戶群（個人／家庭／學生）的心理帳戶與替代方案<br><b style="color:var(--ink);">非主動流失訪談</b>——信用卡過期、跨國旅行等原因，理解重啟訂閱的阻力</div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--data);">
+      <div class="tag data" style="margin-bottom:.6vmin;">Business × 量化</div>
+      <div style="font-size:1.85vmin;font-weight:800;margin-bottom:.5vmin;">健康度與單位經濟</div>
+      <div style="font-size:1.62vmin;line-height:1.5;color:var(--body);"><b style="color:var(--ink);">Premium Conversion Rate</b>／<b style="color:var(--ink);">Churn Rate</b><br><b style="color:var(--ink);">ARPU</b>——搭售（Podcast、Soundbooks）對客單價的拉動</div>
+    </div>
+  </div>
+</section>
+
+<!-- 9j CASE SPOTIFY BRIDGE -->
+<section class="slide" style="padding:5.6vmin 8vmin;display:grid;grid-template-columns:1fr 1.3fr;gap:2.2vmin;align-items:stretch;height:100%;overflow:hidden;">
+  <div style="display:flex;flex-direction:column;">
+    <div class="kicker human">核心橋梁</div>
+    <h2 style="font-size:var(--h4);margin-bottom:.6vmin;">推薦演算法的「信任與留存迴圈」</h2>
+    <p style="font-size:1.9vmin;color:var(--body);margin-bottom:1.7vmin;">UX 的優劣直接決定算法表現，進而影響商業留存。</p>
+    <div style="display:flex;flex-direction:column;gap:.8vmin;flex:1;overflow-y:auto;">
+      <div class="card" style="padding:1.35vmin 1.9vmin;display:flex;gap:1.2vmin;align-items:baseline;"><span class="tag human" style="flex-shrink:0;font-size:1.45vmin;">UX 質化</span><p style="font-size:1.72vmin;line-height:1.48;color:var(--body);">發現用戶在特定時間有特定情緒（週一早晨需要振奮、深夜需要療癒）</p></div>
+      <div class="card" style="padding:1.35vmin 1.9vmin;display:flex;gap:1.2vmin;align-items:baseline;"><span class="tag human" style="flex-shrink:0;font-size:1.45vmin;">UX 設計</span><p style="font-size:1.72vmin;line-height:1.48;color:var(--body);">針對情緒分類做優化，例如推出個性化的 Daylist 歌單</p></div>
+      <div class="card" style="padding:1.35vmin 1.9vmin;display:flex;gap:1.2vmin;align-items:baseline;"><span class="tag data" style="flex-shrink:0;font-size:1.45vmin;">UX 量化</span><p style="font-size:1.72vmin;line-height:1.48;color:var(--body);">該歌單 30 秒 Skip Rate 下降，Session Duration 提升</p></div>
+      <div class="card" style="padding:1.35vmin 1.9vmin;display:flex;gap:1.2vmin;align-items:baseline;border:1px solid rgba(245,182,87,.32);"><span class="tag human" style="flex-shrink:0;font-size:1.45vmin;">商業回報</span><p style="font-size:1.72vmin;line-height:1.48;color:var(--ink);">用戶對推薦產生依賴，產品「黏性」提高 → 續訂率提高（Churn Rate 下降）</p></div>
+    </div>
+    <p class="note human" style="margin-top:1.2vmin;flex-shrink:0;">在 Spotify，研究員像在經營一家高級俱樂部——用質化理解生活風格、用量化優化個人化氛圍，讓會員捨不得離開。</p>
+  </div>
+  <!-- 右側滿版圖片 -->
+  <div style="display:flex;align-items:stretch;justify-content:stretch;overflow:hidden;border-radius:16px;box-shadow:0 12px 40px rgba(245,182,87,.2);">
+    <img src="assets/s2/music-moods.jpg" alt="聽音樂不同心情" style="width:100%;height:100%;object-fit:cover;"/>
+  </div>
+</section>
+
+<!-- 9k CASE ECOMM MATRIX -->
+<section class="slide" style="padding:5vmin 8vmin;">
+  <div class="kicker">案例二 · 交易與漏斗驅動型</div>
+  <h2 style="font-size:var(--h4);margin-bottom:.6vmin;">電商：線性且高意圖的另一種邏輯</h2>
+  <p style="font-size:1.85vmin;color:var(--body);margin-bottom:1.6vmin;">用戶進站通常有明確目的——核心是<b style="color:var(--ink);">最短路徑</b>、<b style="color:var(--ink);">最低摩擦力</b>，說服完成結帳。</p>
+  <div style="display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:1.2vmin;">
+    <div class="card" style="border-left:3px solid var(--human);">
+      <div class="tag human" style="margin-bottom:.6vmin;">UX × 質化</div>
+      <div style="font-size:1.85vmin;font-weight:800;margin-bottom:.5vmin;">障礙與信賴感解構</div>
+      <div style="font-size:1.62vmin;line-height:1.5;color:var(--body);"><b style="color:var(--ink);">可用性測試</b>——觀察搜尋、篩選、比價、填寫收件資訊時的摩擦點<br><b style="color:var(--ink);">出聲思考法</b>——瀏覽商品頁時最看重什麼？評價、尺碼、還是運費？</div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--data);">
+      <div class="tag data" style="margin-bottom:.6vmin;">UX × 量化</div>
+      <div style="font-size:1.85vmin;font-weight:800;margin-bottom:.5vmin;">漏斗轉化與導航效率</div>
+      <div style="font-size:1.62vmin;line-height:1.5;color:var(--body);"><b style="color:var(--ink);">Cart Abandonment Rate</b>——加入購物車但未結帳的比例<br><b style="color:var(--ink);">Search→PDP CTR</b>／頁面加載速度與流失相關性</div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--human);">
+      <div class="tag human" style="margin-bottom:.6vmin;">Business × 質化</div>
+      <div style="font-size:1.85vmin;font-weight:800;margin-bottom:.5vmin;">購買決策與品牌定位</div>
+      <div style="font-size:1.62vmin;line-height:1.5;color:var(--body);"><b style="color:var(--ink);">行銷活動訪談</b>——用戶對限時折扣、免運門檻、BNPL 的真實感知與決策誘因<br><b style="color:var(--ink);">退貨原因深度訪談</b>——尺碼不合、實物與照片不符</div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--data);">
+      <div class="tag data" style="margin-bottom:.6vmin;">Business × 量化</div>
+      <div style="font-size:1.85vmin;font-weight:800;margin-bottom:.5vmin;">交易與營收效能</div>
+      <div style="font-size:1.62vmin;line-height:1.5;color:var(--body);"><b style="color:var(--ink);">Conversion Rate</b> ＝ 交易數 ÷ 總 Session 數 × 100<br><b style="color:var(--ink);">AOV</b>（客單價）／<b style="color:var(--ink);">CAC</b>／複購率</div>
+    </div>
+  </div>
+</section>
+
+<!-- 9l CASE ECOMM BRIDGE -->
+<section class="slide" style="padding:5.4vmin 8vmin;display:grid;grid-template-columns:1fr 1.3fr;gap:2.2vmin;align-items:stretch;height:100%;overflow:hidden;">
+  <div style="display:flex;flex-direction:column;">
+    <div class="kicker data">核心橋梁</div>
+    <h2 style="font-size:var(--h4);margin-bottom:.6vmin;">從「降低認知負荷」到「提升客單價」</h2>
+    <p style="font-size:1.85vmin;color:var(--body);margin-bottom:1.7vmin;">電商的 UX 改善能立竿見影反映在財報上。</p>
+    <div style="display:flex;flex-direction:column;gap:.8vmin;flex:1;overflow-y:auto;">
+      <!-- 痛點：加大 highlight -->
+      <div class="card" style="padding:1.8vmin 2.2vmin;display:flex;gap:1.2vmin;align-items:baseline;background:rgba(245,182,87,.16);border:2px solid rgba(245,182,87,.45);"><span class="tag human" style="flex-shrink:0;font-size:1.6vmin;font-weight:900;">痛點</span><p style="font-size:1.95vmin;line-height:1.55;color:var(--ink);font-weight:600;">質化發現：結帳時看到「還差 150 元才免運」，退出找商品湊免運，但太難找，最後放棄購買。</p></div>
+      <div class="card" style="padding:1.35vmin 1.9vmin;display:flex;gap:1.2vmin;align-items:baseline;"><span class="tag data" style="flex-shrink:0;font-size:1.45vmin;">數據驗證</span><p style="font-size:1.72vmin;line-height:1.48;color:var(--body);">量化交叉比對：購物車流失率在客單價 800-1000 元（免運門檻 1000 元）時達到高峰。</p></div>
+      <div class="card" style="padding:1.35vmin 1.9vmin;display:flex;gap:1.2vmin;align-items:baseline;"><span class="tag teal" style="flex-shrink:0;font-size:1.45vmin;">設計方案</span><p style="font-size:1.72vmin;line-height:1.48;color:var(--body);">購物車頁直接提供「智能加購推薦組合」，一鍵湊免運。</p></div>
+      <div class="card" style="padding:1.35vmin 1.9vmin;display:flex;gap:1.2vmin;align-items:baseline;border:1px solid rgba(45,212,191,.32);"><span class="tag teal" style="flex-shrink:0;font-size:1.45vmin;">商業回報</span><p style="font-size:1.72vmin;line-height:1.48;color:var(--ink);">結帳流失率下降，<b style="color:var(--teal);">AOV</b> 與整體 <b style="color:var(--teal);">CR</b> 同時提升。</p></div>
+    </div>
+    <p class="note data" style="margin-top:1.2vmin;flex-shrink:0;">在電商，研究員像在優化一條高速公路——掃平路障、給清晰指示牌，讓用戶最快抵達結帳終點。</p>
+  </div>
+  <!-- 右側滿版圖片 -->
+  <div style="display:flex;align-items:stretch;justify-content:stretch;overflow:hidden;border-radius:16px;box-shadow:0 12px 40px rgba(245,182,87,.2);">
+    <img src="assets/s2/ecommerce-freeshipping.jpg" alt="電商差150元免運示意圖" style="width:100%;height:100%;object-fit:cover;"/>
+  </div>
+</section>
+
+<!-- 9m CASE COMPARISON -->
+<section class="slide" style="padding:5.2vmin 8vmin;">
+  <div class="kicker">深度對比</div>
+  <h2 style="font-size:var(--h4);margin-bottom:2.8vmin;">Spotify vs. 電商，決策邏輯不同</h2>
+
+  <!-- Motion row: SVG top, labels bottom -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:2.4vmin;margin-bottom:2.8vmin;">
+    <!-- Spotify: 循環追逐環 -->
+    <div style="display:flex;flex-direction:column;align-items:center;gap:1.2vmin;">
+      <div style="width:100%;height:8.5vmin;display:flex;justify-content:center;align-items:center;">
+        <svg class="spinning-svg" viewBox="0 0 100 100" style="width:6.5vmin;height:6.5vmin;">
+          <circle cx="50" cy="50" r="35" class="cyclical-ring"/>
+        </svg>
+      </div>
+      <div style="text-align:center;width:100%;">
+        <div style="font-size:1.9vmin;font-weight:700;color:var(--data);">循環不斷</div>
+        <div style="font-size:1.6vmin;color:var(--muted);margin-top:.4vmin;">打開→聽歌→探索→續聽</div>
+      </div>
+    </div>
+    <!-- 電商: 線性漏斗流 -->
+    <div style="display:flex;flex-direction:column;align-items:center;gap:1.2vmin;">
+      <div style="width:100%;height:8.5vmin;display:flex;justify-content:center;align-items:center;">
+        <svg class="funnel-flow" viewBox="0 0 120 110" style="width:6.5vmin;height:auto;">
+          <path class="funnel-segment" d="M 20 15 L 100 15 L 70 45" stroke-dasharray="80"/>
+          <path class="funnel-segment" d="M 70 45 L 45 75" stroke-dasharray="80"/>
+          <path class="funnel-segment" d="M 45 75 L 45 105" stroke-dasharray="80"/>
+        </svg>
+      </div>
+      <div style="text-align:center;width:100%;">
+        <div style="font-size:1.9vmin;font-weight:700;color:var(--human);">線性流動</div>
+        <div style="font-size:1.6vmin;color:var(--muted);margin-top:.4vmin;">進站→搜尋→購物車→付款</div>
+      </div>
+    </div>
+  </div>
+
+  <table class="tbl">
+    <thead><tr><th style="width:20%;">特性</th><th style="width:38%;">Spotify（體驗驅動／訂閱制）</th><th>電商（交易驅動／零售型）</th></tr></thead>
+    <tbody>
+      <tr><td>使用者旅程</td><td>非線性、循環式（打開→聽歌→探索→續聽）</td><td>線性漏斗（進站→搜尋→購物車→付款）</td></tr>
+      <tr><td>核心 UX 難題</td><td>「選擇過載」——3 秒內決定聽什麼</td><td>「信任與摩擦」——放心交出信用卡</td></tr>
+      <tr><td>關鍵商業北極星</td><td>LTV 與留存率（Retention）</td><td>GMV 與轉換率（CR）</td></tr>
+      <tr><td>最痛的量化指標</td><td>Skip Rate（體驗不合心意）</td><td>Cart Abandonment Rate（臨門放棄）</td></tr>
+    </tbody>
+  </table>
+  <p class="note" style="margin-top:2vmin;">同一套矩陣，兩種完全不同的商業本質——研究策略要跟著模式走，不是套公式。</p>
+</section>
+
+<!-- 9e QUAL DEEP DIVE -->
+<section class="slide" style="padding:5.6vmin 8vmin;">
+  <div class="kicker human">質化研究 · 深度實踐</div>
+  <h2 style="font-size:var(--h4);margin-bottom:.8vmin;">質化的核心：發現未知，建立假說</h2>
+  <p style="font-size:1.95vmin;color:var(--body);margin-bottom:2vmin;">UX 與商業，各有一套「問為什麼」的方法。</p>
+  <div class="two-col">
+    <div class="card" style="border-top:3px solid var(--human);">
+      <div class="tag human" style="margin-bottom:1vmin;">UX 質化</div>
+      <div style="font-size:2.05vmin;font-weight:800;margin-bottom:1vmin;">探索心智模型與價值摩擦</div>
+      <div style="display:flex;flex-direction:column;gap:.9vmin;font-size:1.82vmin;line-height:1.5;color:var(--body);">
+        <div><b style="color:var(--ink);">脈絡訪查</b>——走入真實場景，抓實驗室測不到的認知過載</div>
+        <div><b style="color:var(--ink);">日誌研究</b>——追蹤 1-2 週的長週期互動，抓情緒轉折</div>
+      </div>
+      <p style="font-size:1.75vmin;line-height:1.5;color:var(--human);margin-top:1.2vmin;border-top:1px solid var(--bd);padding-top:1vmin;">關鍵不只是「好不好用」，是<b>價值摩擦</b>——使用者根本不認同這功能的核心價值嗎？</p>
+    </div>
+    <div class="card" style="border-top:3px solid var(--data);">
+      <div class="tag data" style="margin-bottom:1vmin;">Business 質化</div>
+      <div style="font-size:2.05vmin;font-weight:800;margin-bottom:1vmin;">解構市場動態與可行性</div>
+      <div style="display:flex;flex-direction:column;gap:.9vmin;font-size:1.82vmin;line-height:1.5;color:var(--body);">
+        <div><b style="color:var(--ink);">客戶顧問委員會 CAB</b>——頭部客戶閉門會議，看 2-3 年策略方向</div>
+        <div><b style="color:var(--ink);">Win/Loss 分析</b>——深訪簽約成功／流失客戶，抓真實價格敏感度</div>
+      </div>
+      <p style="font-size:1.75vmin;line-height:1.5;color:var(--data);margin-top:1.2vmin;border-top:1px solid var(--bd);padding-top:1vmin;">往往揭示<b>非技術性</b>的成交阻礙：合規風險、採購流程、內部政治。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 9f QUANT DEEP DIVE -->
+<section class="slide" style="padding:5.6vmin 8vmin;">
+  <div class="kicker data">量化研究 · 精準衡量</div>
+  <h2 style="font-size:var(--h4);margin-bottom:.8vmin;">量化的核心：驗證與規模化</h2>
+  <p style="font-size:1.95vmin;color:var(--body);margin-bottom:2vmin;">把質化發現的蛛絲馬跡，轉成有統計顯著性的決策依據。</p>
+  <div class="two-col">
+    <div class="card" style="border-top:3px solid var(--human);">
+      <div class="tag human" style="margin-bottom:1vmin;">UX 量化</div>
+      <div style="font-size:2.05vmin;font-weight:800;margin-bottom:1vmin;">產品行為與態度度量</div>
+      <div style="display:flex;flex-direction:column;gap:.9vmin;font-size:1.82vmin;line-height:1.5;color:var(--body);">
+        <div><b style="color:var(--ink);">任務完成率／操作時間</b>——行為指標的黃金標準</div>
+        <div><b style="color:var(--ink);">SUS／UMUX-Lite</b>——把主觀態度標準化，做版本前後對比</div>
+        <div><b style="color:var(--ink);">產品遙測／埋點</b>——關鍵節點的點擊、停留、跳出率</div>
+      </div>
+    </div>
+    <div class="card" style="border-top:3px solid var(--data);">
+      <div class="tag data" style="margin-bottom:1vmin;">Business 量化</div>
+      <div style="font-size:2.05vmin;font-weight:800;margin-bottom:1vmin;">財務漏斗與單位經濟</div>
+      <div style="display:flex;flex-direction:column;gap:.9vmin;font-size:1.82vmin;line-height:1.5;color:var(--body);">
+        <div><b style="color:var(--ink);">LTV／CAC</b>——健康標準通常需大於 3</div>
+        <div><b style="color:var(--ink);">流失率／NRR</b>——反映長期市場黏著度</div>
+        <div><b style="color:var(--ink);">漏斗轉換／Cohort 分析</b>——評估不同管道的長期價值</div>
+      </div>
+    </div>
+  </div>
+  <p class="note data">質化找方向，量化定規模——兩者缺一，決策都站不住。</p>
+</section>
+
+<!-- 9g BRIDGE MAP -->
+<section class="slide" style="padding:5vmin 7.5vmin;">
+  <div class="kicker">核心橋梁</div>
+  <h2 style="font-size:var(--h4);margin-bottom:.6vmin;">用商業聽得懂的語言，講 UX 的價值</h2>
+  <p style="font-size:1.88vmin;color:var(--body);margin-bottom:2vmin;">Goals → Signals → Metrics：把質化發現，翻譯成商業回報。實例：優化 Onboarding。</p>
+  <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:.9vmin;align-items:stretch;">
+    <div class="card" style="border-top:3px solid var(--human);padding:1.3vmin 1.5vmin;"><div class="tag human" style="font-size:1.45vmin;margin-bottom:.6vmin;">UX 質化發現</div><p style="font-size:1.6vmin;line-height:1.45;color:var(--body);">Dashboard 資訊過載，新用戶找不到「第一步」</p></div>
+    <div class="card" style="border-top:3px solid var(--human);padding:1.3vmin 1.5vmin;"><div class="tag human" style="font-size:1.45vmin;margin-bottom:.6vmin;">UX 量化信號</div><p style="font-size:1.6vmin;line-height:1.45;color:var(--body);">完成率僅 <b>35%</b>；首頁停留長但無點擊</p></div>
+    <div class="card" style="border-top:3px solid var(--data);padding:1.3vmin 1.5vmin;"><div class="tag data" style="font-size:1.45vmin;margin-bottom:.6vmin;">商業量化影響</div><p style="font-size:1.6vmin;line-height:1.45;color:var(--body);">首週流失 <b>60%</b>，CAC 居高不下</p></div>
+    <div class="card" style="border-top:3px solid var(--teal);padding:1.3vmin 1.5vmin;"><div class="tag teal" style="font-size:1.45vmin;margin-bottom:.6vmin;">設計行動</div><p style="font-size:1.6vmin;line-height:1.45;color:var(--body);">簡化流程，導入引導式進度條</p></div>
+    <div class="card" style="border-top:3px solid var(--teal);padding:1.3vmin 1.5vmin;box-shadow:0 0 0 1px var(--teal-gl);"><div class="tag teal" style="font-size:1.45vmin;margin-bottom:.6vmin;">商業回報</div><p style="font-size:1.6vmin;line-height:1.45;color:var(--body);">完成率<b style="color:var(--teal);">→70%</b>／留存<b style="color:var(--teal);">+15%</b></p></div>
+  </div>
+  <p class="note" style="margin-top:2vmin;">這樣，把「設計決策」跟「財務指標」綁在一起。</p>
+</section>
+
+<!-- 9h FAILURE DEMAND -->
+<section class="slide" style="align-items:center;text-align:center;justify-content:center;">
+  <div class="kicker" style="justify-content:center;">最具說服力的成本論證</div>
+  <h2 style="font-size:var(--h4);margin-bottom:2.6vmin;">減少「失效需求」Failure Demand</h2>
+  <div class="card" style="display:inline-block;padding:3vmin 4.4vmin;border:1.5px solid rgba(45,212,191,.32);">
+    <p style="font-size:2.5vmin;line-height:1.7;color:var(--ink);font-family:'Sora',sans-serif;font-weight:700;">
+      省下的客服成本 ＝ <span style="color:var(--human);">減少的客服進件量</span> × <span style="color:var(--data);">單通客服平均處理成本</span>
+    </p>
+  </div>
+  <p style="font-size:2.2vmin;color:var(--body);margin-top:3.2vmin;max-width:52ch;line-height:1.8;">設計不良讓使用者因操作出錯、理解障礙而聯繫客服——這筆帳，比「提升滿意度」更能說服高階決策者。</p>
+</section>
+
+<!-- 10x EXEC BRIEF: 質化+量化並進 -->
+<section class="slide" style="padding:5.2vmin 8vmin;">
+  <div class="kicker data">向老闆說話</div>
+  <h2 style="font-size:var(--h4);margin-bottom:2.2vmin;">說服老闆的終極武器：質化 × 量化並進</h2>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.8vmin;margin-bottom:2.6vmin;">
+    <div class="card" style="border-left:3px solid var(--data);">
+      <div class="tag data" style="margin-bottom:.8vmin;">只講量化</div>
+      <div style="font-size:2vmin;font-weight:800;color:var(--data);margin-bottom:.6vmin;">老闆聽到</div>
+      <p style="font-size:1.85vmin;line-height:1.55;color:var(--body);">「流失率高」「Skip Rate 升高」「轉換率下降」</p>
+      <div style="font-size:2vmin;font-weight:800;color:var(--human);margin-top:1.4vmin;margin-bottom:.4vmin;">老闆追問</div>
+      <p style="font-size:1.85vmin;line-height:1.55;color:var(--body);">「我知道發生什麼，但你要怎麼改？」</p>
+    </div>
+    <div class="card" style="border-left:3px solid var(--human);">
+      <div class="tag human" style="margin-bottom:.8vmin;">只講質化</div>
+      <div style="font-size:2vmin;font-weight:800;color:var(--human);margin-bottom:.6vmin;">老闆聽到</div>
+      <p style="font-size:1.85vmin;line-height:1.55;color:var(--body);">「用戶說很挫折」「卡在付款流程」「擔心詐騙」</p>
+      <div style="font-size:2vmin;font-weight:800;color:var(--data);margin-top:1.4vmin;margin-bottom:.4vmin;">老闆追問</div>
+      <p style="font-size:1.85vmin;line-height:1.55;color:var(--body);">「這是少數人特例嗎？影響有多大？」</p>
+    </div>
+    <div class="card glow" style="border-left:3px solid var(--teal);">
+      <div class="tag teal" style="margin-bottom:.8vmin;">質化 + 量化</div>
+      <div style="font-size:2vmin;font-weight:800;color:var(--teal);margin-bottom:.6vmin;">老闆聽到</div>
+      <p style="font-size:1.85vmin;line-height:1.55;color:var(--body);">「65% 的購物車流失都卡在付款；為什麼？問卷＋訪談發現信任痛點。改版後流失率下降 15%」</p>
+      <div style="font-size:2vmin;font-weight:800;color:var(--teal);margin-top:1.4vmin;margin-bottom:.4vmin;">老闆決策</div>
+      <p style="font-size:1.85vmin;line-height:1.55;color:var(--ink);">✓ 批准投入做</p>
+    </div>
+  </div>
+  <div class="card" style="padding:2vmin;background:rgba(45,212,191,.08);border:1px solid rgba(45,212,191,.24);">
+    <p style="font-size:2.1vmin;line-height:1.65;color:var(--ink);"><b style="color:var(--teal);">核心洞察：</b>三角測量（Triangulation）——從三個角度逼近真相。量化告訴你「規模」，質化告訴你「根因」，合起來才是可投資的決策。</p>
+  </div>
+  <p class="note" style="margin-top:2vmin;">單純量化的風險：看到了效果，卻不知道原因（可能改錯地方）。單純質化的風險：有故事，但影響範圍不明（可能只是個案）。質化＋量化則是：既有規模證據，又有具體解法。</p>
+</section>
+
+</div>
+
+<div class="progress" id="progress"></div>
+<div class="counter"><b id="cur">01</b> / <span id="total">26</span></div>
+<div class="hint" id="hint">← → 切換 · F 全螢幕</div>
+
+<script src="https://www.youtube.com/iframe_api"></script>
+<script>
+const slides=Array.from(document.querySelectorAll('.slide'));
+const total=slides.length;
+let idx=0;
+const curEl=document.getElementById('cur');
+const progEl=document.getElementById('progress');
+const hintEl=document.getElementById('hint');
+document.getElementById('total').textContent=String(total).padStart(2,'0');
+
+let ytPlayer=null,ytReady=false;
+function ytSyncToSlide(){
+  if(!ytReady||!ytPlayer)return;
+  if(slides[idx].id==='spotify-video-slide'){
+    ytPlayer.unMute();
+    ytPlayer.playVideo();
+  }else{
+    ytPlayer.pauseVideo();
+  }
+}
+function onYouTubeIframeAPIReady(){
+  ytPlayer=new YT.Player('spotify-yt-player',{
+    videoId:'c2DE-yu_Hjo',
+    playerVars:{autoplay:0,mute:1,modestbranding:1,rel:0,playsinline:1},
+    events:{onReady:()=>{ytReady=true;ytSyncToSlide();}}
+  });
+}
+
+function show(n){
+  idx=Math.max(0,Math.min(total-1,n));
+  slides.forEach((s,i)=>s.classList.toggle('active',i===idx));
+  curEl.textContent=String(idx+1).padStart(2,'0');
+  progEl.style.width=((idx+1)/total*100)+'%';
+  hintEl.style.display=idx>0?'none':'';
+  ytSyncToSlide();
+}
+document.addEventListener('keydown',e=>{
+  if(['INPUT','TEXTAREA','SELECT'].includes(e.target.tagName))return;
+  if(document.querySelector('.tactic-modal.active,.risk-modal.active'))return;
+  switch(e.key){
+    case 'ArrowRight':case 'ArrowDown':case ' ':case 'PageDown':e.preventDefault();show(idx+1);break;
+    case 'ArrowLeft':case 'ArrowUp':case 'PageUp':e.preventDefault();show(idx-1);break;
+    case 'Home':show(0);break;case 'End':show(total-1);break;
+    case 'f':case 'F':document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();break;
+  }
+});
+document.getElementById('deck').addEventListener('click',e=>{
+  if(e.target.closest('button,select,input,textarea,[onclick]'))return;
+  e.clientX>window.innerWidth/2?show(idx+1):show(idx-1);
+});
+show(0);
+</script>
+</body>
+</html>

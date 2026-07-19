@@ -1222,7 +1222,8 @@ function methodLandscapeReveal(e){
   <style>
   @keyframes hdd-card-flip { from{transform:perspective(1200px) rotateY(45deg) rotateX(10deg) translateZ(-40px) scale(.85);opacity:0;} to{transform:perspective(1200px) rotateY(0) rotateX(0) translateZ(0) scale(1);opacity:1;} }
   @keyframes hdd-formula-pop { from{opacity:0;transform:translateY(8px) scale(.92);} to{opacity:1;transform:translateY(0) scale(1);} }
-  @keyframes hdd-glow-pulse { 0%,100%{box-shadow:0 0 8px rgba(56,189,248,.3),0 0 24px rgba(56,189,248,.15),0 0 60px rgba(0,0,0,.8);} 50%{box-shadow:0 0 12px rgba(56,189,248,.5),0 0 32px rgba(56,189,248,.25),0 0 80px rgba(56,189,248,.1),0 25px 80px rgba(0,0,0,.9);} }
+  @keyframes hdd-content-fade-out { from{opacity:1;transform:translateY(0);} to{opacity:0;transform:translateY(-6px);} }
+  @keyframes hdd-content-fade-in { from{opacity:0;transform:translateY(6px);} to{opacity:1;transform:translateY(0);} }
   .hdd-card { opacity:0;transform:perspective(1200px) rotateY(45deg) rotateX(10deg) translateZ(-40px) scale(.85);pointer-events:none;transition:none; }
   .hdd-stage.active .hdd-card { animation:hdd-card-flip .9s cubic-bezier(.34,1.56,.64,1) both;box-shadow:0 0 8px rgba(56,189,248,.3),0 0 24px rgba(56,189,248,.15),0 0 60px rgba(0,0,0,.8); }
   .hdd-formula-line { opacity:0;transform:translateY(8px) scale(.92); }
@@ -1231,6 +1232,10 @@ function methodLandscapeReveal(e){
   .hdd-stage.active .hdd-formula-line:nth-of-type(2) { animation-delay:.45s; }
   .hdd-stage.active .hdd-formula-line:nth-of-type(3) { animation-delay:.6s; }
   .hdd-stage.active .hdd-formula-line:nth-of-type(4) { animation-delay:.75s; }
+  .hdd-template-content { transition:opacity .4s ease,transform .4s ease; }
+  .hdd-stage.show-example .hdd-template-content { opacity:0;transform:translateY(-6px);pointer-events:none; }
+  .hdd-example-content { opacity:0;position:absolute;inset:4.2vmin;display:flex;flex-direction:column;gap:1.4vmin;pointer-events:none;transition:opacity .4s ease .2s,transform .4s ease .2s;transform:translateY(6px); }
+  .hdd-stage.show-example .hdd-example-content { opacity:1;pointer-events:auto;transform:translateY(0); }
   </style>
 
   <!-- 左欄：Context & Theory -->
@@ -1245,24 +1250,56 @@ function methodLandscapeReveal(e){
     <div style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 40%,rgba(56,189,248,.12),transparent 70%);pointer-events:none;opacity:0;transition:opacity .8s ease .3s;" class="hdd-glow-bg"></div>
     <div class="hdd-card" style="width:100%;max-width:560px;background:linear-gradient(135deg,rgba(13,24,41,.7) 0%,rgba(13,24,41,.5) 100%);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:20px;padding:4.2vmin;border:1.5px solid transparent;background-clip:padding-box;position:relative;box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 0 20px -8px rgba(56,189,248,.4),0 0 40px -12px rgba(56,189,248,.2),0 30px 80px -20px rgba(0,0,0,.8);">
       <div style="position:absolute;inset:0;border-radius:20px;background:linear-gradient(135deg,rgba(56,189,248,.3) 0%,rgba(56,189,248,.1) 40%,transparent 100%);pointer-events:none;opacity:.6;"></div>
-      <div class="hdd-formula-line" style="font-size:2.8vmin;font-weight:900;color:#fff;line-height:1.75;margin-bottom:1.4vmin;letter-spacing:-.02em;position:relative;z-index:1;">
-        <span style="color:var(--human);">UX 領軍</span> We believe that<br><span style="color:#38BDF8;text-shadow:0 0 14px rgba(56,189,248,.7);">【體驗方案】</span>
+
+      <!-- Template Content -->
+      <div class="hdd-template-content" style="position:relative;z-index:2;">
+        <div class="hdd-formula-line" style="font-size:2.8vmin;font-weight:900;color:#fff;line-height:1.75;margin-bottom:1.4vmin;letter-spacing:-.02em;">
+          <span style="color:var(--human);">UX 領軍</span> We believe that<br><span style="color:#38BDF8;text-shadow:0 0 14px rgba(56,189,248,.7);">【體驗方案】</span>
+        </div>
+        <div class="hdd-formula-line" style="font-size:2.8vmin;font-weight:900;color:#fff;line-height:1.75;margin-bottom:1.4vmin;letter-spacing:-.02em;">
+          <span style="color:var(--human);">UX 領軍</span> For<br><span style="color:#38BDF8;text-shadow:0 0 14px rgba(56,189,248,.7);">【特定用戶／情境】</span>
+        </div>
+        <div class="hdd-formula-line" style="font-size:2.8vmin;font-weight:900;color:#fff;line-height:1.75;margin-bottom:1.4vmin;letter-spacing:-.02em;">
+          <span style="color:var(--teal);">雙方共創</span> Will result in<br><span style="color:var(--teal);text-shadow:0 0 14px rgba(45,212,191,.7);">【行為改變】</span>
+        </div>
+        <div class="hdd-formula-line" style="font-size:2.8vmin;font-weight:900;color:#fff;line-height:1.75;letter-spacing:-.02em;">
+          <span style="color:var(--data);">Data 領軍</span> We will know we are<br>successful when we see<br><span style="color:#38BDF8;text-shadow:0 0 14px rgba(56,189,248,.7);">【數據指標】</span>
+        </div>
       </div>
-      <div class="hdd-formula-line" style="font-size:2.8vmin;font-weight:900;color:#fff;line-height:1.75;margin-bottom:1.4vmin;letter-spacing:-.02em;position:relative;z-index:1;">
-        <span style="color:var(--human);">UX 領軍</span> For<br><span style="color:#38BDF8;text-shadow:0 0 14px rgba(56,189,248,.7);">【特定用戶／情境】</span>
-      </div>
-      <div class="hdd-formula-line" style="font-size:2.8vmin;font-weight:900;color:#fff;line-height:1.75;margin-bottom:1.4vmin;letter-spacing:-.02em;position:relative;z-index:1;">
-        <span style="color:var(--teal);">雙方共創</span> Will result in<br><span style="color:var(--teal);text-shadow:0 0 14px rgba(45,212,191,.7);">【行為改變】</span>
-      </div>
-      <div class="hdd-formula-line" style="font-size:2.8vmin;font-weight:900;color:#fff;line-height:1.75;letter-spacing:-.02em;position:relative;z-index:1;">
-        <span style="color:var(--data);">Data 領軍</span> We will know we are<br>successful when we see<br><span style="color:#38BDF8;text-shadow:0 0 14px rgba(56,189,248,.7);">【數據指標】</span>
+
+      <!-- Example Content -->
+      <div class="hdd-example-content">
+        <div style="font-size:2.4vmin;font-weight:900;color:#fff;line-height:1.7;margin-bottom:.8vmin;">
+          <span style="color:var(--human);">UX 領軍：</span> We believe that<br><span style="color:#38BDF8;text-shadow:0 0 12px rgba(56,189,248,.6);">取消藍牙連線時的自動播放，改為畫面彈出「接續昨晚播放」的智慧大按鈕</span>
+        </div>
+        <div style="font-size:2.4vmin;font-weight:900;color:#fff;line-height:1.7;margin-bottom:.8vmin;">
+          <span style="color:var(--human);">UX 領軍：</span> For<br><span style="color:#38BDF8;text-shadow:0 0 12px rgba(56,189,248,.6);">早上通勤時段，透過車載藍牙啟動 App 且正在開車的用戶</span>
+        </div>
+        <div style="font-size:2.4vmin;font-weight:900;color:#fff;line-height:1.7;margin-bottom:.8vmin;">
+          <span style="color:var(--teal);">雙方共創：</span> Will result in<br><span style="color:var(--teal);text-shadow:0 0 12px rgba(45,212,191,.6);">減少一上車被音樂突襲的驚嚇感，降低開車時急著切歌的分心摩擦</span>
+        </div>
+        <div style="font-size:2.2vmin;font-weight:900;color:#fff;line-height:1.65;">
+          <span style="color:var(--data);">Data 領軍：</span> We will know when we see<br><span style="color:#38BDF8;text-shadow:0 0 12px rgba(56,189,248,.6);">ms_played &lt; 2000ms 的切歌異常比例<b> ↓35%</b></span>
+        </div>
       </div>
     </div>
   </div>
 
   <script>
-  let s = document.getElementById('hdd-stage');
-  if (s) { s.parentElement.addEventListener('click', () => { s.classList.add('active'); document.querySelector('.hdd-glow-bg').style.opacity='1'; }, { once: true }); }
+  let hddStep = 0;
+  let hddStage = document.getElementById('hdd-stage');
+  if (hddStage) {
+    hddStage.parentElement.addEventListener('click', () => {
+      if (hddStep === 0) {
+        hddStep = 1;
+        hddStage.classList.add('active');
+        document.querySelector('.hdd-glow-bg').style.opacity = '1';
+      } else if (hddStep === 1) {
+        hddStep = 2;
+        hddStage.classList.add('show-example');
+      }
+    });
+  }
   </script>
 </section>
 

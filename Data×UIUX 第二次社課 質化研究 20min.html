@@ -1032,36 +1032,98 @@ function methodLandscapeReveal(e){
   <h2 style="font-size:var(--h4);margin-bottom:.6vmin;">信號到行動路徑 Signal-to-Action Pathway</h2>
   <p style="font-size:1.85vmin;color:var(--body);margin-bottom:1.8vmin;">會議室裡最常卡住的地方：Data 覺得「沒數據支持的瞎猜」，UX 覺得「不然要怎麼問」——這是資深團隊可以直接套用的三步路徑。</p>
 
-  <div style="display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:2vmin;align-items:start;">
-    <div>
-      <div style="display:flex;align-items:center;gap:.8vmin;margin-bottom:1vmin;">
-        <svg width="1.9vmin" height="1.9vmin" viewBox="0 0 20 20" fill="none" stroke="var(--data)" stroke-width="1.6"><circle cx="8.5" cy="8.5" r="6"/><path d="M17 17l-4-4"/></svg>
-        <span style="font-size:1.85vmin;font-weight:800;color:var(--data);">01 · 異常信號定位</span>
+  <style>
+  .pathway-card { background:rgba(255,255,255,.045); border:1px solid rgba(255,255,255,.1); border-radius:16px; padding:2.2vmin; margin-bottom:2.6vmin; position:relative; }
+  .pathway-header { display:flex; align-items:center; gap:1vmin; margin-bottom:1.8vmin; }
+  .pathway-header svg { flex-shrink:0; }
+  .pathway-header span { font-size:1.95vmin; font-weight:800; }
+  .pathway-roles { display:grid; grid-template-columns:1fr 1fr; gap:1.8vmin; margin-bottom:1.6vmin; }
+  .pathway-role { padding:1.4vmin; border-radius:8px; }
+  .pathway-role.data { background:rgba(56,189,248,.06); border-left:3px solid #38BDF8; }
+  .pathway-role.human { background:rgba(245,182,87,.06); border-left:3px solid #F5B657; }
+  .pathway-role-tag { display:inline-block; font-size:1.55vmin; font-weight:800; margin-bottom:.6vmin; padding:.3vmin .8vmin; border-radius:4px; }
+  .pathway-role.data .pathway-role-tag { background:rgba(56,189,248,.15); color:#38BDF8; }
+  .pathway-role.human .pathway-role-tag { background:rgba(245,182,87,.15); color:#F5B657; }
+  .pathway-role p { font-size:1.65vmin; line-height:1.55; color:var(--body); margin:0; }
+  .pathway-summary { font-size:1.6vmin; line-height:1.55; color:var(--body); padding-top:.8vmin; border-top:1px solid rgba(255,255,255,.08); }
+  .pathway-arrow { display:flex; align-items:center; justify-content:center; height:6vmin; margin:0 1vmin; position:relative; }
+  .pathway-arrow svg { width:2.4vmin; height:2.4vmin; }
+  </style>
+
+  <div style="display:grid; grid-template-columns:1fr auto 1fr auto 1fr; gap:0; align-items:stretch; position:relative;">
+
+    <!-- Step 01 -->
+    <div class="pathway-card">
+      <div class="pathway-header">
+        <svg width="2vmin" height="2vmin" viewBox="0 0 20 20" fill="none" stroke="var(--data)" stroke-width="1.6"><circle cx="8.5" cy="8.5" r="6"/><path d="M17 17l-4-4"/></svg>
+        <span style="color:var(--data);">01 · 異常信號定位</span>
       </div>
-      <div style="font-size:1.65vmin;line-height:1.55;color:var(--body);margin-bottom:.7vmin;"><b style="color:var(--data);">Data 起手式：</b>拋出「量化斷崖點」（如 Spotify 1 秒秒切率異常）。</div>
-      <div style="font-size:1.65vmin;line-height:1.55;color:var(--body);margin-bottom:1vmin;"><b style="color:var(--human);">UX 交叉詰問：</b>追問「時空物理脈絡」——什麼裝置？什麼時段？藍牙連動狀態？</div>
-      <p style="font-size:1.5vmin;line-height:1.5;color:var(--muted);margin:0;">Data 負責畫出問題的邊界，UX 負責還原現場的物理維度。</p>
-    </div>
-    <div style="display:flex;align-items:center;justify-content:center;font-size:2.4vmin;color:var(--muted);padding-top:2vmin;">→</div>
-    <div>
-      <div style="display:flex;align-items:center;gap:.8vmin;margin-bottom:1vmin;">
-        <svg width="1.9vmin" height="1.9vmin" viewBox="0 0 20 20" fill="none" stroke="var(--teal)" stroke-width="1.6"><circle cx="10" cy="10" r="7"/><path d="M10 6v4l3 2"/></svg>
-        <span style="font-size:1.85vmin;font-weight:800;color:var(--teal);">02 · 共同假說合成</span>
+      <div class="pathway-roles">
+        <div class="pathway-role data">
+          <div class="pathway-role-tag">Data 起手式</div>
+          <p>拋出「量化斷崖點」（如 Spotify 1 秒秒切率異常）。</p>
+        </div>
+        <div class="pathway-role human">
+          <div class="pathway-role-tag">UX 交叉詰問</div>
+          <p>追問「時空物理脈絡」——什麼裝置？什麼時段？藍牙連動狀態？</p>
+        </div>
       </div>
-      <p style="font-size:1.65vmin;line-height:1.55;color:var(--body);margin-bottom:1vmin;">拒絕 Data 的「純數字模型」與 UX 的「純感性故事」——導入 <b style="color:var(--teal);">HDD</b> 作為跨語言的通用語意層，逼雙方在開發前對「成功指標」達成共識。</p>
-      <p style="font-size:1.5vmin;line-height:1.5;color:var(--muted);margin:0;">用同一個假說公式，把數據指標與人因行為強行綁定。</p>
+      <div class="pathway-summary">Data 負責畫出問題的邊界，UX 負責還原現場的物理維度。</div>
     </div>
-    <div style="display:flex;align-items:center;justify-content:center;font-size:2.4vmin;color:var(--muted);padding-top:2vmin;">→</div>
-    <div>
-      <div style="display:flex;align-items:center;gap:.8vmin;margin-bottom:1vmin;">
-        <svg width="1.9vmin" height="1.9vmin" viewBox="0 0 20 20" fill="none" stroke="var(--human)" stroke-width="1.6"><path d="M4 16l5-11 3 6 4-9"/><circle cx="16" cy="2" r="1.5" fill="var(--human)" stroke="none"/></svg>
-        <span style="font-size:1.85vmin;font-weight:800;color:var(--human);">03 · 雙軌並行驗證</span>
+
+    <!-- Chevron Arrow 01→02 -->
+    <div class="pathway-arrow">
+      <svg viewBox="0 0 24 24" fill="none" stroke="url(#arrowGrad1)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <defs><linearGradient id="arrowGrad1" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#2DD4BF;stop-opacity:1" /><stop offset="100%" style="stop-color:#4ADE80;stop-opacity:1" /></linearGradient></defs>
+        <polyline points="9 18 15 12 9 6"></polyline>
+      </svg>
+    </div>
+
+    <!-- Step 02 -->
+    <div class="pathway-card">
+      <div class="pathway-header">
+        <svg width="2vmin" height="2vmin" viewBox="0 0 20 20" fill="none" stroke="var(--teal)" stroke-width="1.6"><circle cx="10" cy="10" r="7"/><path d="M10 6v4l3 2"/></svg>
+        <span style="color:var(--teal);">02 · 共同假說合成</span>
       </div>
-      <div style="font-size:1.65vmin;line-height:1.55;color:var(--body);margin-bottom:.7vmin;"><b style="color:var(--human);">UX 接軌：</b>拿假說做「過去經驗還原訪談」，挖掘行為背後的情境與動機（Why）。</div>
-      <div style="font-size:1.65vmin;line-height:1.55;color:var(--body);margin:0;"><b style="color:var(--data);">Data 接軌：</b>拿同一份假說定義特徵（Feature Engineering），用 A/B 或歷史數據驗證是否規模化。</div>
+      <div style="padding:1.4vmin; background:rgba(45,212,191,.06); border-left:3px solid var(--teal); border-radius:8px; margin-bottom:1.6vmin;">
+        <p style="font-size:1.65vmin; line-height:1.55; color:var(--body); margin:0;">拒絕 Data 的「純數字模型」與 UX 的「純感性故事」——導入 <b style="color:var(--teal);">HDD</b> 作為跨語言的通用語意層，逼雙方在開發前對「成功指標」達成共識。</p>
+      </div>
+      <div class="pathway-summary">用同一個假說公式，把數據指標與人因行為強行綁定。</div>
     </div>
+
+    <!-- Chevron Arrow 02→03 -->
+    <div class="pathway-arrow">
+      <svg viewBox="0 0 24 24" fill="none" stroke="url(#arrowGrad2)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <defs><linearGradient id="arrowGrad2" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#4ADE80;stop-opacity:1" /><stop offset="100%" style="stop-color:#F5B657;stop-opacity:1" /></linearGradient></defs>
+        <polyline points="9 18 15 12 9 6"></polyline>
+      </svg>
+    </div>
+
+    <!-- Step 03 -->
+    <div class="pathway-card">
+      <div class="pathway-header">
+        <svg width="2vmin" height="2vmin" viewBox="0 0 20 20" fill="none" stroke="var(--human)" stroke-width="1.6"><path d="M4 16l5-11 3 6 4-9"/><circle cx="16" cy="2" r="1.5" fill="var(--human)" stroke="none"/></svg>
+        <span style="color:var(--human);">03 · 雙軌並行驗證</span>
+      </div>
+      <div class="pathway-roles">
+        <div class="pathway-role human">
+          <div class="pathway-role-tag">UX 接軌</div>
+          <p>拿假說做「過去經驗還原訪談」，挖掘行為背後的情境與動機（Why）。</p>
+        </div>
+        <div class="pathway-role data">
+          <div class="pathway-role-tag">Data 接軌</div>
+          <p>拿同一份假說定義特徵（Feature Engineering），用 A/B 或歷史數據驗證是否規模化。</p>
+        </div>
+      </div>
+      <div class="pathway-summary">同一份假說，雙方各領一半——Data 定義指標，UX 定義體驗。</div>
+    </div>
+
   </div>
-  <p class="note data" style="margin-top:2.2vmin;">數據指出「哪裡值得問」，訪談補上「為什麼」——兩邊帶著同一個假說出發，終點才會在同一個地方。</p>
+
+  <!-- Bottom Anchor: 金句 + 滿版分隔 -->
+  <div style="margin-top:3.2vmin; padding-top:2.4vmin; border-top:2px solid transparent; border-image:linear-gradient(90deg,transparent,rgba(74,222,128,.5) 20%,rgba(74,222,128,.5) 80%,transparent) 0 0 1 0; background:linear-gradient(180deg,transparent,rgba(74,222,128,.04)); padding-bottom:2.2vmin; padding-left:0; padding-right:0; margin-left:-9vmin; margin-right:-11vmin; padding-left:9vmin; padding-right:11vmin;">
+    <p style="font-size:2.05vmin; font-weight:700; line-height:1.7; color:var(--body); margin:0;"><span style="color:var(--data);">數據</span>指出「哪裡值得問」，<span style="color:var(--human);">訪談</span>補上「為什麼」——<span style="color:var(--teal); font-weight:800;">兩邊帶著同一個假說出發，終點才會在同一個地方</span>。</p>
+  </div>
 </section>
 
 <!-- 7x HDD FRAMEWORK -->

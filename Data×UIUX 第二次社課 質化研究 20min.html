@@ -1314,19 +1314,37 @@ function hddCardReveal(e) {
 </script>
 
 <!-- 7y HDD VALIDATION & ROLLOUT -->
-<section class="slide" style="padding:5.4vmin 9vmin;">
+<section class="slide" style="padding:5.4vmin 9vmin;display:flex;flex-direction:column;">
   <div class="kicker data">業界框架 · Hypothesis-Driven Development</div>
-  <h2 style="font-size:var(--h4);margin-bottom:2.4vmin;">假說有了，接下來誰做什麼？</h2>
+  <h2 style="font-size:var(--h4);margin-bottom:3.2vmin;">假說有了，接下來誰做什麼？</h2>
 
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:3vmin;font-size:1.95vmin;line-height:1.65;color:var(--body);margin-bottom:3vmin;">
-    <div><b style="color:var(--human);">UX 的任務 → 訪談驗證「We believe / For」</b><br><span style="color:var(--muted);">「能描述上一次你遇到這個情況時，是怎麼處理的嗎？」猜得對不對，問了才知道。</span></div>
-    <div><b style="color:var(--data);">Data 的任務 → 埋點／A-B 驗證「Will result in / When we see」</b><br><span style="color:var(--muted);">回後台拉數據或設計實驗，看行為改變是否真的照假說發生。</span></div>
+  <!-- UX ↔ Data 強對稱雙欄網格 -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:4.2vmin;margin-bottom:4.8vmin;flex:1;">
+    <!-- 左欄：UX 的任務 -->
+    <div style="display:flex;flex-direction:column;gap:1.2vmin;">
+      <div style="font-size:2.1vmin;font-weight:800;color:var(--human);line-height:1.5;">UX 的任務 → 訪談驗證</div>
+      <div style="font-size:1.85vmin;color:var(--muted);line-height:1.65;">「能描述上一次你遇到這個情況時，是怎麼處理的嗎？」</div>
+      <p style="font-size:1.85vmin;line-height:1.65;color:var(--body);margin:0;">猜得對不對，問了才知道。</p>
+    </div>
+
+    <!-- 右欄：Data 的任務 -->
+    <div style="display:flex;flex-direction:column;gap:1.2vmin;">
+      <div style="font-size:2.1vmin;font-weight:800;color:var(--data);line-height:1.5;">Data 的任務 → 埋點／A-B 驗證</div>
+      <div style="font-size:1.85vmin;color:var(--muted);line-height:1.65;">「We believe / For」驗證（訪談）</div>
+      <p style="font-size:1.85vmin;line-height:1.65;color:var(--body);margin:0;">回後台拉數據或設計實驗，看行為改變是否真的照假說發生。</p>
+    </div>
   </div>
-  <div style="margin-bottom:2.4vmin;">
-    <div style="font-size:2vmin;font-weight:800;color:var(--teal);margin-bottom:.7vmin;">驗證之後，怎麼安全上線？</div>
-    <p style="font-size:1.9vmin;line-height:1.65;color:var(--body);">業界常見做法：用 Feature Flag 做漸進式曝光——新功能先開放給一小部分真實用戶，數據達到「We will know...when we see」設的門檻才逐步擴大；不如預期就直接關閉（Rollback），不影響全體用戶的體驗。</p>
+
+  <!-- 全寬過渡：驗證之後，怎麼安全上線？ -->
+  <div style="width:100%;margin-bottom:3.6vmin;padding-top:2.4vmin;border-top:1px solid rgba(255,255,255,.08);">
+    <div style="font-size:2.2vmin;font-weight:900;color:var(--teal);margin-bottom:1.4vmin;">驗證之後，怎麼安全上線？</div>
+    <p style="font-size:1.95vmin;line-height:1.7;color:var(--body);max-width:95%;">業界常見做法：用 Feature Flag 做漸進式曝光——新功能先開放給一小部分真實用戶，數據達到「We will know...when we see」設的門檻才逐步擴大；不如預期就直接關閉（Rollback），不影響全體用戶的體驗。</p>
   </div>
-  <p class="note data">同一張假說卡，UX 跟 Data 各自領一半——這就是為什麼 HDD 是跨團隊的共同語言，不是誰的方法論。</p>
+
+  <!-- 底部視覺錨點：跨團隊金句 -->
+  <div style="font-size:2vmin;font-weight:800;color:var(--data);line-height:1.8;text-align:center;margin-top:auto;padding-top:2.4vmin;">
+    同一張假說卡，<b style="color:var(--human);">UX 跟 Data</b> 各自領一半——這就是為什麼 <b style="color:var(--teal);">HDD</b> 是跨團隊的共同語言，不是誰的方法論。
+  </div>
 </section>
 
 <!-- 9c THREE SEQUENCES -->

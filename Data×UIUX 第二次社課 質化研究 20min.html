@@ -1117,61 +1117,174 @@ function methodLandscapeReveal(e){
 <section class="slide" style="padding:5.2vmin 9vmin;">
   <div class="kicker data">傳統 × AI</div>
   <h2 style="font-size:var(--h4);margin-bottom:.8vmin;">越機械的，AI 越能接；越要判斷的，越留給人</h2>
-  <div style="margin-bottom:2vmin;">
+  <style>
+  @keyframes t1-wave-push { 0%{background-position:100% 0;} 100%{background-position:0% 0;} }
+  @keyframes t1-card-glow { from{opacity:0;transform:translateY(8px);} to{opacity:1;transform:translateY(0);} }
+  .t1-container { position:relative; }
+  .t1-bars { position:relative; z-index:1; }
+  .t1-cards-row { display:grid; grid-template-columns:repeat(4,1fr); gap:1.2vmin; margin-top:1.6vmin; position:relative; z-index:2; }
+  .t1-card { opacity:0; padding:1.2vmin; border-radius:8px; border:1.5px solid rgba(255,255,255,.1); background:rgba(255,255,255,.03); backdrop-filter:blur(8px); }
+  .t1-card.ai-box { border-left:3px solid #38BDF8; }
+  .t1-card.hu-box { border-left:3px solid #F5B657; }
+  .t1-container.animated .t1-card { animation:t1-card-glow .6s ease-out both; }
+  .t1-container.animated .t1-card:nth-child(1) { animation-delay:.2s; }
+  .t1-container.animated .t1-card:nth-child(2) { animation-delay:.35s; }
+  .t1-container.animated .t1-card:nth-child(3) { animation-delay:.5s; }
+  .t1-container.animated .t1-card:nth-child(4) { animation-delay:.65s; }
+  .t1-card-label { font-size:1.5vmin; font-weight:800; color:var(--muted); margin-bottom:.4vmin; }
+  .t1-card-content { font-size:1.65vmin; line-height:1.5; color:var(--body); }
+  </style>
+
+  <div class="t1-container" id="t1-container" style="margin-bottom:2vmin;">
     <div style="font-size:1.85vmin;font-weight:800;color:var(--data);margin-bottom:1.8vmin;display:flex;align-items:center;gap:.8vmin;">
       <span style="width:3px;height:20px;background:linear-gradient(180deg,#38BDF8,#F5B657);display:inline-block;border-radius:2px;"></span>維度一：【任務執行】的 AI 滲透率
     </div>
     <div class="legend" style="margin-bottom:1.8vmin;"><span><span class="dot" style="background:#38BDF8;"></span>AI 接手</span><span><span class="dot" style="background:#F5B657;"></span>人保留（資深壁壘）</span></div>
-    <div>
+
+    <!-- 進度條 -->
+    <div class="t1-bars">
       <div class="barrow"><div class="blabel">逐字稿轉錄</div><div class="bartrack"><div class="seg-ai" style="width:90%;">AI</div><div class="seg-hu" style="width:10%;"></div></div></div>
-      <div class="barrow"><div class="blabel">開放題編碼</div><div class="bartrack"><div class="seg-ai" style="width:70%;">AI 批量貼標</div><div class="seg-hu" style="width:30%;">Taxonomy 裁決</div></div></div>
-      <div class="barrow"><div class="blabel">資料探索</div><div class="bartrack"><div class="seg-ai" style="width:60%;">AI 語意聚類</div><div class="seg-hu" style="width:40%;">定義假說</div></div></div>
-      <div class="barrow"><div class="blabel">深度訪談</div><div class="bartrack"><div class="seg-ai" style="width:25%;">訪綱＋轉錄</div><div class="seg-hu" style="width:75%;">動態追問</div></div></div>
+      <div class="barrow"><div class="blabel">開放題編碼</div><div class="bartrack"><div class="seg-ai" style="width:70%;">AI 批量貼標</div><div class="seg-hu" style="width:30%;"></div></div></div>
+      <div class="barrow"><div class="blabel">資料探索</div><div class="bartrack"><div class="seg-ai" style="width:60%;">AI 語意聚類</div><div class="seg-hu" style="width:40%;"></div></div></div>
+      <div class="barrow"><div class="blabel">深度訪談</div><div class="bartrack"><div class="seg-ai" style="width:25%;"></div><div class="seg-hu" style="width:75%;">動態追問</div></div></div>
+    </div>
+
+    <!-- 整合卡片：詳細說明 -->
+    <div class="t1-cards-row">
+      <div class="t1-card ai-box">
+        <div class="t1-card-label">📝 逐字稿轉錄</div>
+        <div class="t1-card-content"><b>AI：</b>轉錄</div>
+      </div>
+      <div class="t1-card">
+        <div class="t1-card-label">🏷️ 開放題編碼</div>
+        <div class="t1-card-content"><b style="color:#38BDF8;">AI</b> 批量貼標 | <b style="color:#F5B657;">人</b> Taxonomy</div>
+      </div>
+      <div class="t1-card">
+        <div class="t1-card-label">🔍 資料探索</div>
+        <div class="t1-card-content"><b style="color:#38BDF8;">AI</b> 語意聚類 | <b style="color:#F5B657;">人</b> 定義假說</div>
+      </div>
+      <div class="t1-card hu-box">
+        <div class="t1-card-label">💬 深度訪談</div>
+        <div class="t1-card-content"><b>人：</b>動態追問</div>
+      </div>
     </div>
   </div>
+
+  <script>
+  if (document.getElementById('t1-container')) {
+    document.getElementById('t1-container').classList.add('animated');
+  }
+  </script>
 
   <div style="border-top:2px solid rgba(45,212,191,.25);padding-top:2.2vmin;"></div>
 
+  <style>
+  @keyframes t2-glitch-border { 0%,100%{box-shadow:0 0 8px rgba(255,107,107,.4),0 0 16px rgba(255,107,107,.2);} 50%{box-shadow:0 0 4px rgba(255,107,107,.2),0 0 8px rgba(255,107,107,.1);} }
+  @keyframes t2-stable-glow { 0%,100%{box-shadow:0 0 12px rgba(30,215,96,.3),inset 0 0 20px rgba(30,215,96,.08);} 50%{box-shadow:0 0 20px rgba(30,215,96,.5),inset 0 0 30px rgba(30,215,96,.12);} }
+  @keyframes t2-ripple { 0%{transform:translate(-50%,-50%) scale(0); opacity:1;} 100%{transform:translate(-50%,-50%) scale(1.5); opacity:0;} }
+  @keyframes t2-ghost-float { 0%,100%{opacity:.3; transform:translateY(0);} 50%{opacity:.15; transform:translateY(-4px);} }
+  .t2-conflict { display:grid; grid-template-columns:1fr 1fr; gap:3vmin; position:relative; }
+  .t2-box { padding:1.8vmin 2vmin; border-radius:12px; position:relative; overflow:hidden; }
+  .t2-synthetic { background:rgba(255,107,107,.08); border:2px solid rgba(255,107,107,.3); animation:t2-glitch-border 2s ease-in-out infinite; }
+  .t2-real { background:rgba(30,215,96,.08); border:2px solid rgba(30,215,96,.4); animation:t2-stable-glow 2.5s ease-in-out infinite; }
+  .t2-ripple-effect { position:absolute; width:80px; height:80px; border-radius:50%; border:2px solid rgba(30,215,96,.5); bottom:-40px; right:-40px; animation:t2-ripple 2.5s ease-out infinite; }
+  .t2-synthetic::before { content:'🤖'; position:absolute; right:1.6vmin; top:1.6vmin; font-size:4vmin; opacity:.15; }
+  .t2-real::after { content:'⚓'; position:absolute; right:1.6vmin; bottom:1.6vmin; font-size:4.5vmin; opacity:.25; }
+  .t2-ghost { animation:t2-ghost-float 3s ease-in-out infinite; }
+  .t2-title { font-size:1.9vmin; font-weight:900; margin-bottom:1vmin; display:flex; align-items:center; gap:.6vmin; }
+  .t2-synthetic .t2-title { color:#FF6B6B; }
+  .t2-real .t2-title { color:#1ED760; }
+  .t2-subtitle { font-size:1.75vmin; font-weight:700; color:var(--body); margin-bottom:.8vmin; }
+  .t2-description { font-size:1.7vmin; line-height:1.65; color:var(--muted); }
+  </style>
+
   <div style="margin-top:2.2vmin;margin-bottom:2.4vmin;">
-    <div style="font-size:1.85vmin;font-weight:800;color:var(--human);margin-bottom:1.6vmin;display:flex;align-items:center;gap:.8vmin;">
+    <div style="font-size:1.85vmin;font-weight:800;color:var(--human);margin-bottom:1.8vmin;display:flex;align-items:center;gap:.8vmin;">
       <span style="width:3px;height:20px;background:linear-gradient(180deg,#FF6B6B,#F5B657);display:inline-block;border-radius:2px;"></span>維度二：【驗證樣本】的風險控管
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:3vmin;">
-      <div style="background:rgba(255,107,107,.08);border-left:4px solid #FF6B6B;padding:1.6vmin 1.8vmin;border-radius:0 8px 8px 0;">
-        <div style="font-size:1.8vmin;font-weight:800;color:#FF6B6B;margin-bottom:.8vmin;">⚠️ 虛擬用戶的陷阱</div>
-        <div style="font-size:1.75vmin;font-weight:700;color:var(--body);margin-bottom:.6vmin;">Synthetic Users：只會給討好型好評</div>
-        <p style="font-size:1.7vmin;line-height:1.6;color:var(--muted);margin:0;">沒有真正的錢包、沒有真實摩擦力，AI 基於公開語料的「平均預測」只會製造 <b style="color:#FF6B6B;">Sycophancy（討好病）</b>——錯把幻覺當優化。</p>
+
+    <div class="t2-conflict">
+      <!-- 虛擬用戶的陷阱 -->
+      <div class="t2-box t2-synthetic">
+        <div class="t2-title">
+          <span style="font-size:2.2vmin;">⚠️</span>虛擬用戶的陷阱
+        </div>
+        <div class="t2-subtitle">Synthetic Users：只會給討好型好評</div>
+        <p class="t2-description t2-ghost">沒有真正的錢包、沒有真實摩擦力，AI 基於公開語料的「平均預測」只會製造 <b style="color:#FF6B6B;">Sycophancy（討好病）</b>——錯把幻覺當優化。</p>
       </div>
-      <div style="background:rgba(30,215,96,.08);border-left:4px solid #1ED760;padding:1.6vmin 1.8vmin;border-radius:0 8px 8px 0;">
-        <div style="font-size:1.8vmin;font-weight:800;color:#1ED760;margin-bottom:.8vmin;">🎯 真實用戶的防線</div>
-        <div style="font-size:1.75vmin;font-weight:700;color:var(--body);margin-bottom:.6vmin;">Ground Truth：金白銀的驗證</div>
-        <p style="font-size:1.7vmin;line-height:1.6;color:var(--muted);margin:0;">Data Team 與 UX 必須堅守以真實用戶行為作為基準面，用來 <b style="color:#1ED760;">Calibrate（校準）</b> AI 預測模型——否則產品優化淪入同溫層幻覺。</p>
+
+      <!-- 真實用戶的防線 -->
+      <div class="t2-box t2-real">
+        <div class="t2-ripple-effect"></div>
+        <div class="t2-title">
+          <span style="font-size:2.2vmin;">🎯</span>真實用戶的防線
+        </div>
+        <div class="t2-subtitle">Ground Truth：金白銀的驗證</div>
+        <p class="t2-description">Data Team 與 UX 必須堅守以真實用戶行為作為基準面，用來 <b style="color:#1ED760;">Calibrate（校準）</b> AI 預測模型——否則產品優化淪入同溫層幻覺。</p>
       </div>
     </div>
   </div>
 
-  <div style="margin-top:2.4vmin;">
-    <div style="font-size:1.9vmin;font-weight:800;color:var(--teal);margin-bottom:1.6vmin;">決策矩陣（Decision Matrix）：分流標準是風險與未知度</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2.8vmin;">
-      <div style="background:rgba(56,189,248,.06);border-radius:12px;padding:1.8vmin;">
-        <div style="display:flex;align-items:center;gap:.8vmin;margin-bottom:1.2vmin;">
-          <span style="font-size:3vmin;line-height:1;">🟢</span>
-          <div>
-            <div style="font-size:1.8vmin;font-weight:800;color:#38BDF8;">~30% AI 虛擬排雷</div>
-            <div style="font-size:1.5vmin;color:var(--muted);margin-top:.2vmin;">Low Risk / Known</div>
+  <style>
+  @keyframes t3-pulse-low { 0%,100%{box-shadow:0 0 0 0 rgba(56,189,248,.4);} 50%{box-shadow:0 0 0 6px rgba(56,189,248,0);} }
+  @keyframes t3-pulse-high { 0%,100%{box-shadow:0 0 0 0 rgba(255,107,107,.5);} 50%{box-shadow:0 0 0 8px rgba(255,107,107,0);} }
+  @keyframes t3-slide-in { from{transform:translateX(-120%); opacity:0;} to{transform:translateX(0); opacity:1;} }
+  @keyframes t3-needle-swing { 0%{transform:rotate(-45deg); transform-origin:center bottom;} 50%{transform:rotate(0deg);} 100%{transform:rotate(-45deg);} }
+  .t3-matrix-wrapper { position:relative; }
+  .t3-divider { display:flex; align-items:center; justify-content:center; margin:0 1.2vmin; color:var(--muted); font-size:2.4vmin; }
+  .t3-divider::before, .t3-divider::after { content:''; flex:1; height:2px; background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.1)); }
+  .t3-divider::before { margin-right:.8vmin; }
+  .t3-divider::after { margin-left:.8vmin; }
+  .t3-pills { display:grid; grid-template-columns:1fr 1fr; gap:2.8vmin; animation:t3-slide-in .8s cubic-bezier(.34,1.56,.64,1) both; }
+  .t3-pill { border-radius:16px; padding:2vmin; position:relative; overflow:hidden; }
+  .t3-pill-low { background:rgba(56,189,248,.06); border:2px solid rgba(56,189,248,.25); }
+  .t3-pill-high { background:rgba(255,107,107,.06); border:2px solid rgba(255,107,107,.25); }
+  .t3-pill-low { animation:t3-pulse-low 2.5s ease-in-out infinite; }
+  .t3-pill-high { animation:t3-pulse-high 2.8s ease-in-out infinite; }
+  .t3-icon { font-size:3.2vmin; line-height:1; margin-bottom:.8vmin; animation:t3-slide-in .6s ease-out; }
+  .t3-label { font-size:1.9vmin; font-weight:900; margin-bottom:.4vmin; }
+  .t3-pill-low .t3-label { color:#38BDF8; }
+  .t3-pill-high .t3-label { color:#FF6B6B; }
+  .t3-sublabel { font-size:1.5vmin; color:var(--muted); margin-bottom:1vmin; }
+  .t3-description { font-size:1.7vmin; line-height:1.6; color:var(--body); }
+  .t3-risk-meter { margin-top:1.8vmin; display:flex; align-items:center; gap:1vmin; padding-top:1.6vmin; border-top:1px solid rgba(255,255,255,.08); }
+  .t3-meter-track { flex:1; height:6px; background:linear-gradient(90deg,rgba(56,189,248,.4),rgba(255,107,107,.4)); border-radius:3px; position:relative; overflow:hidden; }
+  .t3-meter-needle { position:absolute; width:14px; height:18px; top:-6px; left:30%; background:linear-gradient(90deg,#38BDF8,#FF6B6B); border-radius:7px 7px 0 0; transform-origin:center bottom; animation:t3-needle-swing 3s ease-in-out infinite; }
+  .t3-meter-label { font-size:1.45vmin; color:var(--muted); white-space:nowrap; }
+  </style>
+
+  <div class="t3-matrix-wrapper" style="margin-top:2.4vmin;">
+    <div style="font-size:1.9vmin;font-weight:800;color:var(--teal);margin-bottom:1.8vmin;">決策矩陣（Decision Matrix）：分流標準是風險與未知度</div>
+
+    <div class="t3-pills">
+      <!-- 低風險 AI 虛擬排雷 -->
+      <div class="t3-pill t3-pill-low">
+        <div class="t3-icon">🟢</div>
+        <div class="t3-label">~30% AI 虛擬排雷</div>
+        <div class="t3-sublabel">Low Risk / Known</div>
+        <p class="t3-description">UI 互動檢查、文案易讀性、Design System 規範 → 代價低，批量過濾。</p>
+        <div class="t3-risk-meter">
+          <div class="t3-meter-label">風險：</div>
+          <div class="t3-meter-track">
+            <div class="t3-meter-needle" style="left:15%;"></div>
           </div>
+          <div class="t3-meter-label">低</div>
         </div>
-        <p style="font-size:1.7vmin;line-height:1.6;color:var(--body);margin:0;">UI 互動檢查、文案易讀性、Design System 規範 → 代價低，批量過濾。</p>
       </div>
-      <div style="background:rgba(255,107,107,.06);border-radius:12px;padding:1.8vmin;">
-        <div style="display:flex;align-items:center;gap:.8vmin;margin-bottom:1.2vmin;">
-          <span style="font-size:3vmin;line-height:1;">🔴</span>
-          <div>
-            <div style="font-size:1.8vmin;font-weight:800;color:#FF6B6B;">~70% 真實用戶驗證</div>
-            <div style="font-size:1.5vmin;color:var(--muted);margin-top:.2vmin;">High Risk / Unknown</div>
+
+      <!-- 高風險 真實用戶驗證 -->
+      <div class="t3-pill t3-pill-high">
+        <div class="t3-icon">🔴</div>
+        <div class="t3-label">~70% 真實用戶驗證</div>
+        <div class="t3-sublabel">High Risk / Unknown</div>
+        <p class="t3-description">價值主張變更、付費意願、心智模型 → 損害營收，真金白銀驗證。</p>
+        <div class="t3-risk-meter">
+          <div class="t3-meter-label">風險：</div>
+          <div class="t3-meter-track">
+            <div class="t3-meter-needle" style="left:85%;"></div>
           </div>
+          <div class="t3-meter-label">高</div>
         </div>
-        <p style="font-size:1.7vmin;line-height:1.6;color:var(--body);margin:0;">價值主張變更、付費意願、心智模型 → 損害營收，真金白銀驗證。</p>
       </div>
     </div>
   </div>

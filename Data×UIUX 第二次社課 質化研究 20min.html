@@ -809,44 +809,50 @@ function spotifyCaseReveal(e){
     </svg>
     </div>
 
-    <div style="flex:1;min-width:0;position:relative;min-height:34vmin;">
-      <!-- Step 0 預設：量化／質性定義（無框，色線前綴 + 留白分組） -->
-      <div class="ml-def-cards" style="display:flex;flex-direction:column;gap:2.4vmin;">
-        <div>
-          <div style="display:flex;align-items:center;gap:.9vmin;margin-bottom:.9vmin;"><span style="width:2px;height:16px;background:var(--data);display:inline-block;"></span><span style="font-size:1.9vmin;font-weight:800;color:var(--data);">量化 QUANTITATIVE · 煞車與油門</span></div>
-          <p style="font-size:1.95vmin;line-height:1.65;color:var(--body);padding-left:2.9vmin;">回答了 <b style="color:var(--data);">99% 的 What</b>（發生什麼事），但對剩下 <b style="color:var(--data);">1% 的 Why</b>（為什麼）束手無策。沒有質性，數據只是<b style="color:var(--ink);">沒有靈魂的數字</b>。</p>
+    <div style="flex:1;min-width:0;position:relative;min-height:34vmin;display:flex;flex-direction:column;">
+      <!-- Step 0 預設：量化／質性定義（卡片化 + 精簡） -->
+      <div class="ml-def-cards" style="display:flex;flex-direction:column;gap:2.2vmin;flex:1;">
+        <!-- 量化卡片 -->
+        <div style="background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.2);border-radius:16px;padding:2vmin;backdrop-filter:blur(8px);">
+          <div style="font-size:2.6vmin;font-weight:900;color:#38BDF8;margin-bottom:.8vmin;" class="eng">QUANTITATIVE</div>
+          <div style="font-size:2.2vmin;font-weight:800;color:#22D3EE;margin-bottom:1.2vmin;">煞車與油門</div>
+          <p style="font-size:1.8vmin;line-height:1.65;color:var(--body);margin:0;">回答 <b style="color:var(--data);">99% 的 What</b>（發生什麼事）<br>但對 <b style="color:var(--data);">1% 的 Why</b> 束手無策</p>
         </div>
-        <div>
-          <div style="display:flex;align-items:center;gap:.9vmin;margin-bottom:.9vmin;"><span style="width:2px;height:16px;background:var(--human);display:inline-block;"></span><span style="font-size:1.9vmin;font-weight:800;color:var(--human);">質性 QUALITATIVE · 方向盤</span></div>
-          <p style="font-size:1.95vmin;line-height:1.65;color:var(--body);padding-left:2.9vmin;">回答了最深刻的 <b style="color:var(--human);">Why</b>（用戶心智），但老闆與 Data Team 永遠會 challenge：<b style="color:var(--ink);">「這能代表多少人？」</b>沒有量化，研究只是無法證明的特例。</p>
+
+        <!-- 質化卡片 -->
+        <div style="background:rgba(245,182,87,.08);border:1px solid rgba(245,182,87,.2);border-radius:16px;padding:2vmin;backdrop-filter:blur(8px);">
+          <div style="font-size:2.6vmin;font-weight:900;color:#F5B657;margin-bottom:.8vmin;" class="eng">QUALITATIVE</div>
+          <div style="font-size:2.2vmin;font-weight:800;color:#FCA5A5;margin-bottom:1.2vmin;">方向盤</div>
+          <p style="font-size:1.8vmin;line-height:1.65;color:var(--body);margin:0;">回答最深刻的 <b style="color:var(--human);">Why</b>（用戶心智）<br>但老闆問：<b style="color:var(--ink);">「代表多少人？」</b></p>
         </div>
-        <p style="margin-top:.6vmin;font-size:2.05vmin;color:var(--teal);font-weight:600;line-height:1.6;">這張圖不是要各自認領象限，而是團隊日常破案的地圖——每次優化都在四象限間動態三角驗證。</p>
       </div>
 
-      <!-- Step 1：Say-Do Gap（無框，用色彩對比＋放大字重製造警示感） -->
-      <div class="ml-saydo-card" style="position:absolute;top:0;left:0;right:0;">
+      <!-- 底部綠色結論 -->
+      <div style="margin-top:2.2vmin;padding-top:2vmin;border-top:2px solid rgba(74,222,128,.3);font-size:1.9vmin;color:var(--teal);font-weight:600;line-height:1.7;">
+        這張圖不是各自認領象限，而是團隊日常破案的地圖——每次優化都在四象限間動態三角驗證。
+      </div>
+
+      <!-- Step 1：Say-Do Gap（卡片化） -->
+      <div class="ml-saydo-card" style="position:absolute;top:0;left:0;right:0;background:rgba(255,107,107,.08);border:1.5px solid rgba(255,107,107,.3);border-radius:16px;padding:2.2vmin;backdrop-filter:blur(8px);">
         <div style="display:flex;align-items:center;gap:.9vmin;margin-bottom:1.2vmin;">
-          <svg width="2.1vmin" height="2.1vmin" viewBox="0 0 20 20" fill="#F87171"><path d="M11 2L4 12h5l-1 6 7-10h-5l1-6z"/></svg>
-          <span style="font-size:2.2vmin;font-weight:900;color:#F87171;">Say-Do Gap · 言行不一重災區</span>
+          <span style="font-size:2.6vmin;font-weight:900;color:#F87171;">⚡</span>
+          <span style="font-size:2.2vmin;font-weight:900;color:#F87171;">Say-Do Gap</span>
         </div>
-        <p style="font-size:2vmin;line-height:1.7;color:var(--body);">問卷說「還不錯」，行為卻是「秒切／秒退」——<b style="color:#fff;">態度軸與行為軸落差最大的地方，就是研究該挖的地方。</b></p>
+        <p style="font-size:1.95vmin;line-height:1.75;color:var(--body);">問卷說「還不錯」，行為卻是「秒切／秒退」<br><b style="color:#fff;">態度軸與行為軸落差最大的地方，就是該挖的地方。</b></p>
       </div>
 
-      <!-- Step 3：Data / UX Team 協作行動（無框，色線前綴並排） -->
-      <div class="ml-team-cards" style="position:absolute;top:6%;left:0;right:0;display:grid;grid-template-columns:1fr 1fr;gap:3vmin;">
-        <div>
-          <div style="display:flex;align-items:center;gap:.9vmin;margin-bottom:.9vmin;">
-            <svg width="1.7vmin" height="1.7vmin" viewBox="0 0 20 20" fill="none" stroke="#38BDF8" stroke-width="1.6"><path d="M2 15l4-5 3 3 5-7 4 4"/><circle cx="6" cy="10" r="1" fill="#38BDF8"/><circle cx="9" cy="13" r="1" fill="#38BDF8"/><circle cx="14" cy="6" r="1" fill="#38BDF8"/></svg>
-            <span style="font-size:1.9vmin;font-weight:800;color:var(--data);">Data Team 的下一步</span>
-          </div>
-          <p style="font-size:1.85vmin;line-height:1.6;color:var(--body);padding-left:2.6vmin;">追蹤<b style="color:var(--ink);">行為型指標</b>（Telemetry／Funnel／Rage Click），鎖定異常行為節點。</p>
+      <!-- Step 3：Data / UX Team 協作行動（卡片化並排） -->
+      <div class="ml-team-cards" style="position:absolute;top:12%;left:0;right:0;display:grid;grid-template-columns:1fr 1fr;gap:2vmin;">
+        <!-- Data 卡片 -->
+        <div style="background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.2);border-radius:16px;padding:2vmin;backdrop-filter:blur(8px);">
+          <div style="font-size:2.2vmin;font-weight:900;color:#38BDF8;margin-bottom:1vmin;">Data Team</div>
+          <p style="font-size:1.8vmin;line-height:1.65;color:var(--body);margin:0;">追蹤 <b style="color:var(--ink);">行為型指標</b><br>（Telemetry／Funnel）</p>
         </div>
-        <div>
-          <div style="display:flex;align-items:center;gap:.9vmin;margin-bottom:.9vmin;">
-            <svg width="1.7vmin" height="1.7vmin" viewBox="0 0 20 20" fill="none" stroke="#F5B657" stroke-width="1.6"><circle cx="10" cy="7" r="3"/><path d="M3 17c0-3 3-5.5 7-5.5s7 2.5 7 5.5"/></svg>
-            <span style="font-size:1.9vmin;font-weight:800;color:var(--human);">UX Team 的下一步</span>
-          </div>
-          <p style="font-size:1.85vmin;line-height:1.6;color:var(--body);padding-left:2.6vmin;">針對異常行為用戶進行<b style="color:var(--ink);">脈絡訪查</b>與<b style="color:var(--ink);">可用性測試</b>。</p>
+
+        <!-- UX 卡片 -->
+        <div style="background:rgba(245,182,87,.08);border:1px solid rgba(245,182,87,.2);border-radius:16px;padding:2vmin;backdrop-filter:blur(8px);">
+          <div style="font-size:2.2vmin;font-weight:900;color:#F5B657;margin-bottom:1vmin;">UX Team</div>
+          <p style="font-size:1.8vmin;line-height:1.65;color:var(--body);margin:0;">進行 <b style="color:var(--ink);">脈絡訪查</b><br>與 <b style="color:var(--ink);">可用性測試</b></p>
         </div>
       </div>
     </div>

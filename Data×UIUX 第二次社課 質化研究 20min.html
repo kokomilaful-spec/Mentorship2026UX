@@ -1198,18 +1198,41 @@ function methodLandscapeReveal(e){
       </div>
 
       <!-- Example Content -->
-      <div class="hdd-example-content">
-        <div style="font-size:2.3vmin;font-weight:900;color:#fff;line-height:1.75;margin-bottom:1.4vmin;">
-          <span style="color:var(--human);">UX 領軍：</span> We believe that<br><span style="color:#38BDF8;text-shadow:0 0 12px rgba(56,189,248,.6);font-size:2.15vmin;font-weight:700;">在早晨時段偵測到全新音訊裝置（如車用藍牙）連線時，暫停「強制自動播放」，改為提供「一鍵接續昨晚進度」的智慧提示</span>
+      <div class="hdd-example-content" style="display:flex;flex-direction:column;gap:1.8vmin;">
+        <!-- Line 1: We believe that -->
+        <div>
+          <div style="display:inline-block;background:rgba(245,182,87,.15);border:1px solid rgba(245,182,87,.35);border-radius:8px;padding:.5vmin 1.2vmin;margin-bottom:.9vmin;">
+            <span style="font-size:1.7vmin;font-weight:800;color:#F5B657;">💡 UX 洞察</span>
+          </div>
+          <div style="font-size:2vmin;font-weight:700;color:#A6B2C7;margin-bottom:.3vmin;" class="eng">We believe that</div>
+          <div style="font-size:2.1vmin;font-weight:700;color:#fff;line-height:1.65;">取消車載藍牙連線時的「強制自動播放」，改為畫面彈出「接續昨晚進度」的智慧按鈕</div>
         </div>
-        <div style="font-size:2.3vmin;font-weight:900;color:#fff;line-height:1.75;margin-bottom:1.4vmin;">
-          <span style="color:var(--human);">UX 領軍：</span> For<br><span style="color:#38BDF8;text-shadow:0 0 12px rgba(56,189,248,.6);font-size:2.15vmin;font-weight:700;">早上 8 點通勤時段，處於高認知負荷（趕時間、正在開車／走路）的音樂用戶</span>
+
+        <!-- Line 2: For -->
+        <div>
+          <div style="display:inline-block;background:rgba(245,182,87,.15);border:1px solid rgba(245,182,87,.35);border-radius:8px;padding:.5vmin 1.2vmin;margin-bottom:.9vmin;">
+            <span style="font-size:1.7vmin;font-weight:800;color:#F5B657;">👤 脈絡聚焦</span>
+          </div>
+          <div style="font-size:2vmin;font-weight:700;color:#A6B2C7;margin-bottom:.3vmin;" class="eng">For</div>
+          <div style="font-size:2.1vmin;font-weight:700;color:#fff;line-height:1.65;">早上通勤時段，處於高認知負荷（正在開車、手忙腳亂）的音樂用戶</div>
         </div>
-        <div style="font-size:2.3vmin;font-weight:900;color:#fff;line-height:1.75;margin-bottom:1.4vmin;">
-          <span style="color:var(--teal);">雙方共創：</span> Will result in<br><span style="color:var(--teal);text-shadow:0 0 12px rgba(45,212,191,.6);font-size:2.15vmin;font-weight:700;">消除用戶一早被突兀音樂驚嚇的摩擦感，同時保留他們對「無縫接續」功能的高滿意度</span>
+
+        <!-- Line 3: Will result in -->
+        <div>
+          <div style="display:inline-block;background:rgba(45,212,191,.15);border:1px solid rgba(45,212,191,.35);border-radius:8px;padding:.5vmin 1.2vmin;margin-bottom:.9vmin;">
+            <span style="font-size:1.7vmin;font-weight:800;color:var(--teal);">🤝 價值對齊</span>
+          </div>
+          <div style="font-size:2vmin;font-weight:700;color:#A6B2C7;margin-bottom:.3vmin;" class="eng">Will result in</div>
+          <div style="font-size:2.1vmin;font-weight:700;color:#fff;line-height:1.65;">消除一早被突兀重低音驚嚇的認知摩擦，同時保留用戶對「無縫接續」的好感度</div>
         </div>
-        <div style="font-size:2.2vmin;font-weight:900;color:#fff;line-height:1.7;">
-          <span style="color:var(--data);">Data 領軍：</span> We will know we are successful when we see<br><span style="color:#38BDF8;text-shadow:0 0 12px rgba(56,189,248,.6);font-size:2vmin;font-weight:700;">早上 8 點時段，<b class="eng" style="font-size:2.4vmin;">ms_played &lt; 2000ms</b> 的極速切歌比例從 <b style="font-size:2.4vmin;">15% ↓ 5%</b> 以下，且該功能的問卷滿意度維持在 <b style="font-size:2.4vmin;">4.5 顆星</b>不墜</span>
+
+        <!-- Line 4: We will know... -->
+        <div>
+          <div style="display:inline-block;background:rgba(56,189,248,.15);border:1px solid rgba(56,189,248,.35);border-radius:8px;padding:.5vmin 1.2vmin;margin-bottom:.9vmin;">
+            <span style="font-size:1.7vmin;font-weight:800;color:var(--data);">📊 Data 驗證</span>
+          </div>
+          <div style="font-size:2vmin;font-weight:700;color:#A6B2C7;margin-bottom:.3vmin;" class="eng">We will know we are successful when we see</div>
+          <div style="font-size:2.05vmin;font-weight:700;color:#fff;line-height:1.7;">早上 8 點段，因 <span class="eng" style="color:#38BDF8;text-shadow:0 0 10px rgba(56,189,248,.7);font-size:2.2vmin;">appload</span> 觸發的 <span class="eng" style="color:#38BDF8;text-shadow:0 0 10px rgba(56,189,248,.7);font-size:2.2vmin;">ms_played &lt; 2000ms</span> 秒切率降至 <span style="color:#4ADE80;text-shadow:0 0 12px rgba(74,222,128,.8);font-size:2.3vmin;font-weight:900;">5% 以下</span>，且整體滿意度維持 <span style="color:#F5B657;text-shadow:0 0 10px rgba(245,182,87,.7);font-size:2.2vmin;font-weight:900;">4.5 星</span></div>
         </div>
       </div>
     </div>

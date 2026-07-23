@@ -1,1 +1,12 @@
 *.bak
+*.html-e
+
+# 個人系統專案（含個人職涯資料，不進曼陀號 repo）
+solo-me/
+
+# 不相關的大型專案／套件（誤混在此目錄，不進本 repo）
+impeccable/
+jmpure-redesign/
+prisma-landing/
+
+.DS_Store

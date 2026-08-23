@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>曼陀號 S3 上半場｜回港 × 轉譯</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;800;900&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#080C18; --bg2:#0C1224;
+  --ink:#F0F4F9;
+  --body:#C5D1E3;
+  --muted:#94A3B8; --muted-c:#94A3B8;
+  --card:rgba(255,255,255,.045); --card-h:rgba(255,255,255,.075);
+  --bd:rgba(255,255,255,.3); --bd-s:rgba(255,255,255,.18);
+  /* 四堂課色（同學習地圖）*/
+  --c1:#4C6EF5; --c2:#2DD4BF; --c3:#9775FA; --c4:#E0A82E;
+  /* 本堂 accent = 承接 S3 連結感，用青綠 */
+  --teal:#2DD4BF; --teal-dk:#14B8A6; --teal-gl:rgba(45,212,191,.45);
+  /* 分享=teal，轉譯=data 藍，延伸=紫 */
+  --data:#38BDF8; --human:#F5B657;
+
+  --h2-1:clamp(3rem,8.5vmin,7rem);
+  --h2-2:clamp(2.7rem,7.75vmin,6.2rem);
+  --h2-3:clamp(2.5rem,7.2vmin,5.6rem);
+  --h2-4:clamp(2.2rem,6.4vmin,4.8rem);
+  --h2-5:clamp(2rem,5.6vmin,4.2rem);
+  --h2-6:clamp(1.95rem,4.8vmin,3.8rem);
+  --h2-7:clamp(1.9rem,4.2vmin,3.5rem);
+}
+html,body{height:100%;}
+body{font-family:'Noto Sans TC',-apple-system,'PingFang TC',sans-serif;
+  background:var(--bg);color:var(--ink);overflow:hidden;-webkit-font-smoothing:antialiased;}
+.eng{font-family:'Sora','Noto Sans TC',sans-serif;}
+
+.deck{position:fixed;inset:0;}
+.slide{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;justify-content:center;
+  padding:9vmin 12vmin;
+  background:
+    radial-gradient(ellipse 55% 60% at 12% 8%,rgba(45,212,191,.14) 0%,transparent 60%),
+    radial-gradient(ellipse 50% 55% at 90% 92%,rgba(76,110,245,.14) 0%,transparent 62%),
+    radial-gradient(ellipse 40% 45% at 82% 10%,rgba(151,117,250,.10) 0%,transparent 60%),
+    linear-gradient(160deg,#0A0F1E 0%,#080C18 55%,#0A101F 100%);
+  opacity:0;visibility:hidden;
+  transform:translateY(30px) scale(.975);
+  transition:opacity .45s ease,transform .55s cubic-bezier(.34,1.4,.64,1),visibility 0s .55s;
+  pointer-events:none;
+}
+.slide.active{opacity:1;visibility:visible;pointer-events:auto;transform:none;
+  transition:opacity .45s ease,transform .55s cubic-bezier(.34,1.4,.64,1),visibility 0s;}
+
+.kicker{font-size:2.4vmin;font-weight:700;letter-spacing:.24em;color:var(--teal);text-transform:uppercase;margin-bottom:3vmin;display:flex;align-items:center;gap:1.4vmin;}
+.kicker::before{content:'';width:3.4vmin;height:2px;background:var(--teal);box-shadow:0 0 10px var(--teal-gl);}
+.kicker.data{color:var(--data);}.kicker.data::before{background:var(--data);box-shadow:0 0 10px rgba(56,189,248,.5);}
+.kicker.human{color:var(--human);}.kicker.human::before{background:var(--human);box-shadow:0 0 10px rgba(245,182,87,.5);}
+
+h1{font-weight:900;font-size:var(--h2-1);line-height:1.15;letter-spacing:-.02em;color:var(--ink);}
+.cover h1{font-size:var(--h2-1);margin:1vmin 0;}
+.cover .sub{font-size:3vmin;color:var(--body);margin-top:2.4vmin;}
+h2{font-weight:800;font-size:var(--h2-3);line-height:1.2;letter-spacing:-.01em;color:var(--ink);}
+.foot{margin-top:5vmin;font-size:2.4vmin;letter-spacing:.12em;color:var(--muted);}
+.lead{font-size:2.65vmin;line-height:1.85;color:var(--body);}
+.eyebrow{font-size:2vmin;font-weight:700;letter-spacing:.1em;margin-bottom:1.2vmin;}
+
+.card{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:2.6vmin 3.2vmin;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 10px 30px rgba(0,0,0,.3);backdrop-filter:blur(6px);}
+.card.glow{border-color:var(--teal);box-shadow:0 0 0 1px var(--teal-gl),0 8px 30px rgba(45,212,191,.14),inset 0 1px 0 rgba(255,255,255,.06);}
+
+.tag{display:inline-block;font-size:1.9vmin;font-weight:800;letter-spacing:.1em;padding:.6vmin 1.6vmin;border-radius:999px;}
+.tag.teal{background:rgba(45,212,191,.14);color:var(--teal);border:1px solid rgba(45,212,191,.34);}
+.tag.data{background:rgba(56,189,248,.13);color:var(--data);border:1px solid rgba(56,189,248,.32);}
+
+.counter{position:fixed;right:5vmin;bottom:5vmin;font-size:2.4vmin;letter-spacing:.12em;color:var(--muted);z-index:20;}
+.hint{position:fixed;left:50%;bottom:4vmin;transform:translateX(-50%);font-size:1.85vmin;color:var(--muted);z-index:20;opacity:.55;}
+.progress{position:fixed;left:0;bottom:0;height:3px;background:linear-gradient(90deg,var(--teal),var(--c1));width:0;transition:width .4s ease;z-index:20;box-shadow:0 0 12px var(--teal-gl);}
+
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:3vmin;width:100%;margin-top:3vmin;align-items:start;}
+
+/* ── 五維膠囊（沿用 S2 HPF 框架，改配色為 teal/data）── */
+.hpf-row{display:flex;align-items:center;justify-content:center;gap:1.2vmin;flex-wrap:wrap;}
+.hpf-step{font-family:'Noto Sans TC',-apple-system,'PingFang TC',sans-serif;font-size:max(15px,2.15vmin);font-weight:800;letter-spacing:.01em;color:var(--ink);background:rgba(45,212,191,.08);border:1.5px solid rgba(45,212,191,.30);border-radius:999px;padding:1vmin 2.4vmin;white-space:nowrap;}
+.hpf-arrow{font-size:max(16px,2.2vmin);color:var(--teal);font-weight:700;flex-shrink:0;}
+.hpf-step.clickable{cursor:pointer;transition:all .3s ease;}
+.hpf-step.clickable:hover{background:rgba(45,212,191,.16);}
+.hpf-step.clickable.active{background:var(--teal);border-color:var(--teal);color:#04121a;box-shadow:0 0 16px var(--teal-gl);}
+.dim-title{font-size:max(23px,3.1vmin);font-weight:800;color:var(--ink);line-height:1.25;margin-bottom:2vmin;padding-left:1.8vmin;border-left:5px solid var(--teal);}
+.dim-body{font-size:max(16px,2.25vmin);color:var(--body);line-height:1.8;margin:0;}
+.dim-hint{font-size:max(13px,1.85vmin);color:var(--data);margin-top:1.4vmin;padding-top:1.2vmin;border-top:1px solid rgba(255,255,255,.12);}
+.dimension-detail{animation:slideIn .4s cubic-bezier(.22,1,.36,1);}
+@keyframes slideIn{from{opacity:0;transform:translateY(1vmin);}to{opacity:1;transform:translateY(0);}}
+.metric-clickable{cursor:pointer;transition:all .3s ease;}
+.metric-clickable:hover{background:rgba(45,212,191,.16);}
+.metric-clickable.active{background:var(--teal);border-color:var(--teal);color:#04121a;box-shadow:0 0 16px var(--teal-gl);}
+.metric-detail{animation:slideIn .4s cubic-bezier(.22,1,.36,1);}
+
+/* ── 進場依序浮現（沿用 S2/Data×UIUX 動畫語言：paused → active 時 running）── */
+@keyframes reveal-rise{from{opacity:0;transform:translateY(1.8vmin);}to{opacity:1;transform:translateY(0);}}
+.reveal{opacity:0;animation:reveal-rise .55s cubic-bezier(.22,1,.36,1) both;animation-play-state:paused;}
+.slide.active .reveal{animation-play-state:running;}
+
+/* ── 點擊卡片放大置中（沿用 Data×UIUX 的 hcv-zoomed 機制）── */
+.insight-card{cursor:zoom-in;}
+#insight-backdrop{position:fixed;inset:0;background:rgba(4,8,16,.82);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);z-index:250;opacity:0;pointer-events:none;transition:opacity .35s ease;}
+#insight-backdrop.active{opacity:1;pointer-events:auto;}
+.insight-card.insight-zoomed{
+  animation:none;opacity:1;
+  position:fixed;top:50%;left:50%;width:56vmin;
+  z-index:260;cursor:zoom-out;
+  background:linear-gradient(135deg,rgba(15,26,44,.98),rgba(11,20,34,.98)) !important;
+  box-shadow:0 0 70px rgba(0,0,0,.65),inset 0 1px 0 rgba(255,255,255,.08);
+  transform-origin:center center;
+  transform:translate(-50%,-50%) scale(1.08);
+  transition:transform .35s cubic-bezier(.22,1,.36,1),background .35s ease;
+}
+.insight-card.insight-zoomed .insight-title{font-size:2.9vmin;}
+.insight-card.insight-zoomed .insight-body{font-size:2.35vmin;line-height:1.65;}
+
+/* ── 實務操作細節 按鈕＋彈窗 ── */
+.ops-btn{flex-shrink:0;font-family:inherit;cursor:pointer;font-size:1.6vmin;font-weight:700;color:var(--data);background:rgba(56,189,248,.1);border:1px solid rgba(56,189,248,.4);border-radius:999px;padding:.7vmin 1.6vmin;transition:all .25s ease;}
+.ops-btn:hover{background:rgba(56,189,248,.2);box-shadow:0 0 16px rgba(56,189,248,.3);}
+.ops-modal{position:fixed;inset:0;z-index:300;display:none;align-items:center;justify-content:center;padding:5vmin;background:rgba(4,8,16,.82);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);}
+.ops-modal.active{display:flex;}
+.ops-panel{position:relative;width:min(96vmin,100%);max-height:88vh;overflow-y:auto;background:linear-gradient(135deg,rgba(15,26,44,.98),rgba(11,20,34,.98));border:1px solid rgba(255,255,255,.14);border-radius:20px;padding:3.6vmin 4vmin;box-shadow:0 30px 90px rgba(0,0,0,.6);}
+.ops-close{position:absolute;top:1.8vmin;right:2.2vmin;font-family:inherit;cursor:pointer;font-size:3vmin;line-height:1;color:var(--muted);background:none;border:none;transition:color .2s ease;}
+.ops-close:hover{color:var(--ink);}
+.ops-modal-title{font-size:2.7vmin;font-weight:900;color:var(--ink);margin-bottom:.8vmin;padding-right:4vmin;}
+.ops-modal-sub{font-size:1.95vmin;line-height:1.55;color:var(--muted);margin:0 0 2.2vmin;}
+.ops-item{border-top:1px solid rgba(255,255,255,.12);padding-top:1.8vmin;margin-top:1.8vmin;}
+.ops-item:first-of-type{border-top:none;padding-top:0;margin-top:0;}
+.ops-item-head{display:flex;align-items:center;gap:1.2vmin;font-size:2.15vmin;font-weight:800;color:var(--teal);margin-bottom:1.1vmin;}
+.ops-num{flex-shrink:0;width:3.1vmin;height:3.1vmin;display:flex;align-items:center;justify-content:center;font-size:1.85vmin;border-radius:50%;background:rgba(45,212,191,.16);color:var(--teal);border:1px solid rgba(45,212,191,.4);}
+.ops-row{display:flex;gap:1.3vmin;margin-bottom:.9vmin;align-items:baseline;}
+.ops-row p{font-size:1.9vmin;line-height:1.6;color:var(--body);margin:0;}
+.ops-tag{flex-shrink:0;font-size:1.45vmin;font-weight:800;border-radius:6px;padding:.4vmin 1.1vmin;letter-spacing:.04em;}
+.ops-tag-blind{color:var(--human);background:rgba(245,182,87,.14);border:1px solid rgba(245,182,87,.36);}
+.ops-tag-fix{color:var(--teal);background:rgba(45,212,191,.14);border:1px solid rgba(45,212,191,.36);}
+
+/* ── p.9 衝突卡片：點擊逐一展開 ── */
+.conflict-card{cursor:pointer;}
+.conflict-head{display:flex;align-items:flex-start;justify-content:space-between;gap:1vmin;}
+.conflict-plus{flex-shrink:0;width:2.6vmin;height:2.6vmin;display:flex;align-items:center;justify-content:center;font-size:2vmin;font-weight:300;line-height:1;border:1px solid rgba(255,255,255,.3);border-radius:50%;transition:transform .35s cubic-bezier(.22,1,.36,1);}
+.conflict-card.open .conflict-plus{transform:rotate(135deg);}
+.conflict-body{max-height:0;opacity:0;overflow:hidden;transition:max-height .45s cubic-bezier(.22,1,.36,1),opacity .3s ease;}
+.conflict-card.open .conflict-body{max-height:34vmin;opacity:1;}
+
+/* ── AI盲點 vs 人類思考 對比框（沿用 S2 .ins，改深色配色）── */
+.ins{padding-left:1.6vmin;margin-bottom:1.8vmin;}
+.ins:last-child{margin-bottom:0;}
+.ins-ai{border-left:3px solid var(--human);}
+.ins-str{border-left:3px solid var(--data);}
+.ins-hu{border-left:3px solid var(--teal);}
+.ins-label{font-size:max(13px,1.85vmin);font-weight:800;margin-bottom:.6vmin;letter-spacing:.08em;text-transform:uppercase;}
+.ins-label.ai{color:var(--human);}
+.ins-label.str{color:var(--data);}
+.ins-label.hu{color:var(--teal);}
+.ins-body{font-size:max(15px,2.1vmin);color:var(--body);line-height:1.65;margin:0;}
+.tag.human{background:rgba(245,182,87,.13);color:var(--human);border:1px solid rgba(245,182,87,.34);}
+
+/* ── 一頁提案畫布（沿用 S2 .op-*，改深色配色）── */
+.op-header{display:flex;align-items:baseline;justify-content:space-between;padding-bottom:1.4vmin;margin-bottom:1.8vmin;border-bottom:1px solid rgba(255,255,255,.14);}
+.op-proj{font-size:2.15vmin;color:var(--ink);}.op-proj b{font-weight:800;color:var(--teal);}
+.op-meta{font-size:1.75vmin;color:var(--muted);}
+.op-grid{display:grid;grid-template-columns:repeat(6,1fr);grid-template-areas:"problem problem problem nongoal nongoal nongoal" "core core core core core core" "flow flow metric metric tradeoff tradeoff";gap:1.3vmin;margin-bottom:1.8vmin;}
+.op-box-problem{grid-area:problem;}.op-box-nongoal{grid-area:nongoal;}.op-box-core{grid-area:core;}.op-box-flow{grid-area:flow;}.op-box-metric{grid-area:metric;}.op-box-tradeoff{grid-area:tradeoff;}
+.op-box{background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:1.6vmin 1.8vmin;}
+.op-box-core{background:rgba(245,182,87,.10);border:1.5px solid rgba(245,182,87,.4);}
+.op-box-title{font-size:1.95vmin;font-weight:800;color:var(--human);margin:0 0 .7vmin;}
+.op-box-body{font-size:1.85vmin;color:var(--body);line-height:1.55;margin:0;}
+.op-box-core .op-box-body{font-size:2vmin;color:var(--ink);}
+.op-quote{font-size:1.9vmin;color:var(--body);line-height:1.65;border-left:3px solid var(--teal);padding-left:1.6vmin;}.op-quote b{color:var(--ink);}
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+<!-- 1 COVER -->
+<section class="slide cover active" style="justify-content:flex-end;padding-bottom:11vmin;">
+  <div class="kicker">曼陀號 第八屆 · UIUX × Data 跨組</div>
+  <h1>洞察<span style="color:var(--teal);text-shadow:0 0 40px var(--teal-gl);">｜轉譯</span></h1>
+  <div class="sub">資料分析完，然後呢？</div>
+  <div class="foot" style="display:flex;gap:2vmin;align-items:center;">
+    <span class="tag teal">20 MIN 主講</span>
+    <span style="color:var(--muted);">上半場 · 2026.08.22 · 船長 Carolyn</span>
+  </div>
+  <div aria-hidden="true" style="position:absolute;right:9vmin;top:12vmin;display:flex;gap:2vmin;">
+    <div style="width:11vmin;height:11vmin;border-radius:50%;background:radial-gradient(circle at 34% 30%,#7EF0E0,#2DD4BF 55%,#0C7C6E 100%);box-shadow:0 0 60px var(--teal-gl),inset -3px -5px 14px rgba(4,50,44,.5),inset 3px 4px 8px rgba(255,255,255,.35);"></div>
+    <div style="width:7vmin;height:7vmin;align-self:flex-end;border-radius:50%;background:radial-gradient(circle at 34% 30%,#C4BCE8,#9775FA 55%,#4A3CA0 100%);box-shadow:0 0 44px rgba(151,117,250,.4),inset -2px -4px 10px rgba(30,20,80,.5),inset 2px 3px 6px rgba(255,255,255,.4);"></div>
+  </div>
+</section>
+
+<!-- 3 回港開場（回顧上個月跑的流程＋假說卡）-->
+<section class="slide" style="padding:0;display:grid;grid-template-columns:1.55fr 1fr;gap:0;height:100%;overflow:hidden;">
+  <div style="display:flex;flex-direction:column;justify-content:center;padding:4.4vmin 4vmin 4.4vmin 8vmin;min-width:0;">
+  <div class="kicker">Recap</div>
+  <h2 style="font-size:max(28px,3.8vmin);margin-bottom:1vmin;">一個月前，你跑了這一輪</h2>
+  <p class="lead" style="max-width:72ch;margin-bottom:2.8vmin;font-size:2.3vmin;">上次工作坊，你們走完這三步，寫下一張假說卡，帶著它去現場對答案。</p>
+
+  <div style="position:relative;padding-left:4.8vmin;">
+    <div style="position:absolute;left:1.1vmin;top:1vmin;bottom:1vmin;width:2px;background:var(--data);box-shadow:0 0 8px rgba(56,189,248,.7);"></div>
+    <div style="position:relative;margin-bottom:2.6vmin;">
+      <div style="position:absolute;left:-3.7vmin;top:.5vmin;width:1.6vmin;height:1.6vmin;border-radius:50%;background:var(--data);box-shadow:0 0 0 4px rgba(56,189,248,.14),0 0 12px rgba(56,189,248,.8);"></div>
+      <div style="font-size:2.3vmin;font-weight:800;color:var(--ink);">第一步：挑一個異常落差 <span style="color:var(--data);">(Say-Do Gap)</span></div>
+      <p style="font-size:2.05vmin;line-height:1.6;color:var(--body);margin:.6vmin 0 0;">找數據斷點，交叉比對質化問卷，定位「說的」和「做的」對不上的案發現場。</p>
+    </div>
+    <div style="position:relative;margin-bottom:2.6vmin;">
+      <div style="position:absolute;left:-3.7vmin;top:.5vmin;width:1.6vmin;height:1.6vmin;border-radius:50%;background:var(--data);box-shadow:0 0 0 4px rgba(56,189,248,.14),0 0 12px rgba(56,189,248,.8);"></div>
+      <div style="font-size:2.3vmin;font-weight:800;color:var(--ink);">第二步：寫 3 個訪談問題</div>
+      <p style="font-size:2.05vmin;line-height:1.6;color:var(--body);margin:.6vmin 0 0;">用「上一次…」句型問過去發生的事，別用「你會不會…」問假設。</p>
+    </div>
+    <div style="position:relative;">
+      <div style="position:absolute;left:-3.7vmin;top:.6vmin;width:1.6vmin;height:1.6vmin;border-radius:50%;background:var(--human);box-shadow:0 0 0 4px rgba(245,182,87,.14),0 0 12px rgba(245,182,87,.8);"></div>
+      <div style="font-size:2.25vmin;font-weight:800;color:var(--human);margin-bottom:1.4vmin;">第三步：寫 1 張假說卡（HDD）</div>
+      <div style="background:linear-gradient(#0B111C,#0B111C) padding-box,linear-gradient(135deg,rgba(245,182,87,.9),rgba(245,182,87,.22)) border-box;border:1.5px solid transparent;border-radius:14px;padding:2vmin 2.6vmin;max-width:80ch;">
+        <div style="display:flex;flex-direction:column;gap:1.1vmin;font-size:2vmin;">
+          <div style="display:grid;grid-template-columns:17vmin 1fr;gap:1.4vmin;align-items:baseline;"><span style="color:var(--human);font-weight:800;">We believe that</span><span style="color:var(--ink);font-weight:600;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);padding:.5vmin 1.2vmin;border-radius:8px;justify-self:start;">[ 體驗方案 ]</span></div>
+          <div style="display:grid;grid-template-columns:17vmin 1fr;gap:1.4vmin;align-items:baseline;"><span style="color:var(--human);font-weight:800;">For</span><span style="color:var(--ink);font-weight:600;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);padding:.5vmin 1.2vmin;border-radius:8px;justify-self:start;">[ 特定用戶／情境 ]</span></div>
+          <div style="display:grid;grid-template-columns:17vmin 1fr;gap:1.4vmin;align-items:baseline;"><span style="color:var(--human);font-weight:800;">Will result in</span><span style="color:var(--ink);font-weight:600;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);padding:.5vmin 1.2vmin;border-radius:8px;justify-self:start;">[ 行為改變 ]</span></div>
+          <div style="display:grid;grid-template-columns:17vmin 1fr;gap:1.4vmin;align-items:baseline;"><span style="color:var(--human);font-weight:800;">We will know</span><span style="color:var(--ink);font-weight:600;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);padding:.5vmin 1.2vmin;border-radius:8px;justify-self:start;">[ 成功標準 ]</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  <div style="position:relative;overflow:hidden;">
+    <img src="assets/s2/farmer-ai.jpg" alt="田邊訪談農夫，桌上疊 AI 資料層" style="width:100%;height:100%;object-fit:cover;"/>
+    <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,12,24,.6),transparent 24%);pointer-events:none;"></div>
+  </div>
+</section>
+
+<!-- 6 過場 -->
+<section class="slide" style="align-items:center;text-align:center;justify-content:center;">
+  <div class="kicker" style="justify-content:center;">轉場</div>
+  <h2 style="font-size:var(--h2-4);line-height:1.3;max-width:24ch;">等等大家分享的，<br>如果轉變成介面上的一個決定？</h2>
+</section>
+
+<!-- 6a 業界迴圈 電商 核心橋梁 -->
+<section class="slide" style="padding:4.6vmin 6vmin;display:grid;grid-template-columns:1.3fr 1fr;gap:2.4vmin;align-items:stretch;height:100%;overflow:hidden;">
+  <div style="display:flex;flex-direction:column;justify-content:center;min-width:0;">
+    <div class="kicker data">TREX電商</div>
+    <h2 style="font-size:max(26px,3.5vmin);margin-bottom:.6vmin;">從「湊不到免運」到「客單價上升」</h2>
+    <p class="lead" style="margin-bottom:1.8vmin;font-size:2.2vmin;">一個電商案例，把資料一路跑成設計，再跑成商業結果。</p>
+
+    <div style="display:flex;flex-direction:column;gap:1vmin;">
+      <div class="card reveal" style="animation-delay:.05s;padding:1.6vmin 2.1vmin;display:flex;gap:1.4vmin;align-items:baseline;background:rgba(245,182,87,.12);border:1.5px solid rgba(245,182,87,.4);">
+        <span class="tag human" style="flex-shrink:0;">痛點</span>
+        <p style="font-size:2.05vmin;line-height:1.55;color:var(--ink);font-weight:600;margin:0;">結帳看到「還差 150 元才免運」，退出去湊單，但太難找，最後放棄購買。</p>
+      </div>
+      <div class="card reveal" style="animation-delay:.15s;padding:1.45vmin 2.1vmin;display:flex;gap:1.4vmin;align-items:baseline;">
+        <span class="tag data" style="flex-shrink:0;">數據驗證</span>
+        <p style="font-size:1.9vmin;line-height:1.55;color:var(--body);margin:0;">購物車流失率在客單價 800 到 1000 元（免運門檻 1000 元）時達到高峰。</p>
+      </div>
+      <div class="card reveal" style="animation-delay:.25s;padding:1.45vmin 2.1vmin;display:flex;gap:1.4vmin;align-items:baseline;">
+        <span class="tag teal" style="flex-shrink:0;">設計方案</span>
+        <p style="font-size:1.9vmin;line-height:1.55;color:var(--body);margin:0;">購物車頁直接提供「智能加購推薦組合」，一鍵湊免運。</p>
+      </div>
+      <div class="card reveal" style="animation-delay:.35s;padding:1.45vmin 2.1vmin;display:flex;gap:1.4vmin;align-items:baseline;border:1px solid rgba(45,212,191,.34);">
+        <span class="tag teal" style="flex-shrink:0;">商業回報</span>
+        <p style="font-size:1.9vmin;line-height:1.55;color:var(--ink);margin:0;">結帳流失率下降，<b style="color:var(--teal);">AOV</b> 與整體 <b style="color:var(--teal);">CR</b> 同時提升。</p>
+      </div>
+    </div>
+  </div>
+  <div class="reveal" style="animation-delay:.1s;position:relative;overflow:hidden;border-radius:16px;box-shadow:0 12px 40px rgba(0,0,0,.4);">
+    <img src="assets/s2/ecommerce-freeshipping.jpg" alt="電商結帳差 150 元免運示意" style="width:100%;height:100%;object-fit:cover;display:block;"/>
+    <div style="position:absolute;left:0;right:0;bottom:0;padding:6vmin 2.6vmin 2.2vmin;background:linear-gradient(transparent,rgba(0,0,0,.5) 30%,rgba(0,0,0,.92));">
+      <p style="font-size:2.2vmin;color:#fff;font-weight:600;line-height:1.55;margin:0;">在電商，研究員像在優化一條高速公路：掃平路障、給清晰指示牌，讓用戶最快抵達結帳。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 6a1 AOV × CR 是什麼 -->
+<section class="slide" style="padding:4.8vmin 9vmin;display:flex;flex-direction:column;justify-content:flex-start;height:100%;">
+  <div class="kicker data">電商回報怎麼看</div>
+  <h2 style="font-size:max(28px,3.8vmin);margin-bottom:1.2vmin;">AOV 與 CR，為什麼要一起看</h2>
+  <p class="lead reveal" style="animation-delay:.05s;max-width:84ch;margin-bottom:.6vmin;">結帳流失率下降的同時，AOV 與 CR 一起上升：買的人變多，且每個人買的金額也變高。</p>
+  <p class="reveal" style="animation-delay:.15s;font-size:2.05vmin;color:var(--muted);margin-bottom:2.2vmin;">這是理想的雙輪驅動（Dual Driver）成長，兩者通常存在天然的拉扯關係，同時上升不容易。</p>
+
+  <div class="reveal" style="animation-delay:.25s;">
+    <div class="hpf-row" style="margin-bottom:2.2vmin;justify-content:flex-start;gap:1.6vmin;" role="tablist" aria-label="AOV、CR 指標定義">
+      <button onclick="toggleMetric('aov')" class="hpf-step metric-clickable" data-metric="aov">AOV 客單價</button>
+      <button onclick="toggleMetric('cr')" class="hpf-step metric-clickable" data-metric="cr">CR 轉化率</button>
+    </div>
+  </div>
+
+  <div class="card reveal" style="animation-delay:.35s;padding:2.6vmin 3vmin;">
+    <div id="content-metric-aov" class="metric-detail" style="display:none;">
+      <div class="dim-title">AOV（Average Order Value，平均客單價）</div>
+      <p class="dim-body">Revenue（總營收）÷ Orders（總訂單數）</p>
+      <p class="dim-hint">衡量每筆訂單平均貢獻多少金額。</p>
+    </div>
+    <div id="content-metric-cr" class="metric-detail" style="display:none;">
+      <div class="dim-title">CR（Conversion Rate，整體轉化率）</div>
+      <p class="dim-body">完成轉換的使用者或訂單數 ÷ Traffic / Sessions（總訪客數）× 100%</p>
+      <p class="dim-hint">衡量進站流量轉換為付費顧客的效率。</p>
+    </div>
+  </div>
+  <p class="reveal" style="animation-delay:.5s;font-size:2.6vmin;color:var(--teal);margin-top:2vmin;font-weight:600;text-align:center;">Revenue（營收）＝ Traffic（流量）× CR（轉化率）× AOV（客單價）</p>
+</section>
+
+<!-- 6a1b 給UX/UR的三個啟發 -->
+<section class="slide" style="padding:4.8vmin 8vmin;display:flex;flex-direction:column;justify-content:center;">
+  <div class="kicker data">這張圖，對你意味著什麼</div>
+  <h2 style="font-size:max(32px,4.2vmin);margin-bottom:1vmin;">三個核心啟發</h2>
+  <p class="lead" style="max-width:84ch;margin-bottom:2.6vmin;font-size:2.5vmin;">同一張雙輪驅動圖，換成設計與質化研究的語言看。</p>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.8vmin;align-items:stretch;">
+    <div class="reveal insight-card" onclick="toggleInsightZoom(event,this)" style="animation-delay:.05s;border:1px solid rgba(56,189,248,.34);border-radius:16px;padding:2.4vmin 2.6vmin;background:rgba(56,189,248,.05);display:flex;flex-direction:column;gap:1.3vmin;">
+      <div class="insight-title" style="font-size:2.3vmin;font-weight:900;color:var(--data);">質化，幫我們看懂「用戶到底在糾結什麼」</div>
+      <p class="insight-body" style="font-size:2.05vmin;line-height:1.6;color:var(--body);margin:0;">AOV 跟 CR 就像翹翹板。當數據卡住時，質化能幫我們看穿：用戶很多時候不是「不想買」，而是覺得「為了免運還要硬湊，實在太心累了，不如算了」。</p>
+    </div>
+    <div class="reveal insight-card" onclick="toggleInsightZoom(event,this)" style="animation-delay:.15s;border:1px solid rgba(45,212,191,.34);border-radius:16px;padding:2.4vmin 2.6vmin;background:rgba(45,212,191,.05);display:flex;flex-direction:column;gap:1.3vmin;">
+      <div class="insight-title" style="font-size:2.3vmin;font-weight:900;color:var(--teal);">看數據，要懂得「設立防線」</div>
+      <p class="insight-body" style="font-size:2.05vmin;line-height:1.6;color:var(--body);margin:0;">不要為了衝高單一數字，而搞砸了整個體驗。狂推銷會嚇跑客人（拖垮 CR），只求快會讓客人買太少（掉 AOV）。評估設計時，兩個數字都要放上天平，這就是我們的「護欄指標」，確保團隊沒有顧此失彼。</p>
+    </div>
+    <div class="reveal insight-card" onclick="toggleInsightZoom(event,this)" style="animation-delay:.25s;border:1px solid rgba(245,182,87,.34);border-radius:16px;padding:2.4vmin 2.6vmin;background:rgba(245,182,87,.05);display:flex;flex-direction:column;gap:1.3vmin;">
+      <div class="insight-title" style="font-size:2.3vmin;font-weight:900;color:var(--human);">把痛點，翻譯成商業槓桿</div>
+      <p class="insight-body" style="font-size:2.05vmin;line-height:1.6;color:var(--body);margin:0;">跟商業端提案不能只講「更順、更滿意」，要說得出「降低摩擦拉升 CR，情境化搭配撬動 AOV，放大整體營收方程式」。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 6a1c 金句 -->
+<section class="slide" style="align-items:center;text-align:center;justify-content:center;">
+  <h2 style="font-size:var(--h2-5);line-height:1.35;max-width:26ch;">好的體驗設計，不是在<span style="color:var(--teal);">轉化率</span>和<span style="color:var(--teal);">客單價</span>之間做妥協，而是透過精準的質化洞察消除認知阻力，讓兩者<span style="color:var(--teal);">同時向上生長</span>。</h2>
+</section>
+
+
+<!-- 6b 數據驅動 vs 數據佐證 -->
+<section class="slide" style="padding:4.6vmin 8vmin;display:flex;flex-direction:column;justify-content:center;">
+  <img src="assets/s2/quant-qual-collab.jpeg" alt="研究團隊一起看資料，判斷哪些決定該讓數據做主" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;"/>
+  <div style="position:absolute;inset:0;background:rgba(8,12,24,.9);z-index:0;"></div>
+  <div style="position:relative;z-index:1;">
+  <div class="kicker data">PART 2 · 數據，怎麼用才對</div>
+  <h2 style="font-size:max(28px,3.8vmin);margin-bottom:.8vmin;">數據驅動，還是數據佐證？</h2>
+  <p class="lead" style="max-width:88ch;margin-bottom:2.8vmin;">英文 data-driven decision making 被譯成「數據驅動決策」，讓人以為每個決定都要盲從數據。真正的關鍵，是這屬於哪一種決定。</p>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:2.4vmin;align-items:stretch;">
+    <div style="border:1px solid rgba(56,189,248,.34);border-radius:16px;padding:2.6vmin 2.8vmin;background:rgba(56,189,248,.05);display:flex;flex-direction:column;gap:1.5vmin;">
+      <div>
+        <div style="font-size:2.5vmin;font-weight:900;color:var(--data);">Data-Driven　數據驅動</div>
+        <div style="font-size:1.7vmin;color:var(--muted);letter-spacing:.03em;">小決定，數據做主</div>
+      </div>
+      <div>
+        <div style="font-size:1.8vmin;font-weight:800;color:var(--data);margin-bottom:.4vmin;">用在</div>
+        <p style="font-size:2.05vmin;line-height:1.55;color:var(--body);margin:0;">高頻、重複的運營「小」決定，一天可能上千次。</p>
+      </div>
+      <div>
+        <div style="font-size:1.8vmin;font-weight:800;color:var(--data);margin-bottom:.4vmin;">例子</div>
+        <p style="font-size:2.05vmin;line-height:1.55;color:var(--body);margin:0;">推薦系統推你會辦的信用卡、OCR 把紙本轉數位、A/B test。</p>
+      </div>
+      <div style="margin-top:auto;">
+        <div style="font-size:1.8vmin;font-weight:800;color:var(--data);margin-bottom:.4vmin;">為什麼交給數據</div>
+        <p style="font-size:2.05vmin;line-height:1.55;color:var(--body);margin:0;">樣本夠大、統計顯著性可靠；人腦面對高頻重複判斷反而容易失準。</p>
+      </div>
+    </div>
+
+    <div style="border:1px solid rgba(245,182,87,.34);border-radius:16px;padding:2.6vmin 2.8vmin;background:rgba(245,182,87,.05);display:flex;flex-direction:column;gap:1.5vmin;">
+      <div>
+        <div style="font-size:2.5vmin;font-weight:900;color:var(--human);">Data-Informed　數據佐證</div>
+        <div style="font-size:1.7vmin;color:var(--muted);letter-spacing:.03em;">大決定，人做主</div>
+      </div>
+      <div>
+        <div style="font-size:1.8vmin;font-weight:800;color:var(--human);margin-bottom:.4vmin;">用在</div>
+        <p style="font-size:2.05vmin;line-height:1.55;color:var(--body);margin:0;">少而重要的策略「大」決定：產品方向、市場進退、公司願景。</p>
+      </div>
+      <div>
+        <div style="font-size:1.8vmin;font-weight:800;color:var(--human);margin-bottom:.4vmin;">為什麼不能只靠數據</div>
+        <p style="font-size:2.05vmin;line-height:1.55;color:var(--body);margin:0;">樣本太少，統計給不出指示。訪談、市場認知、商業直覺才是主驅動力。</p>
+      </div>
+      <div style="margin-top:auto;">
+        <div style="font-size:1.8vmin;font-weight:800;color:var(--human);margin-bottom:.4vmin;">但也不能沒有數據</div>
+        <p style="font-size:2.05vmin;line-height:1.55;color:var(--body);margin:0;">否則決策只剩個人偏見。數據是佐證判斷的基石。</p>
+      </div>
+    </div>
+  </div>
+
+  <p style="font-size:2vmin;color:var(--teal);margin-top:2.4vmin;font-weight:600;text-align:center;">小決定交給數據，大決定讓數據佐證判斷。</p>
+  </div>
+</section>
+
+
+<!-- 6c 當數據和訪談吵架 -->
+<section class="slide" style="padding:4.6vmin 8vmin;display:flex;flex-direction:column;justify-content:center;">
+  <div class="kicker data">數據 vs 體驗</div>
+  <h2 style="font-size:max(28px,3.8vmin);margin-bottom:.8vmin;">當數據和訪談吵架</h2>
+  <p class="lead" style="max-width:88ch;margin-bottom:2.4vmin;">衝突不是壞事。與其說兩邊在吵架，不如說我們正在拼出用戶完整的樣子：量化是骨架（真的發生了什麼），質化是血肉（情感與意圖）。對不上，常是「理想中的自己」和「現實裡憑直覺的自己」打架了。</p>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.8vmin;align-items:start;margin-bottom:2vmin;">
+    <div class="conflict-card" onclick="toggleConflict(this)" style="border:1px solid rgba(45,212,191,.34);border-radius:16px;padding:2vmin 2.3vmin;background:rgba(45,212,191,.05);">
+      <div class="conflict-head">
+        <div style="font-size:2vmin;font-weight:900;color:var(--teal);">別二選一，並行驗證</div>
+        <span class="conflict-plus" style="border-color:rgba(45,212,191,.4);color:var(--teal);">+</span>
+      </div>
+      <div class="conflict-body">
+        <p style="font-size:1.85vmin;line-height:1.5;color:var(--body);margin:0;">量化給你「發生了什麼」，質化給你「為什麼」。衝突代表你原本猜的原因錯了。</p>
+        <p style="font-size:1.75vmin;line-height:1.5;color:var(--muted);margin:.9vmin 0 0;">把兩邊放同一個問題上交叉比對，別誰數字大就聽誰的。</p>
+      </div>
+    </div>
+    <div class="conflict-card" onclick="toggleConflict(this)" style="border:1px solid rgba(56,189,248,.34);border-radius:16px;padding:2vmin 2.3vmin;background:rgba(56,189,248,.05);">
+      <div class="conflict-head">
+        <div style="font-size:2vmin;font-weight:900;color:var(--data);">可能是「心理模型」對不上，不是「不好用」</div>
+        <span class="conflict-plus" style="border-color:rgba(56,189,248,.4);color:var(--data);">+</span>
+      </div>
+      <div class="conflict-body">
+        <p style="font-size:1.85vmin;line-height:1.5;color:var(--body);margin:0;">用戶說的跟做的對不上，常不是不懂功能，而是你的系統邏輯撞上他既有的心理模型（Mental Model）：他用在別的產品養成的習慣，來預期你的設計。</p>
+        <p style="font-size:1.75vmin;line-height:1.5;color:var(--muted);margin:.9vmin 0 0;">要改的不一定是介面，而是重新對齊期待。</p>
+      </div>
+    </div>
+    <div class="conflict-card" onclick="toggleConflict(this)" style="border:1px solid rgba(245,182,87,.34);border-radius:16px;padding:2vmin 2.3vmin;background:rgba(245,182,87,.05);">
+      <div class="conflict-head">
+        <div style="font-size:2vmin;font-weight:900;color:var(--human);">可能是「損失厭惡」，不是「壞設計」</div>
+        <span class="conflict-plus" style="border-color:rgba(245,182,87,.4);color:var(--human);">+</span>
+      </div>
+      <div class="conflict-body">
+        <p style="font-size:1.85vmin;line-height:1.5;color:var(--body);margin:0;">改版初期指標下跌，訪談卻看到用戶對舊版有很深的情感依賴。習慣被打斷會引發強烈反彈，心理學叫損失厭惡（Loss Aversion）：失去熟悉感的痛，大於新介面便利的喜悅。</p>
+        <p style="font-size:1.75vmin;line-height:1.5;color:var(--muted);margin:.9vmin 0 0;">給觀察期的本質，是等用戶的情緒代謝，別急著退回。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="padding:2vmin 2.6vmin;">
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:1.4vmin;margin-bottom:1.1vmin;">
+      <div style="font-size:1.85vmin;font-weight:800;letter-spacing:.06em;color:var(--teal);">遇到衝突，先問三題</div>
+      <button class="ops-btn" onclick="openOps()">實務操作細節 →</button>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.6vmin;">
+      <p style="font-size:1.8vmin;line-height:1.5;color:var(--body);margin:0;">1. 我們是不是把「不習慣」誤判成「不好用」了？</p>
+      <p style="font-size:1.8vmin;line-height:1.5;color:var(--body);margin:0;">2. 那個異常行為，用戶是不是根本誤解了介面的操作暗示？</p>
+      <p style="font-size:1.8vmin;line-height:1.5;color:var(--body);margin:0;">3. 能不能設計一個「教育引導」或「漸進橋樑」，而不是否定其中一邊的資料？</p>
+    </div>
+  </div>
+</section>
+
+<!-- 7d2 一頁提案範本（電商）-->
+<section class="slide" style="padding:3.6vmin 6vmin;display:flex;flex-direction:column;justify-content:center;">
+  <div class="kicker data" style="margin-bottom:1.4vmin;">動手前 · 完整提案長這樣</div>
+  <div class="card" style="padding:2.6vmin 3vmin;">
+    <div class="op-header">
+      <span class="op-proj">專案：<b>TREX電商 免運湊單優化</b></span>
+      <span class="op-meta">收斂自前面的分析</span>
+    </div>
+    <div class="op-grid">
+      <div class="op-box op-box-problem">
+        <div class="op-box-title">① 問題描述（痛點）</div>
+        <p class="op-box-body"><b style="color:var(--ink);">結帳認知負荷過高。</b>為了湊免運，高「探索成本」打斷了結帳流，導致決策癱瘓與購物車流失。</p>
+      </div>
+      <div class="op-box op-box-nongoal">
+        <div class="op-box-title">② 非目標（邊界）</div>
+        <p class="op-box-body"><b style="color:var(--ink);">不動商業底層規則。</b>凍結現有運費門檻與定價，100% 聚焦消滅「湊單阻力」。</p>
+      </div>
+      <div class="op-box op-box-core">
+        <div class="op-box-title">③ 核心假說（價值）</div>
+        <p class="op-box-body" style="font-size:2.15vmin;font-weight:600;"><b style="color:var(--human);">以「情境推薦」取代「主動搜尋」。</b>收斂選擇困難，在捍衛客單價（AOV）的前提下，拉升結帳轉換率（CR）。</p>
+      </div>
+      <div class="op-box op-box-flow">
+        <div class="op-box-title">④ 關鍵流程（路徑）</div>
+        <p class="op-box-body">觸發結帳 → 動態算差額 → 情境化推薦 → 一鍵加入 → 結帳閉環。</p>
+      </div>
+      <div class="op-box op-box-metric">
+        <div class="op-box-title">⑤ 成功指標（衡量）</div>
+        <p class="op-box-body"><b style="color:var(--teal);">北極星：</b>結帳流失率下降。</p>
+        <p class="op-box-body" style="margin-top:.6vmin;"><b style="color:var(--human);">護欄：</b>AOV 不掉，且不增加結帳完成時長。</p>
+      </div>
+      <div class="op-box op-box-tradeoff">
+        <div class="op-box-title">⑥ 權衡（決策）</div>
+        <p class="op-box-body"><b style="color:var(--ink);">專注度 > 多樣性。</b>刻意限縮推薦池（僅推強關聯商品），防範注意力發散，換取最高的結帳確定性。</p>
+      </div>
+    </div>
+    <div class="op-quote"><b>Julie Zhuo</b>（前 Meta 設計 VP）說，AI 時代設計師的位子不在把畫面畫出來，而在定義要解的問題。</div>
+  </div>
+</section>
+
+<!-- 7e 討論 5分鐘衝刺 -->
+<section class="slide" style="padding:4.6vmin 8vmin;display:flex;flex-direction:column;justify-content:center;">
+  <div class="kicker human">5 分鐘衝刺 · 2~3 人一組</div>
+  <h2 style="font-size:max(28px,3.8vmin);margin-bottom:.8vmin;">換你們，收斂一個設計迭代</h2>
+  <p class="lead" style="max-width:80ch;margin-bottom:2.4vmin;font-weight:600;color:var(--ink);">從你們這個月的資料選一個案例，5 分鐘走完這三格。</p>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.8vmin;align-items:stretch;">
+    <div style="border:1px solid rgba(56,189,248,.34);border-radius:16px;padding:2.2vmin 2.4vmin;background:rgba(56,189,248,.05);display:flex;flex-direction:column;gap:1.2vmin;">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:1vmin;">
+        <span style="font-size:2.2vmin;font-weight:900;color:var(--data);">① 鎖定問題</span>
+        <span style="flex-shrink:0;font-size:1.65vmin;font-weight:700;color:var(--data);background:rgba(56,189,248,.14);border-radius:999px;padding:.3vmin 1.1vmin;">1 min</span>
+      </div>
+      <p style="font-size:2.15vmin;font-weight:600;line-height:1.55;color:var(--ink);margin:0;">挑 1 個關鍵量化數據 ＋ 1 個質化線索，確認核心問題。</p>
+      <div style="margin-top:auto;display:flex;flex-direction:column;gap:.8vmin;">
+        <span style="font-size:1.9vmin;font-weight:700;color:var(--muted);background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:.7vmin 1vmin;">量化數據：</span>
+        <span style="font-size:1.9vmin;font-weight:700;color:var(--muted);background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:.7vmin 1vmin;">質化線索：</span>
+      </div>
+    </div>
+    <div style="border:1px solid rgba(245,182,87,.34);border-radius:16px;padding:2.2vmin 2.4vmin;background:rgba(245,182,87,.05);display:flex;flex-direction:column;gap:1.2vmin;">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:1vmin;">
+        <span style="font-size:2.2vmin;font-weight:900;color:var(--human);">② 寫假說</span>
+        <span style="flex-shrink:0;font-size:1.65vmin;font-weight:700;color:var(--human);background:rgba(245,182,87,.14);border-radius:999px;padding:.3vmin 1.1vmin;">2 min</span>
+      </div>
+      <p style="font-size:2.15vmin;font-weight:600;line-height:1.55;color:var(--ink);margin:0;">先別跳解法：</p>
+      <div style="margin-top:auto;font-size:2.15vmin;font-weight:600;line-height:1.75;color:var(--ink);">因為 <span style="color:var(--human);font-weight:800;">[ 資料現象 ]</span>，如果我們 <span style="color:var(--human);font-weight:800;">[ 設計改變 ]</span>，將會帶來 <span style="color:var(--human);font-weight:800;">[ 預期指標成長 ]</span>。</div>
+    </div>
+    <div style="border:1px solid rgba(45,212,191,.34);border-radius:16px;padding:2.2vmin 2.4vmin;background:rgba(45,212,191,.05);display:flex;flex-direction:column;gap:1.2vmin;">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:1vmin;">
+        <span style="font-size:2.2vmin;font-weight:900;color:var(--teal);">③ 設計迭代</span>
+        <span style="flex-shrink:0;font-size:1.65vmin;font-weight:700;color:var(--teal);background:rgba(45,212,191,.14);border-radius:999px;padding:.3vmin 1.1vmin;">2 min</span>
+      </div>
+      <p style="font-size:2.15vmin;font-weight:600;line-height:1.55;color:var(--ink);margin:0;">1 個最小可行迭代，聚焦元件或流程微調。快速草繪、條列 UI 改動點，或直接用 vibe coding 拉一版出來都可以。</p>
+      <div style="margin-top:auto;font-size:1.9vmin;font-weight:600;color:var(--muted);line-height:1.5;">例：改按鈕文案、加進度條、重排資訊階層。</div>
+    </div>
+  </div>
+  <p style="font-size:2.3vmin;color:var(--teal);margin-top:2.2vmin;font-weight:800;text-align:center;">帶著這張畫布進下半場，直接動手做這一版。</p>
+</section>
+
+<!-- 7f 新武器 Google Stitch -->
+<section class="slide" style="padding:4.6vmin 8vmin;display:grid;grid-template-columns:1.15fr 1fr;gap:3vmin;align-items:center;height:100%;">
+  <div style="display:flex;flex-direction:column;justify-content:center;min-width:0;">
+    <div class="kicker human">新武器</div>
+    <h2 style="font-size:max(28px,3.8vmin);margin-bottom:1vmin;">Google Stitch</h2>
+    <p class="lead" style="margin-bottom:2.2vmin;font-size:2.3vmin;">把一句話變成一個介面：prompt 進去，UI 畫面和前端碼出來。</p>
+    <div style="display:flex;flex-direction:column;gap:1.2vmin;">
+      <div style="border:1px solid rgba(245,182,87,.34);border-radius:16px;padding:1.8vmin 2.2vmin;background:rgba(245,182,87,.05);">
+        <div style="font-size:1.85vmin;font-weight:800;color:var(--human);letter-spacing:.06em;margin-bottom:.6vmin;">它做什麼</div>
+        <p style="font-size:1.95vmin;line-height:1.55;color:var(--body);margin:0;">文字描述 → 生成 UI 畫面＋程式碼，可以貼進 Figma 繼續改。</p>
+      </div>
+      <div style="border:1px solid rgba(245,182,87,.34);border-radius:16px;padding:1.8vmin 2.2vmin;background:rgba(245,182,87,.05);">
+        <div style="font-size:1.85vmin;font-weight:800;color:var(--human);letter-spacing:.06em;margin-bottom:.6vmin;">為什麼是設計師的武器</div>
+        <p style="font-size:1.95vmin;line-height:1.55;color:var(--body);margin:0;"><b style="color:var(--ink);">探索方向</b>、<b style="color:var(--ink);">跟 PM／RD 對齊</b>、快速驗證概念。</p>
+      </div>
+      <div style="border:1px solid rgba(245,182,87,.34);border-radius:16px;padding:1.8vmin 2.2vmin;background:rgba(245,182,87,.05);">
+        <div style="font-size:1.85vmin;font-weight:800;color:var(--human);letter-spacing:.06em;margin-bottom:.6vmin;">今天怎麼用</div>
+        <p style="font-size:1.95vmin;line-height:1.55;color:var(--body);margin:0;">打開 <b style="color:var(--human);">stitch.withgoogle.com</b>，登入 Google 帳號。</p>
+      </div>
+    </div>
+  </div>
+  <div style="border-radius:16px;overflow:hidden;box-shadow:0 12px 40px rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.14);">
+    <img src="assets/s2/google-stitch-ui.jpg" alt="Google Stitch 介面" style="width:100%;height:100%;object-fit:cover;display:block;"/>
+  </div>
+</section>
+
+<!-- 8 跨組收尾（最後一次同桌）-->
+<section class="slide" style="padding:6vmin 9vmin;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;">
+  <div class="kicker" style="justify-content:center;">最後一次同桌</div>
+  <h2 style="font-size:var(--h2-5);line-height:1.2;margin-bottom:1.2vmin;">Data 和 UIUX，一起的最後一段</h2>
+  <div class="two-col" style="max-width:104ch;margin:0 auto 2.6vmin;">
+    <div class="card" style="padding:2.6vmin 3vmin;text-align:left;border-color:rgba(56,189,248,.34);">
+      <div class="eyebrow" style="color:var(--data);">Data 帶著 UIUX</div>
+      <p style="font-size:2.3vmin;line-height:1.6;color:var(--ink);margin:0;">先看資料再下判斷，不再只憑感覺。</p>
+    </div>
+    <div class="card" style="padding:2.6vmin 3vmin;text-align:left;border-color:rgba(245,182,87,.34);">
+      <div class="eyebrow" style="color:var(--human);">UIUX 帶著 Data</div>
+      <p style="font-size:2.3vmin;line-height:1.6;color:var(--ink);margin:0;">數字背後那個「為什麼」，你們幫忙補上了。</p>
+    </div>
+  </div>
+  <p style="font-size:2.4vmin;color:var(--teal);font-weight:700;text-shadow:0 0 24px var(--teal-gl);margin-bottom:1.4vmin;">最好的洞察，長在你們交會的地方。</p>
+  <p style="font-size:2vmin;color:var(--body);">今天之後各自航行，但「數字 × 訪談」會一直帶著走。</p>
+</section>
+
+<div id="insight-backdrop" onclick="closeInsightZoom()"></div>
+<div id="ops-modal" class="ops-modal" onclick="closeOps(event)">
+  <div class="ops-panel">
+    <button class="ops-close" onclick="closeOps()" aria-label="關閉">×</button>
+    <div class="ops-modal-title">實務操作細節：衝突落地時，真正的角力</div>
+    <p class="ops-modal-sub">衝突發生時，最棘手的常不是資料本身，而是團隊內部的角力。三個實務角力點：</p>
+    <div class="ops-item">
+      <div class="ops-item-head"><span class="ops-num">1</span>制定「焦慮停損點」與決策機制</div>
+      <div class="ops-row"><span class="ops-tag ops-tag-blind">盲區</span><p>改版初期指標下跌，看 Dashboard 的 PM 容易恐慌，設計師則拼命拿少數訪談防禦。</p></div>
+      <div class="ops-row"><span class="ops-tag ops-tag-fix">解法</span><p>別等上線才吵。上線前的作戰會議（War Room）或 Sprint 規劃就先跟 PM 講好：指標下跌的觀察期多久（例如兩個 Sprint）、什麼具體條件才啟動退回。把被動的數據審查，變成有紀律的行動指引。</p></div>
+    </div>
+    <div class="ops-item">
+      <div class="ops-item-head"><span class="ops-num">2</span>小心「聲量傾斜」與倖存者偏差</div>
+      <div class="ops-row"><span class="ops-tag ops-tag-blind">盲區</span><p>訪談常抓到極端用戶（特別愛抱怨或特別活躍），聲音很大，卻可能只佔數據的 5%。</p></div>
+      <div class="ops-row"><span class="ops-tag ops-tag-fix">解法</span><p>先確認訪談對象在量化數據裡屬於哪一個分群。別用 5% 人的訪談，去推翻 80% 人的行為數據。</p></div>
+    </div>
+    <div class="ops-item">
+      <div class="ops-item-head"><span class="ops-num">3</span>「教育引導」的開發成本考量</div>
+      <div class="ops-row"><span class="ops-tag ops-tag-blind">盲區</span><p>決定做「漸進橋樑」或「教育引導」時，開發團隊第一反應通常是「這會增加額外工時」。</p></div>
+      <div class="ops-row"><span class="ops-tag ops-tag-fix">解法</span><p>橋樑不一定要寫扣或做複雜功能。有時最敏捷的解法是改一行文案、發一封引導信，或像 Spotify 那樣加個簡單的 Tooltip。以「最低摩擦力」的方案優先驗證。</p></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="progress" id="progress"></div>
+<div class="counter"><b id="cur">01</b> / <span id="total">08</span></div>
+<div class="hint" id="hint">← → 切換 · F 全螢幕</div>
+
+<script>
+// navigation（沿用 S1/S2/S3 系統）
+const slides=Array.from(document.querySelectorAll('.slide'));
+const total=slides.length;
+let idx=0;
+const curEl=document.getElementById('cur');
+const progEl=document.getElementById('progress');
+const hintEl=document.getElementById('hint');
+document.getElementById('total').textContent=String(total).padStart(2,'0');
+
+function show(n){
+  idx=Math.max(0,Math.min(total-1,n));
+  slides.forEach((s,i)=>s.classList.toggle('active',i===idx));
+  curEl.textContent=String(idx+1).padStart(2,'0');
+  progEl.style.width=((idx+1)/total*100)+'%';
+  hintEl.style.display=idx>0?'none':'';
+}
+document.addEventListener('keydown',e=>{
+  if(['INPUT','TEXTAREA','SELECT'].includes(e.target.tagName))return;
+  switch(e.key){
+    case 'ArrowRight':case 'ArrowDown':case ' ':case 'PageDown':e.preventDefault();show(idx+1);break;
+    case 'ArrowLeft':case 'ArrowUp':case 'PageUp':e.preventDefault();show(idx-1);break;
+    case 'Home':show(0);break;case 'End':show(total-1);break;
+    case 'f':case 'F':document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();break;
+  }
+});
+document.getElementById('deck').addEventListener('click',e=>{
+  if(e.target.closest('button,select,input,textarea,[onclick]'))return;
+  e.clientX>window.innerWidth/2?show(idx+1):show(idx-1);
+});
+
+// 五維切換：點選切換
+let activeTab=null;
+function toggleDimension(dim){
+  const details=document.querySelectorAll('.dimension-detail');
+  const btns=document.querySelectorAll('.hpf-step.clickable');
+  const content=document.getElementById('content-'+dim);
+  details.forEach(d=>d.style.display='none');
+  btns.forEach(b=>b.classList.remove('active'));
+  content.style.display='block';
+  document.querySelector('[data-dim="'+dim+'"]').classList.add('active');
+  activeTab=dim;
+}
+// AOV × CR 切換
+let activeMetric=null;
+function toggleMetric(m){
+  const details=document.querySelectorAll('.metric-detail');
+  const btns=document.querySelectorAll('.metric-clickable');
+  const content=document.getElementById('content-metric-'+m);
+  details.forEach(d=>d.style.display='none');
+  btns.forEach(b=>b.classList.remove('active'));
+  content.style.display='block';
+  document.querySelector('[data-metric="'+m+'"]').classList.add('active');
+  activeMetric=m;
+}
+
+show(0);
+toggleMetric('aov');
+
+// 三個核心啟發：點卡片放大置中（沿用 Data×UIUX 的 hcv-zoomed 機制）
+function toggleInsightZoom(e,card){
+  e.stopPropagation();
+  if(card.classList.contains('insight-zoomed')){closeInsightZoom();return;}
+  document.querySelectorAll('.insight-card.insight-zoomed').forEach(c=>c.classList.remove('insight-zoomed'));
+  card.classList.add('insight-zoomed');
+  document.getElementById('insight-backdrop').classList.add('active');
+}
+function closeInsightZoom(){
+  document.querySelectorAll('.insight-card.insight-zoomed').forEach(c=>c.classList.remove('insight-zoomed'));
+  document.getElementById('insight-backdrop').classList.remove('active');
+}
+function toggleConflict(card){card.classList.toggle('open');}
+function openOps(){document.getElementById('ops-modal').classList.add('active');}
+function closeOps(e){if(e&&e.target&&e.target.closest&&e.target.closest('.ops-panel')&&!e.target.classList.contains('ops-close'))return;document.getElementById('ops-modal').classList.remove('active');}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeInsightZoom();closeOps();}});
+</script>
+</body>
+</html>
